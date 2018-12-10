@@ -13,7 +13,7 @@ git clone https://github.com/ternaustralia/TERN-Data-Skills.git
 This will download all the tutorials to the folder name given in the place of "folder_to_clone"
 
 ### downloading any individual files
-To download any individual files, click on the file and download button on the right hand corner. If the dwonload button is not there or the file doesn't display in the github, click on the "Raw" and a file will display in the browser. Right click on the content of the browser, click on "Save As", select "All Files" in the format, put double quotes to the displayed file name and save the file. 
+To download any individual files, click on the file and download button on the right hand corner. If the dwonload button is not there or the file doesn't display in the github, click on the "Raw" and a file will display in the browser. Right click on the content of the browser, click on "Save As", select "All Files" in the format, put double quotes to the displayed file name with file format extension and save the file. 
 
 ## Acknowledgements
 TERN is funded through National Collaborative Research Infrastructure Strategy (NCRIS), an Australian Government Initiative.

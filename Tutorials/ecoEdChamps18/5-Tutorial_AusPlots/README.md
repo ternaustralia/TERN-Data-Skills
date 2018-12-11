@@ -15,12 +15,12 @@
 
    The other packages can be installed in the usual way in R:
 
- 		#Select the repository (i.e. CRAN mirror URL)
-		my.repos = "https://cloud.r-project.org/"
-		#my.repos = "https://cran.csiro.au/"
+ 	#Select the repository (i.e. CRAN mirror URL)
+	my.repos = "https://cloud.r-project.org/"
+	#my.repos = "https://cran.csiro.au/"
 		
-            #Install other required libraries
-		install.packages(c("ausplotsR","vegan","goeveg","maps","maptools","mapdata","sp","ggplot2","gridExtra", "ggspatial","dendextend"),repos=my.repos)
+    #Install other required libraries
+	install.packages(c("ausplotsR","vegan","goeveg","maps","maptools","mapdata","sp","ggplot2","gridExtra", "ggspatial","dendextend"),repos=my.repos)
 
 *****Data*****
 

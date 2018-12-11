@@ -2,3 +2,5 @@
 *.pptx filter=lfs diff=lfs merge=lfs -text
 Tutorials/ecoEdChamps18/1-Presentation1_TERN/*.mov filter=lfs diff=lfs merge=lfs -text
 Tutorials/ecoEdChamps18/1-Presentation1_TERN/*.pptx filter=lfs diff=lfs merge=lfs -text
+*.zip filter=lfs diff=lfs merge=lfs -text
+./Tutorials/ecoEdChamps18/TERN_Module_for_ecoEd.zip filter=lfs diff=lfs merge=lfs -text

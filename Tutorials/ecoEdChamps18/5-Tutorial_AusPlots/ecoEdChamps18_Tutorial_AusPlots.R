@@ -4,10 +4,11 @@
 # Date: 9/12/2018
 #****************************************************************************************
 
-# This document contains the Ecosystem Surveillance (AusPlots) section of TERN's workshop 
-# at the Ecological Society of Australia 2018 conference.In this workshop we will explore 
-# the use of the package 'ausplotsR' & the 'ausplots' data that can be downloaded with 
-# this package. 
+# This document contains the "Ecosystem Surveillance (AusPlots): Understanding and using 
+# the 'ausplotsR' package and AusPlots data" tutorial at the ecoED Champions Training 
+# 2018 in Canberra. 
+# In this tutorial we will explore the use of the package 'ausplotsR' & the 'ausplots' 
+# data that can be downloaded with this package. 
 
 # 'ausplotsR' is an R package for live extraction and preparation of TERN AusPlots 
 # ecosystem monitoring data. Through ausplotsR, users can: (1) directly obtain plot-based 

@@ -10,8 +10,8 @@
 
    &#39;ausplotsR&#39; needs to be installed directly from github using the &#39;devtools&#39; package, so this package also need to be installed. Here are the steps to install &#39;ausplotsR&#39; (after installing &#39;devtools&#39;).
 
-        library(devtools)
-        install_github("GregGuerin/ausplotsR")
+    library(devtools)
+    install_github("GregGuerin/ausplotsR")
 
    The other packages can be installed in the usual way in R:
 

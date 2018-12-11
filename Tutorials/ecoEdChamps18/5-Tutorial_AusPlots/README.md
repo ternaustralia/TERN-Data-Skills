@@ -19,7 +19,7 @@
 		my.repos = "https://cloud.r-project.org/"
 		#my.repos = "https://cran.csiro.au/"
 		
-        #Install other required libraries
+                #Install other required libraries
 		install.packages(c("ausplotsR","vegan","goeveg","maps","maptools","mapdata","sp","ggplot2","gridExtra", "ggspatial","dendextend"),repos=my.repos)
 
 *****Data*****

@@ -2,7 +2,14 @@
 title: "Using Raster Data in R"
 author: "Bernardo Blanco-Martin (TERN)"
 date: "September 6, 2018"
-output: html_document
+output: 
+  html_document :
+    toc: true
+    toc_float: false
+    toc_collapsed: false
+    toc_depth: 3
+    number_sections: true
+    theme: lumen
 ---
 
 ```{r setup, include=FALSE}
@@ -12,7 +19,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 
-# INTRODUCTION
+# Introduction
 
 A `raster` is a spatial (geographic) data structure that divides the space into elements of equal size (in units of the coordinate reference system) called `cells`. Cells have a square or rectangular shape and can store one or more values. Raster are also sometimes referred to as `grids` and cells as `pixels`. Rasters represent spatial data as a continuous. Raster are therefore in sharp contrast with the other main structure used to store and manipulate geographical data, `vectors`. Vectors represent discrete (i.e. object based) spatial data, such as points, lines, polygons.
 
@@ -259,7 +266,8 @@ class(s1.aL4.s3dF)
 
 # Choose a Directory where to store the save raster file 
 #my.file.path = "C:\\TERN\\AusCover_Tut1"
-my.file.path = "C:\\Users\\uqbblanc\\Documents\\TERN\\01A-Data_TERN\\3-AusCover\\AusCover_Tut1"
+# OLD: my.file.path = "C:\\Users\\uqbblanc\\Documents\\TERN\\01A-Data_TERN\\3-AusCover\\AusCover_Tut1"
+my.file.path = "C:\\Users\\uqbblanc\\Documents\\TERN\\04-DSDP_Outputs\\1-Tutorials\\Tut1_UsingRasterDatainR\\NEW_190203"
 # or perhaps us
 # my.file.path = getwd()
 ```

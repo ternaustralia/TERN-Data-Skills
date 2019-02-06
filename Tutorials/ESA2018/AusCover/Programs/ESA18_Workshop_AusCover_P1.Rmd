@@ -113,7 +113,7 @@ data.path = "http://qld.auscover.org.au/public/data/landsat/surface_reflectance/
 
 ### Downloading, Reading and Exploring raster datasets.
 
-Next, we download the file containing composited seasonal surface reflectance images for Australia. The file contains 6 layers corresponding to different satellite bands. In this case, we need to load each band individually. Typing the name of the raster object will provide it a summary of its features (dimensions, resolution, extent, coordinates reference system,..). 
+Next, we download the file containing composited seasonal surface reflectance images for Australia. The file contains 6 layers corresponding to different satellite bands. Here, using a vrt file, we load each band individually. 'VRT' files contain descriptions of >= 1 datasets, usually in XML format, to produce a virtual GDAL(Geospatial Data Abstraction Library) dataset composed from other GDAL datasets (see Part 2 of this tutorial and references within for further description). Typing the name of the raster object will provide it a summary of its features (dimensions, resolution, extent, coordinates reference system,..). 
 
 ```{r, message=FALSE}
 getwd()

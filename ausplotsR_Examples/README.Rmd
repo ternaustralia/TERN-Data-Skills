@@ -8,7 +8,7 @@ output:
 ---
 
 # ausplotsR Examples and Applications
-This folder contains a collection of scripts demonostrating examples and applications for working with the ausplotsR package provided by TERN.
+This folder contains a collection of scripts demonstrating examples and applications for working with the ausplotsR package provided by TERN.
 
 ausplotsR is a package for live extraction, preparation, visualisation and analysis of TERN AusPlots ecosystem surveillance monitoring data. Through ausplotsR, users can directly access plot-based data on vegetation and soils across Australia, with simple function calls to extract the data and merge them into species occurrence matrices for analysis or to calculate things like basal area and fractional cover. 
 

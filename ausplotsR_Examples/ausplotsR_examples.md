@@ -1,27 +1,21 @@
-R Markdown
-----------
+ausplotsR Examples and Applications
+===================================
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+This folder contains a collection of scripts demosntrating examples and applications for working with the ausplotsR package provided by TERN.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+ausplotsR is a package for live extraction, preparation, visualisation and analysis of TERN AusPlots ecosystem surveillance monitoring data. Through ausplotsR, users can directly access plot-based data on vegetation and soils across Australia, with simple function calls to extract the data and merge them into species occurrence matrices for analysis or to calculate things like basal area and fractional cover.
 
-``` r
-summary(cars)
-```
+Visit www.github.com/ternaustralia/ausplotsR for more information on the ausplotsR package.
 
-    ##      speed           dist       
-    ##  Min.   : 4.0   Min.   :  2.00  
-    ##  1st Qu.:12.0   1st Qu.: 26.00  
-    ##  Median :15.0   Median : 36.00  
-    ##  Mean   :15.4   Mean   : 42.98  
-    ##  3rd Qu.:19.0   3rd Qu.: 56.00  
-    ##  Max.   :25.0   Max.   :120.00
+To install the package, use:
 
-Including Plots
----------------
+    library(devtools)
+    install_github("ternaustralia/ausplotsR", build_vignettes = TRUE)
 
-You can also embed plots, for example:
+Please cite the ausplotsR package as:
 
-![](ausplotsR_examples_files/figure-markdown_github/pressure-1.png)
+    Greg Guerin, Tom Saleeba and Andrew Tokmakoff (2018). ausplotsR: TERN AusPlots analysis package. R package version 1.0.
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+Please cite TERN data as:
+
+    TERN ("year") AusPlots ecosystem surveillance monitoring dataset (URL: http://aekos.org.au/collection/adelaide.edu.au/ausplotsrangelands). Obtained via the ausplotsR R package (URL: https://github.com/ternaustralia/ausplotsR), accessed "day month year".

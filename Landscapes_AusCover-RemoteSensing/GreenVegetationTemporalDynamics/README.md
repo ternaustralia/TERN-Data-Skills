@@ -59,7 +59,7 @@ Blanco-Martin, Bernardo (2019).
 Tutorial: "Green Vegetation Temporal Dynamics: Monitoring and Analysis using NDVI and Fractional Cover TERN rasters".
 Terrestrial Ecology Research Network.
 Version 2019.04.0, April 2019.
-https://github.com/ternaustralia/TERN-Data-Skills/Lanscape_AusCover-RemoteSensing/GreenVegTempDynm
+https://github.com/ternaustralia/TERN-Data-Skills/tree/master/Landscapes_AusCover-RemoteSensing/GreenVegetationTemporalDynamics
 
 
 &nbsp;

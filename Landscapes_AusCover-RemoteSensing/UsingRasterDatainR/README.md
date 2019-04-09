@@ -72,7 +72,7 @@ Blanco-Martin, Bernardo (2019).
 Tutorial: "Using Raster Data in R".
 Terrestrial Ecology Research Network.
 Version 2019.04.0, April 2019.
-https://github.com/ternaustralia/TERN-Data-Skills/Lanscape_AusCover-RemoteSensing/UsingRasterDatainR
+https://github.com/ternaustralia/TERN-Data-Skills/tree/master/Landscapes_AusCover-RemoteSensing/UsingRasterDatainR
 
 
 &nbsp;

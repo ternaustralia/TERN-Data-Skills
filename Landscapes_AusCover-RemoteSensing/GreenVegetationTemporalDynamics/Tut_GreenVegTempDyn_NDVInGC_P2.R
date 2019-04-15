@@ -122,10 +122,15 @@ library(RStoolbox)
 library(sp)
 
 library(rgdal)
+library(geojsonio)
 library(raster)
 library(rasterVis)
 
 ##library(RgoogleMaps)
+# NOTE: When instally ggmap you might need to install the development version,
+# rather than just the CRAN version (see bellow how to do it)
+#library(devtools)
+#devtools::install_github("dkahle/ggmap", ref = "tidyup", force=TRUE)
 library(ggmap)
 
 #library(maps)
@@ -1040,7 +1045,7 @@ GCF.data.fn
 
 # Download the data file (if it doesn't work try method='wget' or functions in Library 'RCurl')
 download.file(url=paste(GCF.data.path, GCF.data.fn, sep="/"), destfile='GreenCoverFraction.vrt', method='auto')
-list.files()
+list.files(pattern = "\\.vrt$")  # '\\.': To escape previous characters, '$': End of string
 
 
 
@@ -1084,7 +1089,7 @@ getprep.Bands.rB.f = function(dl.fn, bands.v, rB.extent, rB.crs){
 	# =============
 	for ( band.cnt in bands.v ) {
 	
-		#print(paste(band.cnt, max(bands.v), sep=" / "))
+		print(paste(band.cnt, max(bands.v), sep=" / "))
 	
 		# Load the data to RasterLayer object
 		# -----------------------------------
@@ -1103,11 +1108,12 @@ getprep.Bands.rB.f = function(dl.fn, bands.v, rB.extent, rB.crs){
 	
 		# Add Raster Layer to Raster Brick
 		# --------------------------------
-		if ( band.cnt == bands.v[1] )
+		if ( band.cnt == bands.v[1] ) {
 			GFC.Subset.rB = brick(GFC.Subset.rL)
-		else
+		} else {
 			GFC.Subset.rB = addLayer(GFC.Subset.rB, GFC.Subset.rL)
-			
+		}  # } else {
+		
 	} # for ( band.cnt in bands.v ) {
 
 	# Re-conver to RasterBrick object (if prefered)
@@ -1127,7 +1133,7 @@ getprep.Bands.rB.f = function(dl.fn, bands.v, rB.extent, rB.crs){
 	
 	# Add the band names to the RasterBrick
 	names(GFC.Subset.rB) = band.names
-	#print(GFC.Subset.rB)
+	print(GFC.Subset.rB)
 
 	# Return RasterBrick with the Required Bands Subset to the desired Extent
 	# =======================================================================

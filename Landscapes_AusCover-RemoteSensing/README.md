@@ -1,4 +1,4 @@
-## Landscape Assessment (AusCover) - Remote Sensing
+## Landscape Assessment - Remote Sensing
 
 This section of the TERN's Data Skills Development Program contains tutorials on how to access and use remote sensing data using R. 
 

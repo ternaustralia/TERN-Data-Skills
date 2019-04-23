@@ -1,4 +1,4 @@
-## Landscape Assessment (AusCover) - Soils and Landscape
+## Landscape - Soil Grid
 
 This section of the TERN's Data Skills Development Program contains tutorials on how to access and use data in the 'Soil and Landscape and Grid of Australia' program, by using the R package *slga*.
 

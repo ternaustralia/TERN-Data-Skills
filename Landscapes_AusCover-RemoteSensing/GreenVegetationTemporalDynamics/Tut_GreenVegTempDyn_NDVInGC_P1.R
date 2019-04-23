@@ -102,10 +102,10 @@ library(raster)
 library(rasterVis)
 
 ##library(RgoogleMaps)
-# NOTE: When instally ggmap you might need to install the development version,
+# NOTE: When installing ggmap you might need to install the development version,
 # rather than just the CRAN version (see bellow how to do it)
 #library(devtools)
-#devtools::install_github("dkahle/ggmap", ref = "tidyup", force=TRUE)
+#devtools::install_github("dkahle/ggmap", force=TRUE)
 library(ggmap)
 
 #library(maps)

@@ -1,6 +1,8 @@
 ## Understanding and using the ‘ausplotsR’ package and AusPlots data
 
-The accompanying ‘R’, ‘html’, and 'pdf’ files contain the materials for the tutorial on TERN's Ecosystem Surveillance AusPlots Rangeland data. This tutorial explores the use of the R package ‘ausplotsR’ & the ‘ausplots’ data that can be downloaded with this package. It covers all *ausplotsR* functions, with examples of manipulation, visualisation, and analysis of AusCover data.
+The accompanying ‘R’, ‘html’, and 'pdf’ files contain the materials for the tutorial on TERN's Ecosystem Surveillance AusPlots Rangeland data. A file containing the jupyter notebook version of the tutorial (i.e. '.ipynb' file) is also included.  
+
+This tutorial explores the use of the R package ‘ausplotsR’ & the ‘ausplots’ data that can be downloaded with this package. It covers all *ausplotsR* functions, with examples of manipulation, visualisation, and analysis of AusCover data.
 
 
 &nbsp;

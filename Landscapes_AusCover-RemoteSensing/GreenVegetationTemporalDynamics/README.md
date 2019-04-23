@@ -2,7 +2,7 @@
 Green Vegetation Temporal Dynamics: Monitoring and Analysis using NDVI and Fractional Cover TERN rasters
 </h2> </center>
 
-The accompanying ‘R’, ‘html’, and 'pdf’ files contain the materials for the two parts tutorial *'Green Vegetation Temporal Dynamics: Monitoring and Analysis using NDVI and Fractional Cover TERN rasters'*. 
+The accompanying ‘R’, ‘html’, and 'pdf’ files contain the materials for the two parts tutorial *'Green Vegetation Temporal Dynamics: Monitoring and Analysis using NDVI and Fractional Cover TERN rasters'*.   A file containing the jupyter notebook version of the tutorial (i.e. '.ipynb' file) is also included. 
 
 The tutorial explores how to monitor and analyse the temporal dynamics of green vegetation. To monitor these temporal dynamics it utilizes the Normalize Difference Vegetation Index (NDVI), which is computed in the tutorial from composited seasonal Surface Reflectance images. To analyse the causes of the green vegetation temporal dynamics we will explore the changes in the Green Cover Fraction over time. All the datasets used in this tutorial are products of TERN’s Landscapes Assessment (AusCover) facility.
 
@@ -27,6 +27,18 @@ The R packages required for this tutorial are installed in the usual way in R (a
 ```
 install.packages(c("dplyr", "ggmap", "ggplot2", "gridExtra", "raster", "rasterVis", "RColorBrewer", "reshape2", "rgdal", "RStoolbox", "sp", "stringr", "XML"))
 ```
+
+When installing 'ggmap' you might need to install the development version rather than the CRAN version (to avoid some bugs present in the package at the time that this tutorial was developed). In this case, you will need to previously install and use the 'devtools' library to intall the 'ggmap' package from GitHub. To do so use the following code.
+
+```
+install.packages("devtools")
+library(devtools)
+devtools::install_github("dkahle/ggmap", force=TRUE)
+```
+
+#### NOTE on using Google Maps
+
+The initial version of this tutorial used 'Google Maps'. However, Google has changed its API requirements. Now, to use Google Maps with the 'ggmap' library users are required to register, which involves providing a credit card number. Light usage have no charge to a modest charge. More information can be found in the ['ggmap' GitHub pages](https://github.com/dkahle/ggmap) and [Google developers pages](https://developers.google.com/maps/documentation/geocoding/usage-and-billing).
 
 
 &nbsp;

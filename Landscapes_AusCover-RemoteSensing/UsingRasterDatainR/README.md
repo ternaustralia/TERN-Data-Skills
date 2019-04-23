@@ -1,6 +1,8 @@
 ## Using Raster Data in R
 
-The accompanying ‘R’, ‘html’, and 'pdf’ files contain the materials for the tutorial *'Using Raster Data in R'*. In this tutorial synthetic data is used to explain and demonstrate in detail how to work with raster data in R. The tutorial covers the following raster operations: 
+The accompanying ‘R’, ‘html’, and 'pdf’ files contain the materials for the tutorial *'Using Raster Data in R'*.  A file containing the jupyter notebook version of the tutorial (i.e. '.ipynb' file) is also included. 
+
+In this tutorial synthetic data is used to explain and demonstrate in detail how to work with raster data in R. The tutorial covers the following raster operations: 
 
 1. Introduction
 2. Raster Classes

@@ -1,7 +1,7 @@
 #****************************************************************************************
-# Title: ESA18_Workshop_AusPlots_v1dp1a.R
+# Title: Tutorial_AusPlots.R
 # Author: Bernardo Blanco-Martin, TERN
-# Date: 02/04/2019
+# Date: 23/04/2019
 #****************************************************************************************
 
 # This document contains a tutorial on how to access and use TERN's Ecosystem Surveillance
@@ -95,7 +95,7 @@
 #my.repos = "https://cran.csiro.au/"  # Example of an Australian mirror
 
 ## Install other required libraries
-#install.packages(c("ausplotsR", "vegan", "goeveg", "maps", "maptools", "mapdata", "sp", ggplot2", "gridExtra", "ggspatial", "dendextend"), repos=my.repos)
+#install.packages(c("vegan", "goeveg", "maps", "maptools", "mapdata", "sp", ggplot2", "gridExtra", "ggspatial", "dendextend"), repos=my.repos)
 
 
 # Now the packages can be loaded using the `library` command. 
@@ -452,7 +452,7 @@ geom_polygon(data=fortify(aus.sp), aes(x=long, y=lat, group=group), col="black",
 # =========================================================================================
 SppBYSites.BioregTop5 = species_table(AP.BioregTop5.l$veg.PI, m_kind="percent_cover", cover_type="PFC")
 class(SppBYSites.BioregTop5)
-dim(SppBYSites.BioregTop5) # Number of rows and columns in the matrix: 574 Sites x 3024 Spp
+dim(SppBYSites.BioregTop5) # Number of rows and columns in the matrix: Sites x Species
 SppBYSites.BioregTop5[1:5, 1:5]
 
 
@@ -938,7 +938,8 @@ length(AP.200Locs.FC.Resampled.locs.cnt)
 # Extract AP.200Locs.FC subset for Sites with > 1 Samples (in veg.IP)
 AP.200Locs.FC.Resampled.Locs = AP.200Locs.FC[(AP.200Locs.FC.locs %in% AP.200Locs.FC.Resampled.locs.cnt),]
 #AP.200Locs.FC.Resampled.Locs
-dim(AP.200Locs.FC.Resampled.Locs) # 82 (= 41 * 2)
+dim(AP.200Locs.FC.Resampled.Locs) # Number of Samples taken in re-visited sites. 
+# Number of Re-visited sites is half this, as each site was sampled twice (so far).
 
 # Add Year (Started) Sampling of Site-Visit Pair
 # ----------------------------------------------
@@ -954,8 +955,8 @@ AP.200Locs.FC.Resampled.Locs$site_unique.Yr = paste( AP.200Locs.FC.Resampled.Loc
 											         sep="." )
 head(AP.200Locs.FC.Resampled.Locs$site_unique.Yr)
 
-# Plot Pies for the first 5 Resampled Sites -out of 41- (i.e. 10 Site-Visit pairs)
-# --------------------------------------------------------------------------------
+# Plot Pies for the first 5 Resampled Sites (i.e. 10 Site-Visit pairs)
+# --------------------------------------------------------------------
 # Order dataframe to Plot Site-Visit pairs in the appropriate order
 AP.200Locs.FC.Resampled.Locs = AP.200Locs.FC.Resampled.Locs[order(AP.200Locs.FC.Resampled.Locs$site_unique),]
 head(AP.200Locs.FC.Resampled.Locs)
@@ -1015,7 +1016,7 @@ for (site.visit.cnt in 1:10) {
 # Generate the Growth Form by Site-Visit Matrix
 # =============================================
 AP.BRTop5.GrowthFormBYSites = growth_form_table(AP.BioregTop5.l$veg.PI, m_kind="percent_cover", cover_type="PFC")  # % Cover
-dim(AP.BRTop5.GrowthFormBYSites) # No of rows and cols in Matrix: 574 Sites x 19 Growth Forms
+dim(AP.BRTop5.GrowthFormBYSites) # No of rows and cols in Matrix: Sites x Growth Forms
 head(AP.BRTop5.GrowthFormBYSites)
 
 
@@ -1066,14 +1067,19 @@ AP.BRTop5.GFBYSites.dend =
 		as.dendrogram(hclust(dist(AP.BRTop5.GrowthFormBYSites[,1: (dim(AP.BRTop5.GrowthFormBYSites)[2]-4)]), "average"))
 
 # Color the Leaves by Bioregion
-# NOTE: The most sampled bioregions might change as new data is added. If so, bioregions codes bellow should be revised.
-# Here the codes correspond to: MDD (Murry Darling Depression), SSD (Simpson 
+# NOTE: The most sampled bioregions might change as new data is added. If so, bioregions codes below should be revised.
+# The (currently) most common codes correspond to: MDD (Murry Darling Depression), SSD (Simpson 
 # Strzelecki Dunefields), GFU (Gulf Fall and Uplands), STP (Stony Plains), 
-# PIL (Pilbara)
+# PIL (Pilbara), FLB (Flinders Lofty Block).
+# For example, here PIL is commented out 'cos when writting the current version of this tutorial it wasn't one of the 5 most 
+# sampled bioregions. However, in the previous version of this tutorial PIL was included, and FLB wasn't among the 5 most 
+# sampled bioregions.
+
 AP.BRTop5.GrowthFormBYSites$bioregion.col.f = AP.BRTop5.GrowthFormBYSites$bioregion.f
 levels(AP.BRTop5.GrowthFormBYSites$bioregion.col.f)[levels(AP.BRTop5.GrowthFormBYSites$bioregion.col.f) == "GFU"] = "darkgreen"
 levels(AP.BRTop5.GrowthFormBYSites$bioregion.col.f)[levels(AP.BRTop5.GrowthFormBYSites$bioregion.col.f) == "MDD"] = "magenta"
-levels(AP.BRTop5.GrowthFormBYSites$bioregion.col.f)[levels(AP.BRTop5.GrowthFormBYSites$bioregion.col.f) == "PIL"] = "red"
+#levels(AP.BRTop5.GrowthFormBYSites$bioregion.col.f)[levels(AP.BRTop5.GrowthFormBYSites$bioregion.col.f) == "PIL"] = "red"
+levels(AP.BRTop5.GrowthFormBYSites$bioregion.col.f)[levels(AP.BRTop5.GrowthFormBYSites$bioregion.col.f) == "FLB"] = "red"
 levels(AP.BRTop5.GrowthFormBYSites$bioregion.col.f)[levels(AP.BRTop5.GrowthFormBYSites$bioregion.col.f) == "SSD"] = "yellow"
 levels(AP.BRTop5.GrowthFormBYSites$bioregion.col.f)[levels(AP.BRTop5.GrowthFormBYSites$bioregion.col.f) == "STP"] = "cyan"
 dend.colors = as.character(AP.BRTop5.GrowthFormBYSites$bioregion.col.f)

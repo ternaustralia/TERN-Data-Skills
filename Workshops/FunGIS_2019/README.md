@@ -12,7 +12,29 @@ An expanded version (additional explanations and some extra code) of the worksho
 
 
 &nbsp;
-### Getting Started
+### Workshop materials and how to obtain them
+
+All the required materials for the workshop can be downloaded from this section of TERN's Data Skills Development Program GitHub pages; see the links above this README.md file. GitHub is a little bit fiddly and the procedures to download different file types differ slightly. These procedures, along with a brief description of the file contents, are described below.
+
+#### '.html'
+
+This file contains: (1) explanations for the workshop tutorial aims and methods, code, and outputs (i.e. results); (2) R code; and (3) code outputs. This will be the main file that we will use in the workshop. To download it: (1) click on the link for the '.html' file, (2) click on the 'View raw' link at the top of Viewer, (3) right click anywhere in the Viewer, then chose 'Save as...', and (4) choose the location and a name for the file, then click on the 'Save' button.
+
+#### '.r'
+
+This file contains the R code for the workshop tutorial. It is heavily commented, including the comments in the '.html' file. To download it: (1) click on the link for the '.r' file, (2) click on the 'Raw' button above the Viewer, (3) right click anywhere in the Viewer, then chose 'Save as...', and (4) choose the location and a name for the file, delete the extension '.txt' automatically added to the name by GitHub (the file already includes the correct extension '.r'), then click on the 'Save' button.
+
+#### '.pdf' 
+
+This file contains the pdf version of the '.html' file. To download it: (1) click on the link for the '.pdf' file, (2) click on the 'Download' button above the Viewer, (3) choose the location and a name for the file, then click on the 'Save' button.  
+
+#### '.ipynb' 
+
+This file contains the jupyter notebook version of the tutorial. To download it: (1) click on the link for the '.ipynb' file, (2) click on the 'Download' button above the Viewer, (3) right click anywhere in the Viewer then chose 'Save as...', and (4) choose the location and a name for the file, then click on the 'Save' button. 
+
+
+&nbsp;
+### Getting Started with the Workshop Tutorial
 
 In this workshop we will use R and a number of R packages. The packages required and how to install them are described below.
 
@@ -28,7 +50,7 @@ The R packages required for this workshop tutorial are installed in the usual wa
 install.packages(c("ggmap", "ggplot2", "gridExtra", "raster", "rasterVis", "RColorBrewer", "reshape2", "rgdal", "RStoolbox", "sp"))
 ```
 
-When installing 'ggmap' you might need to install the development version rather than the CRAN version (to avoid some bugs present in the package at the time that this tutorial was developed). In this case, you will need to previously install and use the 'devtools' library to intall the 'ggmap' package from GitHub. To do so use the following code.
+When installing 'ggmap' you might need to install the development version rather than the CRAN version (to avoid some bugs present in the package at the time that this tutorial was developed). In this case, you will need to previously install and use the 'devtools' library to install the 'ggmap' package from GitHub. To do so use the following code.
 
 ```
 install.packages("devtools")

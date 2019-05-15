@@ -113,9 +113,10 @@ This tutorial is licensed under Creative Commons 'Attribution' (CC BY 4.0) licen
 
 &nbsp;
 ### Acknowledgments
+
 To the authors of many fantastic tutorials on *spatial data* or *raster data in R* that inspired and educated the authors (and this tutorial). 
 
-
+TERN is funded through the National Collaborative Research Infrastructure Strategy (NCRIS), an Australian Government Initiative.
 
 
 

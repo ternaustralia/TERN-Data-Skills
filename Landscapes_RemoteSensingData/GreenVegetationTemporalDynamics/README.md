@@ -110,9 +110,10 @@ This tutorial is licensed under Creative Commons 'Attribution' (CC BY 4.0) licen
 
 &nbsp;
 ### Acknowledgments
+
 Dr. Peter Scarth  (TERN Landscape Assessment facility, Remote Sensing).
 
-
+TERN is funded through the National Collaborative Research Infrastructure Strategy (NCRIS), an Australian Government Initiative.
 
 
 

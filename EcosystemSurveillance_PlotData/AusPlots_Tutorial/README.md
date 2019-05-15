@@ -6,7 +6,33 @@ This tutorial explores the use of the R package ‘ausplotsR’ & the ‘ausplot
 
 
 &nbsp;
-### Getting Started
+### Tutorial Materials and How to Obtain them
+
+All the required materials for the workshop can be downloaded from this section of TERN's Data Skills Development Program GitHub pages; see the links above this README.md file. GitHub is a little bit fiddly and the procedures to download different file types differ slightly. These procedures, along with a brief description of the file contents, are described below.
+
+#### '.html'
+
+This file contains: (1) explanations for the workshop tutorial aims and methods, code, and outputs (i.e. results); (2) R code; and (3) code outputs. This will be the main file that we will use in the workshop. To download it: (1) click on the link for the '.html' file, (2) click on the 'View raw' link at the top of Viewer, (3) right click anywhere in the Viewer, then chose 'Save as...', and (4) choose the location and a name for the file, then click on the 'Save' button.
+
+#### '.r'
+
+This file contains the R code for the workshop tutorial. It is heavily commented, including the comments in the '.html' file. To download it: (1) click on the link for the '.r' file, (2) click on the 'Raw' button above the Viewer, (3) right click anywhere in the Viewer, then chose 'Save as...', and (4) choose the location and a name for the file, delete the extension '.txt' automatically added to the name by GitHub (the file already includes the correct extension '.r'), then click on the 'Save' button.
+
+#### '.pdf' 
+
+This file contains the pdf version of the '.html' file. To download it: (1) click on the link for the '.pdf' file, (2) click on the 'Download' button above the Viewer, (3) choose the location and a name for the file, then click on the 'Save' button.  
+
+#### '.ipynb' 
+
+This file contains the jupyter notebook version of the tutorial. To download it: (1) click on the link for the '.ipynb' file, (2) click on the 'Download' button above the Viewer, (3) right click anywhere in the Viewer then chose 'Save as...', and (4) choose the location and a name for the file, then click on the 'Save' button. 
+
+#### Download or clone all the materials in TERN's Data SKills Development Program GitHub pages
+
+Navigate to [TERN's Data SKills Development Program GitHub](https://github.com/ternaustralia/TERN-Data-Skills) main page. Click on the "Clone or download" green button. From here you can download a zip file with the materials for all TERN's DSDP Tutorials and Workshops. Alternatively, you can also clone these materials using Git.
+
+
+&nbsp;
+### Getting Started with the Tutorial
 
 This tutorial uses R and a number of R packages. The packages required and how to install them are described below.
 
@@ -51,7 +77,7 @@ library(dendextend)
 ```
 
 
-Currently `ausplotsR` must be installed directly from github using the 'devtools' package, which must have been previously installed. The GitHub site for `ausplotsR` contains the latest developments and information on the package; it can be found in [this link](https://github.com/ternaustralia/ausplotsR).
+Currently `ausplotsR` must be installed directly from GitHub using the 'devtools' package, which must have been previously installed. The GitHub site for `ausplotsR` contains the latest developments and information on the package; it can be found in [this link](https://github.com/ternaustralia/ausplotsR).
 
 ```{r, message=FALSE, warning=FALSE, error=FALSE}
 
@@ -98,8 +124,10 @@ This tutorial is licensed under Creative Commons 'Attribution' (CC BY 4.0) licen
 
 &nbsp;
 ### Acknowledgments
+
 Dr. Greg Guerin  (TERN Ecosystem Surveillance and AusPlots program).
 
+TERN is funded through the National Collaborative Research Infrastructure Strategy (NCRIS), an Australian Government Initiative.
 
 
 

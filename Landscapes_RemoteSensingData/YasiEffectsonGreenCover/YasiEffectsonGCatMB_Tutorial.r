@@ -248,8 +248,10 @@ list.files()
 # be created from scratch, a file, an `extent` object, an `image` object, and other specific R objects (i.e. `Raster*`, 
 # `Spatial*`, `im` (`spatstat`); `asc`, `kasc` (`adehabitat*`), `grf` (`geoR`) or `kde` object). 
 
-# Below examples of how to load a Single Layer Raster from Single and Multiple Layers files, as well as how to load a 
-# Multi-Layer Raster (from a Multiple Layer File), are provided.
+# Examples of how to load raster objects from files are presented below. Examples are provided for the three possible cases:
+# 1. Load a Single Layer Raster from a Single Layer File.
+# 2. Load a Single Layer Raster from a Multiple Layer File.
+# 3. Load a Multiple Layer Raster from a Multiple Layer File.
 
 # To explore the contents and characteristics of a loaded raster we simply type its name. 
 
@@ -307,8 +309,8 @@ rm(SPGC.2010q3.rlb, SPGC.2011q3.rlb, SPGC.TS.rb)
 # the same CRS than the raster. The raster is in `EPSG:3577` (='GDA94'/'Australian Albers'), an Australian-specific CRS 
 # (further details for the EPSG:3577 CRS in this [link](https://spatialreference.org/ref/epsg/3577/)). The polygon for 
 # the Study Area, on the other hand, is in `EPSG:4326` CRS, a general world spatial reference (more details for this CRS 
-# in this [link](https://spatialreference.org/ref/epsg/wgs-84/). Therefore, we need to transform the Study Area spatial 
-# polygon CRS form EPSG:4326 to EPSG:3577.
+# in this [link](https://spatialreference.org/ref/epsg/wgs-84/). Therefore, we need to transform the CRS of the spatial 
+# polygon for the Study Area from EPSG:4326 to EPSG:3577.
 
 # To subset the extent of the raster to the Study Area, we use the `raster` package function `crop`. This is the most 
 # commonly used function to modify the extent of a raster object.
@@ -364,14 +366,14 @@ SPGC.StudyArea.2011q3.rl
 
 
 
-#### Combine both Single-Layer Rasters (raster layer objects) into a Multi-Layer Rasters (RasterBrick object)
+#### Combine both Single-Layer Rasters (RasterLayer objects) into a Multi-Layer Rasters (RasterBrick object)
 
 # The functions `stack` and `brick` can also be used to create multi-layer rasters from single layer `rasters`. Here we 
 # combine the single layer SPPC rasters for individual year seasons into a raster brick and assign names to the individual 
-# layers with the fucntion `names` from the package `raster`.
+# layers with the function `names` from the package `raster`.
 
 #========================================================================================================================
-# Combine both Single-Layer Rasters (raster layer objects) into a Multi-Layer Raster (RasterBrick object)
+# Combine both Single-Layer Rasters (RasterLayer objects) into a Multi-Layer Raster (RasterBrick object)
 #========================================================================================================================
 SPGC.StudyArea.2010q3_2011q3.rb = brick(SPGC.StudyArea.2010q3.rl, SPGC.StudyArea.2011q3.rl)
 names(SPGC.StudyArea.2010q3_2011q3.rb) = c("SPGC.SA.2010q3", "SPGC.SA.2011q3")		  
@@ -673,8 +675,8 @@ cellStats(SPGC.StudyArea.StdDiffq3.rl, mean)
 # We need to create an analogous rasterBrick with standarised (i.e. in SDs) values.
 
 
-# Create Raster Brick object with Standardised SPGC
-# -------------------------------------------------
+# Create RasterBrick object with Standardised SPGC
+# ------------------------------------------------
 SPGC.StudyArea.Std2010q3_2011q3.rb = brick(normImage(SPGC.StudyArea.2010q3.rl), normImage(SPGC.StudyArea.2011q3.rl))
 names(SPGC.StudyArea.Std2010q3_2011q3.rb) = c("SPGC.SA.Std2010q3", "SPGC.SA.Std2011q3")		  
 SPGC.StudyArea.Std2010q3_2011q3.rb
@@ -817,7 +819,7 @@ RawSPGC.Diff.cols = colorRampPalette(c("red", "yellow", "darkgreen"))(length(Raw
 # Create Raster Plots with Density Plots
 # ......................................
 StudyArea.RawSPGCDiff.p = levelplot( SPGC.StudyArea.Diffq3.rl, at=RawSPGC.Diff.breaks, 
-                                     col.regions=RawSPGC.Diff.cols, main="Raw SPGC Change (Winter 2011 to Winter 2010)" )                               
+                                     col.regions=RawSPGC.Diff.cols, main="Raw SPGC Change (Winter 2011 - Winter 2010)" )                               
                                    
 
 # Change in Standardised SPGC
@@ -961,7 +963,7 @@ SGGC.StudyArea.2011q3.rl
 
 
 #========================================================================================================================
-# Combine both Single-Layer Rasters (raster layer objects) into a Multi-Layer Rasters (raster brick objects)
+# Combine both Single-Layer Rasters (RasterLayer objects) into a Multi-Layer Rasters (RasterBrick object)
 #========================================================================================================================
 SGGC.StudyArea.2010q3_2011q3.rb = brick(SGGC.StudyArea.2010q3.rl, SGGC.StudyArea.2011q3.rl)
 names(SGGC.StudyArea.2010q3_2011q3.rb) = c("SGGC.SA.2010q3", "SGGC.SA.2011q3")		  
@@ -1122,8 +1124,8 @@ cellStats(SGGC.StudyArea.StdDiffq3.rl, mean)
 # We now need to create an analogous rasterBrick for the Standardise (in SDs) raster layers.
 
 
-# Create Raster Brick object with Standardised SGGC
-# -------------------------------------------------
+# Create RasterBrick object with Standardised SGGC
+# ------------------------------------------------
 SGGC.StudyArea.Std2010q3_2011q3.rb = brick(normImage(SGGC.StudyArea.2010q3.rl), normImage(SGGC.StudyArea.2011q3.rl))
 names(SGGC.StudyArea.Std2010q3_2011q3.rb) = c("SGGC.SA.Std2010q3", "SGGC.SA.Std2011q3")		  
 SGGC.StudyArea.Std2010q3_2011q3.rb
@@ -1269,7 +1271,7 @@ RawSGGC.Diff.cols = colorRampPalette(c("red", "yellow", "darkgreen"))(length(Raw
 # Create Raster Plots with Density Plots
 # ......................................
 StudyArea.RawSGGCDiff.p = levelplot( SGGC.StudyArea.Diffq3.rl, at=RawSGGC.Diff.breaks, 
-                                     col.regions=RawSGGC.Diff.cols, main="Raw SGGC Change (Winter 2011 to Winter 2010)" )                               
+                                     col.regions=RawSGGC.Diff.cols, main="Raw SGGC Change (Winter 2011 - Winter 2010)" )                               
                                    
 
 # Change in Standardised SGGC
@@ -1375,10 +1377,10 @@ SA.SGGC.2010q3.reprj.p = levelplot(SGGC.StudyArea.2011q3.reprj.rl, at=SGGC.break
                                    main="Seasonal Green Ground Cover (2011-Winter)")
 # SPGC Study Area Difference between Winters of 2011 and 2010
 StudyArea.RawSPGCDiff.reprj.p = levelplot(SPGC.StudyArea.Diffq3.reprj.rl, at=RawSPGC.Diff.breaks, col.regions=RawSPGC.Diff.cols, 
-                                          main="Raw SPGC Change (Winter 2011 to Winter 2010)")
+                                          main="Raw SPGC Change (Winter 2011 - Winter 2010)")
 # SGGC Study Area Difference between Winters of 2011 and 2010
 StudyArea.RawSGGCDiff.reprj.p = levelplot(SGGC.StudyArea.Diffq3.reprj.rl, at=RawSGGC.Diff.breaks, col.regions=RawSGGC.Diff.cols, 
-                                          main="Raw SGGC Change (Winter 2011 to Winter 2010)")
+                                          main="Raw SGGC Change (Winter 2011 - Winter 2010)")
 
 										  
 # Get Map
@@ -1416,7 +1418,7 @@ grid.arrange(StudyArea.p, RegionwStudyArea.p, nrow=1)
 #* `writeValues`: Writes chucks (e.g. by row) of a Raster* object to a file in a supported format.
 
 # Supported formats include (in parenthesis is the file extension for the format):
-#* native R 'raster' package format (.grd): It conserves the original file names in the individual band names.
+#* Native 'raster' package format (.grd): It conserves the original file names in the individual band names.
 #* netCDF (.nc): Requires the library `ncdf4`.
 #* GeoTiff (.tif): Requires the library `rgdal`.
 #* ENVI .hdr labelled (.envi),
@@ -1426,19 +1428,19 @@ grid.arrange(StudyArea.p, RegionwStudyArea.p, nrow=1)
 #* SAGA GIS (.sdat), 
 #* IDRISI (.rst).
 
-# The native R raster (`.grd`) format preserves the layer names, but raster grid binary files are not compressed. The native
-# R raster format consists of two files: (1) `.gri` binary file, and (2) `.grd` header file. This is enough to open the 
-# files in R. However, to open raster grid files in most GIS software packages you will need to write an additional hearder 
-# file. The 'ENVI' header format usually works fine. It creates two additional files, a `.hdr` file and a `.stx` files. The 
-# statistics file (`.stx`) is an optional file that describes image statistics for each spectral band in a grayscale or 
+# The native 'raster' package (`.grd`) format preserves the layer names, but raster grid binary files are not compressed. The 
+# native 'raster' package format consists of two files: (1) `.gri` binary file, and (2) `.grd` header file. This is enough to 
+# open the files in R. However, to open raster grid files in most GIS software packages you will need to write an additional 
+# hearder file. The 'ENVI' header format usually works fine. It creates two additional files, a `.hdr` file and a `.stx` files. 
+# The statistics file (`.stx`) is an optional file that describes image statistics for each spectral band in a grayscale or 
 # multiband image. The file consists of a series of entries, one for each band, that records the minimum pixel value, the 
 # maximum pixel value, the mean, the standard deviation, and two linear contrast stretch parameters. To open a saved raster 
 # in, for example QGIS, select the '.gri' binary file. An example of how to create a header file in 'ENVI' format is provided 
 # below. 
 
-# Other Formats than Native R raster (`.grd`) Format do not preserve the layer names (but you could always save the layers 
-# individually). The last 3 formats cannot store Multi-band rasters. For further details see help on 'writeRaster' and 
-# 'writeFormat'. 
+# Other formats than the native 'raster' package (`.grd`) format do not preserve the layer names (but you could always save 
+# the layers individually). Currently, the files saved in netCDF format do not contain CRS information ("coord. ref.: NA"). 
+# The last 3 formats cannot store Multi-band rasters. For further details see help on 'writeRaster' and 'writeFormat'.
 
 
 # If argument `prj` is TRUE, the CRS is written to a '.prj' file. This can be useful when writing to a file type that does not 
@@ -1466,11 +1468,8 @@ names(SGC.StudyArea.Res.rb) = c("SPGC_StudyArea_2010Winter", "SPGC_StudyArea_201
 SGC.StudyArea.Res.rb							  
 
 
-# Save Raster Brick with Result Layers as in netCDF format (requires library 'ncdf4')
-# -----------------------------------------------------------------------------------
-
-# Native R raster grid format 
-# ...........................
+# Save RasterBrick in native 'raster' package format for 'external' use
+# ---------------------------------------------------------------------
 # It will preserve the Layer Names, but raster grid binary files are not compressed.
 # Creates two files: (1) '.gri' binary file, and (2) '.grd' header file.
 
@@ -1478,6 +1477,9 @@ SGC.StudyArea.Res.rb
 writeRaster(SGC.StudyArea.Res.rb, "SGC_StudyArea_Res.grd", format="raster", overwrite=TRUE)
 list.files(pattern="SGC_StudyArea_Res")
 
+
+# Save RasterBrick in native 'raster' package format for 'external' use
+# ---------------------------------------------------------------------
 # Save Raster to be opened in a GIS software package. It must include an adequate Header Files,
 # here we use an 'ENVI' header file 
 raster.grid = writeRaster(SGC.StudyArea.Res.rb, "SGC_StudyArea_Res.grd", format="raster", overwrite=TRUE)
@@ -1486,11 +1488,11 @@ hdr(raster.grid, format="ENVI")
 list.files(pattern="SGC_StudyArea_Res")
 
 
-# Formats other than Native R raster 'grid' Format 
-# ................................................
-# They will not preserve the Layer Names (but could always save the layers individually)
+# Save RasterBrick in formats other than the native 'raster' package format
+# -------------------------------------------------------------------------
+# Other formats will not preserve the Layer Names (but could always save the layers individually)
 
-# Save raster in 'netCDF' format
+# Save raster in 'netCDF' format (requires the library 'ncdf4')
 writeRaster(SGC.StudyArea.Res.rb, "SGC_StudyArea_Res.nc", format="CDF", overwrite=TRUE)
 
 

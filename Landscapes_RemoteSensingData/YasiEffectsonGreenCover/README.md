@@ -32,31 +32,47 @@ This file contains the pdf version of the '.html' file. To download it: (1) clic
 
 This file contains the jupyter notebook version of the tutorial. To download it: (1) click on the link for the '.ipynb' file, (2) click on the 'Download' button above the Viewer, (3) right click anywhere in the Viewer then chose 'Save as...', and (4) choose the location and a name for the file, then click on the 'Save' button. 
 
+#### Download or clone all the materials in TERN's Data SKills Development Program GitHub pages
+
+Navigate to [TERN's Data SKills Development Program GitHub](https://github.com/ternaustralia/TERN-Data-Skills) main page. Click on the "Clone or download" green button. From here you can download a zip file with the materials for all TERN's DSDP Tutorials and Workshops. Alternatively, you can also clone these materials using Git.
+
 
 &nbsp;
 ### Getting Started with the Tutorial
 
 This tutorial uses R and a number of R packages. The packages required and how to install them are described below.
 
+
 #### Prerequisites
 
 To run the R scripts in this tutorial the following R packages (and their dependencies) must be installed: ggmap, ggplot2, gridExtra, raster, rasterVis, RColorBrewer, reshape2, rgdal, RStoolbox, and sp. 
 
+
 #### Installing
 
-The R packages required for this tutorial are installed in the usual way in R (after selecting a repository).
+First select a repository. 
 
 ```
-install.packages(c("ggmap", "ggplot2", "gridExtra", "raster", "rasterVis", "RColorBrewer", "reshape2", "rgdal", "RStoolbox", "sp"))
+# Select the repository (i.e. CRAN mirror URL)
+my.repos = "https://cloud.r-project.org/" # Automatic redirection to servers worldwide
+#my.repos = "https://cran.csiro.au/"  # Example of an Australian mirror
+```
+Install all the required packages in the usual way in R; except 'ggmap', which is a special case (see below)
+
+```
+# Install the required libraries
+install.packages(c("ggplot2", "gridExtra", "raster", "rasterVis", "RColorBrewer", "reshape2", "rgdal", "RStoolbox", "sp", "ncdf4"), repos=my.repos)
 ```
 
-When installing 'ggmap' you might need to install the development version rather than the CRAN version (to avoid some bugs present in the package at the time that this tutorial was developed). In this case, you will need to previously install and use the 'devtools' library to intall the 'ggmap' package from GitHub. To do so use the following code.
+When installing 'ggmap' you might need to install the development version from GitHub, rather than the CRAN version (to avoid some bugs present in the package at the time that this tutorial was developed). In this case, you will need to previously install and use the 'devtools' library to intall the 'ggmap' package from GitHub. To do so use the following code.
 
 ```
-install.packages("devtools")
+# Install 'ggmap' development version from GitHub
+install.packages("devtools", repos=my.repos)
 library(devtools)
 devtools::install_github("dkahle/ggmap", force=TRUE)
 ```
+
 
 #### NOTE on using Google Maps
 
@@ -102,5 +118,12 @@ https://github.com/ternaustralia/TERN-Data-Skills/tree/master/Landscapes_AusCove
 This tutorial is licensed under Creative Commons 'Attribution' (CC BY 4.0) license.
 
 <img src="https://mirrors.creativecommons.org/presskit/buttons/88x31/png/by.png" alt="drawing" width="200"/>
+
+
+&nbsp;
+### Acknowledgments
+
+TERN is funded through the National Collaborative Research Infrastructure Strategy (NCRIS), an Australian Government Initiative.
+
 
 

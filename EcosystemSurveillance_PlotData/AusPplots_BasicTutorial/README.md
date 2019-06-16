@@ -1,10 +1,10 @@
-## Understanding and using the ‘ausplotsR’ package and AusPlots data
+## 'AusplotsR' Package and AusPlots Data Basics
 
-The accompanying ‘R’, 'Rmd', ‘html’, and 'pdf’ files contain the materials for a tutorial on TERN's Ecosystem Surveillance AusPlots Rangeland data. A file containing the jupyter notebook version of the tutorial (i.e. '.ipynb' file) is also included.  
+The accompanying ‘html’, 'pdf’, 'R', and 'Rmd' files contain the materials for a basic tutorial on TERN's Ecosystem Surveillance AusPlots Rangeland data. A file containing the jupyter notebook version of the tutorial (i.e. '.ipynb' file) is also included.  
 
-This tutorial explores the use of the R package ‘ausplotsR’ & the ‘ausplots’ data that can be downloaded with this package. It covers all *ausplotsR* functions, with multiple examples of manipulation, visualisation, and analysis of AusCover data.
+This tutorial explores the use of the R package ‘ausplotsR’ to extract and prepare AusPlots data for visualisation and analysis. It shows how to download and install the 'ausplotsR' package, as well as how to use all its functions. Detailed explanations and examples are provided for the use of the arguments of all 'ausplotsR' functions. In addition, the tutorial covers how to manipulate (i.e. subset/filter and merge) and save the extracted AusPlots data. 
 
-Another Tutorial in TERN's Data Skills Development Program ("'AusplotsR' Package and AusPlots Data Basics") provides a deeper introduction to the use of 'ausplotsR' functions, including comprenhensive explanation and examples of the use of the arguments of the 'ausplotsR' functions. The latter tutorial also provides a detailed introduction and exmaples of how to manipulate and save AusCover data. However, unlike the tutorial here presented it provides little information on how visualise and use AusPlots data. Further examples of the use and applications of 'ausplotsR' are provided in the "'ausplotsR' Examples" folder at 'TERN-Data-Skills' GitHub repository.
+Another Tutorial in TERN's Data Skills Development Program ("Understanding and using the ‘ausplotsR’ package and AusPlots data") provides a briefier introduction to the use of 'ausplotsR' functions (i.e. providing examples of the use of the functions with the most common arguments only). However, the latter tutorial also covers how to further manipulate, visualise, and use AusPlots data, by using common application examples. Further examples of the use and applications of 'ausplotsR' are provided in the "'ausplotsR' Examples" folder at 'TERN-Data-Skills' GitHub repository.
 
 
 &nbsp;
@@ -39,17 +39,10 @@ Navigate to [TERN's Data SKills Development Program GitHub](https://github.com/t
 &nbsp;
 ### Getting Started with the Tutorial
 
-This tutorial uses R and a number of R packages. The packages required and how to install them are described below.
+This tutorial uses R and a the 'ausplotsR' package. Instructions in how to install the 'ausplotsR' package are provided below.
 
-#### Prerequisites
-
-To run the R scripts in this tutorial a number of R packages (and their dependencies) must be installed. In addition to `ausplotsR`, which is at the core of this tutorial, the following packages are required: `dendextend`, `ggplot2`, `goeveg`, `gridExtra`, `mapdata`, `maps`, `maptools`, `sp`, and `vegan`.
-
-#### Installing
+#### Installation
 The first step to install packages in R is selecting the CRAN (Comprehensive R Archive Network) mirror. Mirror selection and package installation can be done via R's menu (Packages/Set CRAN mirror... followed by Packages/install package(s)...) or programmatically the function `install.packages` (selecting the CRAN mirror using the argument `repos`). Typically is best to choose the `cloud` mirror (which automatically redirects to an appropriate server worldwide) or a mirror close to you (e.g. in your institution, country,..). A list of Comprehensive R Archive Network (CRAN) mirror URLs can be found [here](https://cran.r-project.org/mirrors.html). 
-
-
-To install any of the required packages but `ausplotsR`, which is a special case (see below)
 
 ```{r, message=FALSE, warning=FALSE, error=FALSE}
 
@@ -57,47 +50,25 @@ To install any of the required packages but `ausplotsR`, which is a special case
 my.repos = "https://cloud.r-project.org/"
 #my.repos = "https://cran.csiro.au/"  # Example of an Australian mirror
 
-## Install other required libraries
-install.packages(c("ausplotsR", "vegan", "goeveg", "maps", "maptools", "mapdata", "sp", ggplot2", "gridExtra", "ggspatial", "dendextend"), repos=my.repos)
 ```
-
-To load use the `library` command as follows
-
-```{r, message=FALSE, warning=FALSE, error=FALSE}
-
-# Load packages
-library(ausplotsR)  # If not loaded above
-library(vegan)
-library(goeveg)
-
-library(maps)
-library(maptools)
-library(mapdata)
-library(sp)
-library(ggplot2)
-library(gridExtra)
-#library(ggspatial)
-
-library(dendextend)
-```
-
 
 Currently `ausplotsR` must be installed directly from GitHub using the 'devtools' package, which must have been previously installed. The GitHub site for `ausplotsR` contains the latest developments and information on the package; it can be found in [this link](https://github.com/ternaustralia/ausplotsR).
 
 ```{r, message=FALSE, warning=FALSE, error=FALSE}
 
-## Install directly from github using the 'devtools' package
-## Thus, 'devtools' must be previouly installed
-install.packages("devtools", repos="https://cloud.r-project.org/")
+# Install directly from github using the 'devtools' package
+# Thus, 'devtools' must be previouly installed
+install.packages("devtools", repos=my.repos)
 library(devtools)
 install_github("ternaustralia/ausplotsR", build_vignettes = TRUE)
 
-## Load the package
+# Load the package
 library(ausplotsR)
 
-## Obtaining Help and Initial Steps
+# Obtaining Help and Initial Steps
 help(ausplotsR)
 browseVignettes(package="ausplotsR")
+
 ```
 
 
@@ -113,9 +84,9 @@ In the tutorial, TERN AusPlots Rangelands ecosystem monitoring plot data on vege
 Please cite this tutorial as: 
 
 Blanco-Martin, Bernardo (2019). 
-Tutorial: "Understanding and using the ‘ausplotsR’ package and AusPlots data". 
+Tutorial: "'AusplotsR' Package and AusPlots Data Basics". 
 Terrestrial Ecology Research Network.
-Version 2019.04.0, April 2019.
+Version 2019.06.0, June 2019.
 https://github.com/ternaustralia/TERN-Data-Skills/tree/master/EcosystemSurveillance_AusPlots/AusPlots_Tutorial
 
 

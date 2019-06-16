@@ -4,9 +4,11 @@ This section of the TERN's Data Skills Development Program contains tutorials an
 
 Contents include the following materials:
 
-* *'Understanding and using the ‘ausplotsR’ package and AusPlots data'*: A tutorial exploring the use of the R package ‘ausplotsR’ & the ‘ausplots’ data that can be downloaded with this package. It covers all *ausplotsR* functions, with examples of AusCover data manipulation, visualisation, and analysis.
+* *"'AusplotsR' Package and AusPlots Data Basics"*: A tutorial exploring the use of the R package ‘ausplotsR’ to extract and prepare AusPlots data for visualisation and analysis. It shows how to download and install the 'ausplotsR' package, as well as how to use all its functions. Detailed explanations and examples are provided for the use of the arguments of all 'ausplotsR' functions. In addition, the tutorial covers how to manipulate (i.e. subset/filter and merge) and save the extracted AusPlots data. 
 
-* *'ausplotsR'*: A collection of scripts by Dr. Sam Munroe (TERN Ecosystem Surveillance and AusPlots program) with additional demonstrating examples of the use and application of the *ausplotsR* package and AusPlots data.
+* *"Understanding and using the ‘ausplotsR’ package andAusPlots data"*: A tutorial exploring the use of the R package ‘ausplotsR’ & the ‘ausplots’ data that can be downloaded with this package. It covers the *ausplotsR* functions in less detail than the previous tutorials (i.e. not all argument opttions are covered). However, this tutorial provides multiple examples of AusCover data manipulation, visualisation, and analysis.
+
+* *"'ausplotsR' Examples"*: A collection of scripts by Dr. Sam Munroe (TERN Ecosystem Surveillance and AusPlots program) with additional demonstrating examples of the use and application of the *ausplotsR* package and AusPlots data.
 
 
 &nbsp;

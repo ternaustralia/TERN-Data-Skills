@@ -87,7 +87,7 @@ Blanco-Martin, Bernardo (2019).
 Tutorial: "'AusplotsR' Package and AusPlots Data Basics". 
 Terrestrial Ecology Research Network.
 Version 2019.06.0, June 2019.
-https://github.com/ternaustralia/TERN-Data-Skills/tree/master/EcosystemSurveillance_AusPlots/AusPlots_Tutorial
+https://github.com/ternaustralia/TERN-Data-Skills/tree/master/EcosystemSurveillance_PlotData/AusPplots_BasicTutorial
 
 
 &nbsp;

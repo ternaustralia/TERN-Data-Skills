@@ -1,13 +1,14 @@
-## Landscape Assessment - Remote Sensing
+## Landscape Assessment (AusCover) - Remote Sensing
 
 This section of the TERN's Data Skills Development Program contains tutorials on how to access and use remote sensing data using R. 
 
 Tutorials include:
 
-* *'Using Raster Data in R'*: This tutorial explores in detail how to create, load, navigate, save, inspect, summarise, modify, combine, and use raster data in R, with the help of synthetic examples.
+* *"Using Raster Data in R"*: This tutorial explores in detail how to create, load, navigate, save, inspect, summarise, modify, combine, and use raster data in R, with the help of synthetic examples.
 
-* *'Green Vegetation Temporal Dynamics: Monitoring and Analysis using NDVI and Fractional Cover TERN rasters'*: A two parts tutorial that explores how to monitor and analyse the temporal dynamics of green vegetation, by using TERN's data on seasonal surface reflectance and green cover fraction. 
+* *"Investigation of the Effects of Cyclone Yasi on Green Cover Fraction at Mission Beach using TERN’s Remote Sensing Data"*: This tutorial explores the effect of Cyclone Yasi on the green vegetation fraction in the Djiru National Park at the backdrop of Mission Beach by comparing remote sensing images taken before and after the cyclon landfall. Specifically, image composites of the two types of TERN’s remote sensing fractional cover data, Persistent Green Cover & Green Ground Cover, for the Winters (June to August) of 2010 and 2011 are compared.
 
+* *"Green Vegetation Temporal Dynamics: Monitoring and Analysis using NDVI and Fractional Cover TERN rasters"*: A two parts tutorial that explores how to monitor and analyse the temporal dynamics of green vegetation by using TERN's remote sensing data. To monitor these temporal dynamics Normalize Difference Vegetation Index (NDVI) is utilized, which is computed in the tutorial from composited seasonal Surface Reflectance images. To analyse the causes of the green vegetation temporal dynamics changes in the Green Cover Fraction over time are examined.
 
 &nbsp;
 ### TERN Remote Sensing Data

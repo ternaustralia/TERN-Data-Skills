@@ -20,13 +20,17 @@ All the required materials for the tutorial can be downloaded from this section 
 
 This file contains: (1) explanations for the tutorial aims and methods, code, and outputs (i.e. results); (2) R code; and (3) code outputs. This is the main document and the best starting point for the tutorial. To download it: (1) click on the link for the '.html' file, (2) click on the 'View raw' link at the top of Viewer, (3) right click anywhere in the Viewer, then chose 'Save as...', and (4) choose the location and a name for the file, then click on the 'Save' button.
 
+#### '.pdf' 
+
+This file contains the pdf version of the '.html' file. To download it: (1) click on the link for the '.pdf' file, (2) click on the 'Download' button above the Viewer, (3) choose the location and a name for the file, then click on the 'Save' button.  
+
 #### '.r'
 
 This file contains the R code for the tutorial. It is heavily commented, including the comments in the '.html' file. To download it: (1) click on the link for the '.r' file, (2) click on the 'Raw' button above the Viewer, (3) right click anywhere in the Viewer, then chose 'Save as...', and (4) choose the location and a name for the file, delete the extension '.txt' automatically added to the name by GitHub (the file already includes the correct extension '.r'), then click on the 'Save' button.
 
-#### '.pdf' 
+#### '.Rmd'
 
-This file contains the pdf version of the '.html' file. To download it: (1) click on the link for the '.pdf' file, (2) click on the 'Download' button above the Viewer, (3) choose the location and a name for the file, then click on the 'Save' button.  
+This file contains the R and Rmarkdown code used to generate the '.html' file (see above) in R-Studio.  The downloading procedure is as for '.r' files. That is, to download it: (1) click on the link for the '.Rmd' file, (2) click on the 'Raw' button above the Viewer, (3) right click anywhere in the Viewer, then chose 'Save as...', and (4) choose the location and a name for the file, delete the extension '.txt' automatically added to the name by GitHub (the file already includes the correct extension '.Rmd'), then click on the 'Save' button.
 
 #### '.ipynb' 
 

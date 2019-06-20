@@ -753,11 +753,12 @@ ggplot(AP.data.SppbySites.PcC.PFC, aes(x=longitude, y=latitude)) + geom_point(ae
 # •	‘Bare’ or ‘bare ground’: is rock, outcrop, gravel or bare soil with no veg cover substrate.
 
 # Typically, 1010 intercept points are used to compute fractional cover in a plot. These 1010 
-# intercept points correspond to 11 points at 1 meters intervals in each of 10 transects of 10 
-# meters of length (5 transects oriented North to South and 5 oriented East to West; see 
-# ‘Ecosystem Surveillance Monitoring - AusPlots Methods’). The percentage scored for each 
-# fraction is computed as the number of hits assigned to each fraction times 100 divided by the 
-# total number of PIs taken (usually 1010, but this number can vary).
+# intercept points correspond to 101 points per transect (i.e. 101 points at 1 meters intervals
+# in each of the 100 metres long transect) x 10 transects (5 transects oriented North to South and  
+# 5 oriented East to West). Further details about the AusPlots methods can be found in TERN's DSDP 
+# 'AusPlots Methods Knowledge Base' and the 'AusPlots Rangelands Survey Protocol Manual'. The 
+# percentage scored for each fraction is computed as the number of hits assigned to each fraction 
+# times 100 divided by the total number of PIs taken (usually 1010, but this number can vary).
 
 # A height rule is applied, so that scoring the green/brown/bare fraction from point intercept 
 # hits of the uppermost vegetation/substrate stratum overrides the others. That is, a dead tree 

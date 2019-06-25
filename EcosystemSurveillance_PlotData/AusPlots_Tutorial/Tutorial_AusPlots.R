@@ -143,7 +143,7 @@ help(ausplotsR)
 
 
 # =======================================================================================
-# OBTAIN & EXPLORE AusPlots DATA: 'get_ausplots' function
+# OBTAIN & EXPLORE AusPlots DATA: `get_ausplots` function
 # =======================================================================================
 # This function extracts and compiles AusPlots data
 
@@ -175,13 +175,19 @@ help(ausplotsR)
 # thus x is the longitude and y is the latitude of the box/extent object (e.g., 
 # c(120, 140, -30, -10)). 
 
-# SPECIES FILTERING: AusPlots data can also be subset by particular or sets of genus and/or 
+# *SPECIES FILTERING:* AusPlots data can also be subset by particular or sets of genus and/or 
 # species (i.e. as determined for the herbarium voucher) using the argument `species_name_search`. 
-# This optional argument takes the form of a character string indicating the terms to search and
-# subset. Search terms are not case sensitive and do not require an exact taxonomic match 
-# (e.g. "Eucalyptus moderata","Eucalyptus", and "euca" are all acceptable search terms). 
-# If `veg.vouch=TRUE`, which is the default, `veg.vouch` will return a data frame that only 
-# includes voucher records that match the species_name_search.
+# This optional argument takes the form of a character string indicating the terms to search and 
+# subset. Search terms are not case sensitive and do not require an exact taxonomic match (e.g. 
+# "Eucalyptus moderata", "Eucalyptus", and "euca" are all acceptable search terms). 
+# Species Filtering behaviour slightly differs among Data Types (i.e. for the different types of
+#  created Data Frames):
+# * For `veg.vouch` and  `basal.wedge`, when these arguments are set to `TRUE`, `get_ausplots` 
+# returns data.frames with the corresponding data (i.e. voucher records and raw basal wedge data 
+# respectively) that match the species_name_search.
+# * For the remaing data types arguments, when these arguments are set to `TRUE`, `get_ausplots` 
+# returns data.frames with the corresponding data (e.g. point intercept data,...) for all plots 
+# where the species_name_search occurs. 
 
 # The R object resulting from calling `get_ausplots` is a list of data frames containing the 
 # requested AusPlots data. The list includes a data frame for each type of data requested 
@@ -246,10 +252,10 @@ summary(AP.data)
 #str(AP.data)   # Similar to Example 1 (can run uncommented if curious) 
 
 # Explore species contained in each data frame
-head(AP.data$veg.vouch) # Filtered species: Only eucalyptus
-head(AP.data$veg.PI)  # Unfiltered species
-head(AP.data$veg.basal)  # Unfiltered species
-head(AP.data$struct.summ)  # Unfiltered species
+head(AP.data$veg.vouch) # Includes Records that match 'eucalyptus'
+head(AP.data$veg.PI)  # Includes Plots where 'eucalyptus' occurs
+head(AP.data$veg.basal) # Includes Records that match 'eucalyptus'
+head(AP.data$struct.summ)  # Includes Plots where 'eucalyptus' occurs
 
 
 #----------------------------------------------------------------------------------------
@@ -283,13 +289,29 @@ head(AP.data$veg.PI)
 # =======================================================================================
 # MANIPULATING AusPlots DATA
 # =======================================================================================
-# The retrieved data by the function 'get_ausplots' can be manipulated as any other R 
-# data. However, the 'deep' structure of the data (a list of multiple data frames) and 
-# interrelation of the data frames (via a common a common link variable) can make 
-# manipulating the data a bit more daunting. 
 
-# As an example, we will focus on the sites in the 5 most sampled Bioregions. 
+# The `get_ausplots` function extracts and compiles AusPlots data allowing substantial 
+# flexibility in the selection of the required data. Up to 8 different types of data can 
+# be retrieved into distinct data frames (i.e. data on sampling sites, vegetation structure, 
+# vegetation point intercept, vegetation vouchers, vegetation basal wedge, soil 
+# characterization, soil bulk density, and soil & soil metagenomics samples). In addition, 
+# data can be filtered for particular sets of plots and/or genus/species, as well as 
+# geographically using a rectangular bounding box. 
+
+# However, in some situations we are only interested in a subset of the data retrieved by 
+# `get_ausplots`. To subset ausplot data, we use the variables in the retrieved data frames 
+# corresponding to the concept by we would like to filter the data. The retrieved data by the 
+# function 'get_ausplots' can be manipulated as any other R data. However, the 'deep' structure 
+# of the data (a list of multiple data frames) and interrelation of the data frames (via a 
+# common a common link variable) can make manipulating the data a bit more daunting. 
+
+# An example, were we focus on the sites in the 5 most sampled Bioregions, is presented below. 
 # We will first identify which are these regions, and then subset the sites in these regions. 
+# Detailed explanations and examples of the archetypical scenarios encountered when 
+# sub-setting AusPlots data (retrieved with `ausplotsR`) are provided another TERN DSDP 
+# Tutorial ["'AusplotsR' Package and AusPlots Data Basics" Tutorial](https://github.com/
+# ternaustralia/# TERN-Data-Skills/tree/master/EcosystemSurveillance_PlotData/
+# AusPlots_BasicTutorial).
 
 
 #----------------------------------------------------------------------------------------
@@ -417,7 +439,7 @@ geom_polygon(data=fortify(aus.sp), aes(x=long, y=lat, group=group), col="black",
 
 
 # =======================================================================================
-# SPECIES-LEVEL DATA: 'species_table' function and species occurence matrices 
+# SPECIES-LEVEL DATA: `species_table` function and species occurrence matrices 
 # =======================================================================================
 # In this section, we will explore to how to obtain and use species occurrence data from 
 # AusPlots raw data. In particular, we will examine species cover/abundance, species 
@@ -425,7 +447,7 @@ geom_polygon(data=fortify(aus.sp), aes(x=long, y=lat, group=group), col="black",
 # the sites in the 5 most sampled bioregions. 
 
 #----------------------------------------------------------------------------------------
-# First step: Create a species occurence matrix
+# First step: Create a species occurrence matrix
 #----------------------------------------------------------------------------------------
 # The first step to work with species-level AusPlots data is to create a species occurrence 
 # matrix. The 'species_table' function in the 'ausplotsR' package can be used to effortlessly 
@@ -433,19 +455,19 @@ geom_polygon(data=fortify(aus.sp), aes(x=long, y=lat, group=group), col="black",
 # intercept hits (i.e. a 'veg.PI' data frame) generated using the 'get_ausplots' function and 
 # returns a 'species against sites' matrix. Four metrics can be selected to score species 
 # occurrence: 
-#  * Presence/Absence (argument 'm_kind = PA').
-#  * Percent Cover: Based on total frequency of hits. This is the most commonly used metric  
-# (argument 'm_kind = percent_cover').
+#  * Presence/Absence: Set by the argument 'm_kind = PA'.
+#  * Percent Cover: Based on total frequency of hits. This is the most commonly used metric.  
+# Set by the argument 'm_kind = percent_cover'.
 #  * Frequency: Based on proportional frequencies of presence on the 10 individual transects 
-# within a plot  (argument 'm_kind = freq'). It can be a measure of importance for low 
+# within a plot. Set by the argument 'm_kind = freq'. It can be a measure of importance for low 
 # cover species.
-#  * IVI: A combination of coer and frequency  (argument 'm_kind = IVI').
+#  * IVI: A combination of coer and frequency. Set by the argument 'm_kind = IVI'.
 
 #  If Percent Cover or IVI are used two types of cover type can be selected:
 #  * Projected Foliage Cover (PFC):Hits scored as 'in canopy sky' are removed 
-# (argument 'cover_type = PFC'). 
+# Set by the argument 'cover_type = PFC'. 
 #  * Opaque Canopy Cover (OCC): Hits scored as 'in canopy sky' are retained 
-# (argument 'cover_type = OCC'). 
+# Set by the argument 'cover_type = OCC'. 
 
  
 # Use function 'species_table' in 'ausplotsR' package to create an Abundance per Site Table
@@ -481,8 +503,8 @@ head(names(SppBYSites.BioregTop5))
 #----------------------------------------------------------------------------------------
 # Species Abundance
 #----------------------------------------------------------------------------------------
-# In AusPlots data percent cover is used as a measure of abundance. In this section, 
-# we will examine percent cover by:
+#  In AusPlots data, vegetation 'percent cover' is used as a surrogate of vegetation 
+# 'abundance'. In this section, we will examine percent cover by:
 #  * Site visit and species: That is, all cells in the 'Species by Sites' table. 
 #  * Species: By computing the column totals in the 'Species by Sites' table. 
 
@@ -798,44 +820,48 @@ goeveg::racurves(SppCover.BioregionMean.m, bw=F)
 
 
 # =======================================================================================
-# PROPORTIONAL VEGETATION COVER (= FRACTIONAL COVER): 'fractional_cover' function
+# PROPORTIONAL VEGETATION COVER (= FRACTIONAL COVER): `fractional_cover` function
 # =======================================================================================
-# Fractional Cover (FC) is the proportional cover of green vegetation, dead vegetation and 
-# bare substrate, based on plot-based point intercept data from AusPlots (as generated by 
-# 'get_ausplots'). 
 
-# Cover fractions are assigned according to the following: 
-# * 'Green' or 'photosynthetic vegetation' is living vascular plant cover. 
-# * 'Brown' or 'non-photosynthetic vegetation' is either vascular plant cover scored as 
-# 'dead' or substrate scored as litter, coarse woody debris or cryptogam (see below) that 
-# has no other veg cover. 
-# * 'Bare' or 'bare ground' is substrate that is rock, outcrop, gravel or bare soil with no 
-# veg cover. 
+# The `fractional_cover` function in the `auscoverR` package calculates fractional cover from 
+# AusPlots point intercept (PI) data (as generated by `get_ausplots`). Fractional cover refers 
+# to the proportions of green vegetation, dead vegetation and bare substrate cover. Cover 
+# fractions are assigned as follows:
+# * 'Green’ or ‘photosynthetic vegetation’: is living vascular plant cover.
+# *	‘Brown’ or ‘non-photosynthetic vegetation’: is either vascular plant cover scored as ‘dead’, 
+# or substrate scored as litter, coarse woody debris or cryptogam (see below) that has no other 
+# veg cover.
+# *	‘Bare’ or ‘bare ground’: is rock, outcrop, gravel or bare soil with no veg cover substrate.
 
-# A height rule is applied so that coding to green/brown/bare of the uppermost 
-# substrate/vegetation stratum hit at a given point intercept location overrides the others, 
-# that is, a dead tree overrides a living shrub beneath and vice versa; substrate coding is 
-# overridden by any vegetation cover etc. This means for each of the (usually) 1010 intercepts, 
-# there is a single coding and percentage is the number of hits assigned to each fraction, 
-# divided by the total number of PIs taken (usually 1010 but can vary) times 100. 
+# Typically, 1010 intercept points are used to compute fractional cover in a plot. These 1010 
+# intercept points correspond to 101 points per transect (i.e. 101 points at 1 meters intervals
+# in each of the 100 metres long transect) x 10 transects (5 transects oriented North to South and  
+# 5 oriented East to West). Further details about the AusPlots methods can be found in TERN's DSDP 
+# 'AusPlots Methods Knowledge Base' and the 'AusPlots Rangelands Survey Protocol Manual'. The 
+# percentage scored for each fraction is computed as the number of hits assigned to each fraction 
+# times 100 divided by the total number of PIs taken (usually 1010, but this number can vary).
 
-# There is an option via argument 'ground_fractional' to calculate fractional ground cover - 
-# the same concept applied to only grasses (hummock, tussock, other); sedge; rush; forb; fern; 
-# and vine plant growth forms. Presently, cryptogam cover is excluded and included in the 
-# non-photosynthetic fraction. 
+# A height rule is applied, so that scoring the green/brown/bare fraction from point intercept 
+# hits of the uppermost vegetation/substrate stratum overrides the others. That is, a dead tree 
+# overrides a living shrub beneath and vice versa. Similarly, any vegetation cover overrides 
+# substrate coding, etc. This means for each of the intercepts, there is a single coding. 
 
-# 'In canopy sky' is excluded by default (only the substrate is considered for those hits) 
-# and applies only to regular fractional cover (as trees are excluded in the green fraction 
-# for ground fractional cover by default). 
+# Arguments:
+# * `ground_fractional`: When set to ‘TRUE’ it computes fractional cover exclusively for Ground 
+# Cover. That is, fractional cover is computed only for grasses (hummock, tussock, other); sedge; 
+# rush; forb; fern; and vine plant growth forms. Presently, cryptogam cover is excluded, and included 
+# in the non-photosynthetic fraction instead. The default for this argument is ‘FALSE’.
+# * `in_canopy_sky`: With the default value (`in_canopy_sky = FALSE`), only the substrate is 
+# considered for those hits. This argument applies only to regular fractional cover (i.e. for 
+# `ground_fractional = FALSE`), as trees are excluded in the green fraction for ground fractional cover
+# by default.
 
-# Currently, cryptogam substrate is assigned to the non-photosynthetic fraction. 
+# Occasionally, substrate type was not collected (i.e. ‘NC’) or could not be assigned to one of the 
+# above categories (i.e. ‘Unknwn’). In these cases, if there was no vegetation cover above those points 
+# percent cover is scored as an ‘NA’ fraction.
 
-# Occasionally substrate type was not collected ('NC') or could not be assigned to one of the 
-# above categories ('Unknwn'), in which case a percent cover will be returned under an 'NA' 
-# fraction if there was no veg cover above those points. 
-
-#  The function 'fractional_cover'returns a data frame in which plots are rows, columns are 
-# fractions (bare, brown, green and NA) and values are percent cover. 
+# The `fractional_cover` function returns a data frame. In this data frame rows denote plots, columns 
+# denote fractions (i.e. bare, brown, green, and NA), and values are cover percentages.
 
 
 # In this section we will explore: 
@@ -975,27 +1001,44 @@ for (site.visit.cnt in 1:10) {
 
 
 # =======================================================================================
-# GROWTH FORM: 'growth_form_table' function (for 5 most sampled bioregions)
+# GROWTH FORM: `growth_form_table` function (for 5 most sampled bioregions)
 # =======================================================================================
-# The 'growth_form_table' function in the 'ausplotR' package can be  used to generate 
-# occurrence matrices for NVIS plant growth forms in plots. The input for this function 
-# is a data frame of raw point intercept AusPlots data generated using the 'get_ausplots' 
-# function. Three metrics can be selected to score species growth form: 
-#  * Presence/Absence (argument 'm_kind = PA').
-#  * Percent Cover: Based on total frequency of hits (argument 'm_kind = percent_cover'). 
-# This is the most useful and commonly used metric. It can be subsequently used in 
-# statistical analyses (e.g. MANOVA, Ordination, Classification, etc.)at continental scale 
-# where species turnover is too high for some methods to provide meaningful results. 
-#  * Species Richness: (argument 'm_kind = richness'). Note that when m_kind is set to 
-# "richness" the 'rowSums' of the occurrence matrix can be higher than the observed SR 
-# because sometimes the same species is recorded with different growth forms in a plot and 
-# therefore the same species can count towards the weights for multiple growth forms.
 
-# If Percent Cover is used two types of cover type can be selected:
-#  * Projected Foliage Cover (PFC):Hits scored as 'in canopy sky' are removed  
-# (argument 'cover_type = PFC'). 
-#  * Opaque Canopy Cover (OCC): Hits scored as 'in canopy sky' are retained  
-# (argument 'cover_type = OCC'). 
+# The `growth_form_table` function in the `ausplotR` package can be used to generate occurrence 
+# matrices for plant growth forms in the AusPlots plots. The plant growth forms considered are 
+# those in the National Vegetation Information System (NVIS; Executive Steering Committee for 
+# Australian Vegetation Information, 2003). 
+
+# The input for the `growth_form_table` function is a data frame of raw AusPlots point intercept 
+# data generated using the `get_ausplots function`. Three metrics can be selected to score species 
+# growth form:
+# * Presence/Absence: Set by the argument `m_kind = “PA”`.
+# * Percent Cover: Based on total frequency of hits. Set by the argument `m_kind = “percent_cover”`. 
+# This is the most useful and commonly used metric. It can be subsequently used in statistical 
+# analyses (e.g. MANOVA, Ordination, Classification, etc.) at continental scale where species turnover 
+# is too high for some methods to provide meaningful results.
+# * Species Richness: Set by the argument `m_kind = “richness”`. Note that when ‘m_kind’ is set to 
+# “richness” the rowSums of the occurrence matrix can be higher than the observed SR because in some 
+# occasions the same species is recorded with different growth forms in a plot and therefore the same 
+# species can count towards the weights for multiple growth forms.
+
+# When Percent Cover is used two types of cover type can be selected:
+# * Projected Foliage Cover (PFC): Hits scored as ‘in canopy sky’ are removed. Set by the argument 
+# `cover_type = “PFC”`.
+# * Opaque Canopy Cover (OCC): Hits scored as ‘in canopy sky’ are retained. Set by the argument 
+# `cover_type = “OCC”`.
+
+# The output of the `growth_form_table` function is a data frame. In this output data frame rows 
+# correspond to unique sites, columns to NVIS plant growth forms, and cell values are either 
+# Presence/Absences, Percent Cover, or Species Richness depending on the option chosen for the 
+# ‘m_kind’ argument.
+
+# REFERENCES  
+# NationalVegetation Information System, Version 6.0  
+# Executive Steering Committee for Australian Vegetation Information (ESCAVI)  
+# Department of the Environment and Heritage, 2003  
+# ISBN 0 642 54953 2.
+
 
 # In this section we will:
 # * Generate a Plant Growth Forms Percent Cover against Sites Matrix using the  
@@ -1007,7 +1050,8 @@ for (site.visit.cnt in 1:10) {
 # * Cluster (Hierachical Clustering) the Sites-Visits by Plant Growth Forms Percent Cover, 
 # colouring the resulting tree branches by bioregion.
 
-# CLUSTERING RESULTS:
+
+# Clustering Results:
 # * The first Site-Visit (NTAGFU0007-53654) is very different to the rest
 # * The dendrogram shows clusters formed by single Bioregions at low level; however, 
 # at higher-level clusters are composed by Sites-Visits from different Bioregions. 
@@ -1094,57 +1138,56 @@ plot(AP.BRTop5.GFBYSites.dend,
 
 
 	 
-	 
+
 # =======================================================================================
-# TOTAL VEGETATION COVER BY GROWTH FORM AND/OR HEIGHT: `single_cover_value` function  
+# VEGETATION COVER BY GROWTH FORM AND/OR HEIGHT: `single_cover_value` function  
 # (for 5 most sampled bioregions).
 # =======================================================================================
 
-# Similar to the `growth_form_table` function, the `single_cover_value` function can calculate 
-# Vegetation Cover Values per Site from Raw Vegetation Point Intercept data from AusPlots. 
-# However, the `single_cover_value` can perform these computations for:
-#  (1) Vegetation of *particular growth form types* (i.e. for individual growth form types 
-#  or any combination of growth form types). 
-#  (2) Vegetation *higher that a specified height threshold*
-#  (3) Vegetation with any combination of *growth form types* and *minimum height*
+# The `single_cover_value` function in the `auplotsR` package calculates Vegetation Cover Values 
+# for particular Growth Form Types and/or Height Thresholds per Site from Raw AusPlots Vegetation 
+# Point Intercept data. The `growth_form_table` function can also be used to calculate Cover Values 
+# for all Vegetation Growth Form Types; however, `single_cover_value` can perform these computations 
+# for:
+# * Particular vegetation growth form types (i.e. for individual growth forms or any combination of 
+# growth form types).
+# * Vegetation higher that a specified height threshold
+# * Vegetation with any combination of growth form types and minimum height
 
+# Specifically `single_cover_value` takes the following inputs via its arguments:
+# * `veg.PI`: Raw Vegetation Point Intercept data from AusPlots. A veg.PI data frame generated by 
+# the `get_ausplots` function (see above).
+# * `in_canopy_sky`: Method used to calculate Cover. A logical value that indicates whether to use 
+# in ‘canopy sky hits’ (i.e. calculate ‘opaque canopy cover’) or ‘projected foliage cover’. The 
+# default value, ‘FALSE’, calculates ‘projected foliage cover’. To calculate ‘opaque canopy cover’ 
+# the argument must be set to ‘TRUE’.
+# * `by.growth_form`: Whether to calculate Cover for a Subset by Growth Form type. A logical value 
+# that indicates whether to subset by growth form type. The default, ‘TRUE’, calculates cover for the 
+# growth form types specified in the argument ‘my.growth_forms’ (see next). If set to ‘FALSE’, cover 
+# #calculations are conducted only for the vegetation sub-set by a provided Minimum Height Threshold.
+# * `my.growth_forms`: Growth Form Types used to Subset Data used for the Cover Calculations. A 
+# character vector specifying the growth form types to subset the data used for the cover calculations. 
+# Any combination of growth form types can be used. The default, ‘c("Tree/Palm", "Tree Mallee")’, is set 
+# to represent trees. It applies only when ‘by.growth_form=TRUE’; otherwise, this argument is ignored 
+# and only height sub-setting is applied.
+# * `min.height`: Minimum Height Threshold used to Subset Data used for the Cover Calculations. A 
+# numeric value indicating the minimum height (in metres) of the vegetation to be included in the subset 
+# of the data used for the cover calculations. A height must be always provided. The default, ‘5’, is 
+# set up for a cover of trees. It can be set to ‘0’ to ignore height and thus include any plant hit. If 
+# set to a `negative number’, it will return nonsensical output.
 
-#Specifically `single_cover_value` takes the following inputs via its arguments:
+# The `single_cover_value` function returns a data frame with two columns. The data frame rows 
+# correspond to unique sites, while the two columns correspond to the unique site and the 
+# percentage cover for the requested subset of vegetation (e.g. “Tree/Palm” higher than '5' metres).
+ 
+# When `by.growth_form = FALSE` and `min.height = 0`, the output is nearly the same as the green cover 
+# fraction returned by the `fractional_cover` function (see above). The values can differ because 
+# ‘fractional_cover’ applies a ‘height rule’ in which the highest intercept at a given point is taken, 
+# whereas ‘single_cover_value’ finds any green cover. For example, when dead trees overhang green 
+# understorey the values returned by both functions can differ. For general cover purposes, using 
+# ‘fractional_cover’ is recommended.  ‘single_cover_value’ is best suited to calculate cover subset by 
+# height and growth form.
 
-# * *Raw Vegetation Point Intercept data from AusPlots* (argument `veg.PI`):  A `veg.PI` 
-# data frame generated by the `get_ausplots` function (see above). 
-
-# * *Method used to Calculate Cover*  (argument `in_canopy_sky`): A logical value that 
-# indicates whether to use in canopy sky hits (i.e. calculate opaque canopy cover) or 
-# projected foliage cover . The default value, `FALSE`, calculates projected foliage cover. 
-# To calculate opaque canopy cover the argument must be set to `TRUE. 
-
-# * *Whether to Calculate Cover for a Subset by Growth Form Type* (argument `by.growth_form`): 
-# A logical value that indicates whether to subset by growth form type. The default, `TRUE`, 
-# calculates cover for the growth form types specified in the argument `my.growth_forms`. 
-# If set to `FALSE` cover calculations are conducted only for the vegetation subsetted by a 
-# Minimum Height.
-
-# * *Growth Form Types used to Subset Data used for the Cover Calculations*  (argument 
-# `my.growth_forms`):  A character vector specifying the growth form types to subset the data 
-# used for the cover calculations. Any combination of growth form types can be used. The default, 
-# `c("Tree/Palm", "Tree Mallee")`, is set to represent trees. It applies only when 
-# `by.growth_form=TRUE`; otherwise, this argument is ignored and only height subsetting is applied. 
-
-# * *Minimum Height Threshold used to Subset Data used for the Cover Calculations*  (argument 
-# `min.height`): A numeric value indicating the minimum height (in metres) of the vegetation 
-# to included in the subset of the data used for the cover calculations. 
-# A height must be always provided. The default, `5`, is set up for a cover of trees. It can be 
-# set to zero to ignore height and include any plant hit. If set to a negative number, it will 
-# return nonsensical output. 
-
-
-# When `by.growth_form = FALSE` and `min.height = 0`, the output is nearly the same as the green 
-# cover fraction returned from `fractional_cover`. The values can differ because `fractional_cover` 
-# applies a height rule in which the highest intercept at a given point is taken, whereas 
-# `single_cover_value` finds any green cover (e.g. when dead trees overhang green understorey). 
-# For such general cover purposes, using `fractional_cover` is recommended. `single_cover_value` 
-# is best suited to cover subset by height and growth form.
 
 # Next, several examples of how to compute, manipulate, and visualise 'Single' Vegetation Cover Fraction
 #  (VCF) data are presented. The examples cover different scenarios for subsetting the input vegetation 
@@ -1392,14 +1435,33 @@ grid.arrange(AP.BioregTop5.VCF.trees.gt5.p1, AP.BioregTop5.VCF.trees.gt5.p2, nro
 
 
 # =======================================================================================
-# BASAL AREA (OR NUMBER OF BASAL WEDGE HITS): 'basal_area' function 
+# BASAL AREA (OR NUMBER OF BASAL WEDGE HITS): `basal_area` function 
 # (for 5 most sampled bioregions).
 # =======================================================================================
-# The 'basal_area' function calculates the Basal Area (or Number of Basal Wedge Hits) for 
-# each plot, using the raw basal wedge data returned by the 'get_ausplots' funcion also in 
-# the 'ausplotsR' package. This function returns a data frame with rows representing Plots 
-# (or species by plots) and a single column containning the Basal Area (m2/ha) or Hit 
-# Scores. 
+
+# The `basal_area` function in the `ausplotsR` package calculates the Basal Area or Mean 
+# Number of Basal Wedge Hits of plots using the raw basal wedge data returned by the 
+# `get_ausplots` function also in the `ausplotsR` package. 
+
+# The `basal_area` function has the following arguments:
+# * `veg.basal`: Name of the data frame containing the Raw Basal Wedge Data generated by the 
+# `get_ausplots` function in the `ausplotsR` package.
+# * `by.spp`: Whether Basal Wedge values are computed by Plot or Individual Species. This 
+#   argument can take two values:
+#  * `FALSE`: The function returns combined values per plot. This is the default value for 
+#     the argument.
+#  * `TRUE`: Returns values for individual species	
+# * `by.hits`: Whether the Basal Wedge values are computed as Basal Area or Mean Number of 
+# Individual Basal Wedge Hits. This argument can take two values:
+#  * `FALSE`: The function returns the Basal Area (in m2/ha). This is the default value for the 
+#    argument.
+#  * `TRUE`: Returns the Mean Number of Individual Basal Wedge Hits.
+
+# This function returns a data frame with two columns. In this data frame rows correspond to 
+# representing Plots (or species by plots), the first column contains the unique sites names 
+# and the second column contains the Basal Area or Hit Scores depending on the value assigned 
+# to the `by.hits` argument.
+
 
 # In this section we will: 
 #  * Compute the Basal Area for each plot (m2/ha) using the 'basal_area' function.

@@ -15,7 +15,7 @@ output:
 \  
 
 <center>
-## ECOSYSTEM SURVEILLANCE (AusPlots)  TUTORIAL: 'ausplotsR' PACKAGE AND AusPlots DATA BASICS
+## ECOSYSTEM SURVEILLANCE (AusPlots)  TUTORIAL: `ausplotsR` PACKAGE AND AusPlots DATA BASICS
 </center>
 
 \  
@@ -38,7 +38,7 @@ The `ausplotsR` package currently includes 6 functions:
 
 
 
-### INSTALLING and LOADING 'ausplotsR'
+### INSTALLING and LOADING `ausplotsR`
 
 To run the R scripts in this tutorial the `ausplotsR` library must be installed and loaded.
 
@@ -104,6 +104,7 @@ Data of specific types, sites, geographical locations, and/or species can be req
   
 *SPECIES FILTERING:* AusPlots data can also be subset by particular or sets of genus and/or species (i.e. as determined for the herbarium voucher) using the argument `species_name_search`. This optional argument takes the form of a character string indicating the terms to search and subset. Search terms are not case sensitive and do not require an exact taxonomic match (e.g. "Eucalyptus moderata","Eucalyptus", and "euca" are all acceptable search terms). 
 Species Filtering behaviour slightly differs among Data Types (i.e. for the different types of created Data Frames):
+
 * For `veg.vouch` and  `basal.wedge`, when these arguments are set to `TRUE`, `get_ausplots` returns data.frames with the corresponding data (i.e. voucher records and raw basal wedge data respectively) that match the species_name_search.
 * For the remaing data types arguments, when these arguments are set to `TRUE`, `get_ausplots` returns data.frames with the corresponding data (e.g. point intercept data,...) for all plots where the species_name_search occurs. 
 
@@ -198,7 +199,9 @@ head(AP.data$veg.PI)
 
 The `get_ausplots` function extracts and compiles AusPlots data allowing substantial flexibility in the selection of the required data. Up to 8 different types of data can be retrieved into distinct data frames (i.e. data on sampling sites, vegetation structure, vegetation point intercept, vegetation vouchers, vegetation basal wedge, soil characterization, soil bulk density, and soil & soil metagenomics samples). In addition, data can be filtered for particular sets of plots and/or genus/species, as well as geographically using a rectangular bounding box. 
 
-However, in some situations we are only interested in a subset of the data retrieved by `get_ausplots`. To subset ausplot data we use the variables in the retrieved data frames corresponding to the concept by we would like to filter the data. In some occasions we would sub-setting a single data frame (i.e. type of variables) is all what we need. Variables in the `site.info` data frame contain information that affect all other data frames; so typically after sub-setting the contents of the variable of interests in the `site.info` data frame, we will also subset the remaining datasets using one of the common variables among all data frames. Common variables among datasets include `site_location_name`, `site_location_visit_id`, and `site_unique`.  Commonly `site_unique` is the best option to 'connect' ausplots data frames, as it is the most specific variable representing a single visit to a particular site.
+However, in some situations we are only interested in a subset of the data retrieved by `get_ausplots`. To subset ausplot data, we use the variables in the retrieved data frames corresponding to the concept by we would like to filter the data. The retrieved data by the function 'get_ausplots' can be manipulated as any other R data. However, the 'deep' structure of the data (a list of multiple data frames) and interrelation of the data frames (via a common a common link variable) can make manipulating the data a bit more daunting. Below we explain and provide examples of the archetypical scenarios encountered when sub-setting AusPlots data retrieved with `ausplotsR`. An addtional(longer) example is presented in another TERN DSDP Tutorial ["Understanding and using the 'ausplotsR' package and AusPlots data" Tutorial](https://github.com/ternaustralia/TERN-Data-Skills/tree/master/EcosystemSurveillance_PlotData/AusPlots_Tutorial).
+
+In some occasions sub-setting a single data frame (i.e. type of variables) is all what we need. Variables in the `site.info` data frame contain information that affect all other data frames; so typically after sub-setting the contents of the variable of interests in the `site.info` data frame, we will also subset the remaining datasets using one of the common variables among all data frames. Common variables among datasets include `site_location_name`, `site_location_visit_id`, and `site_unique`.  Commonly `site_unique` is the best option to 'connect' ausplots data frames, as it is the most specific variable representing a single visit to a particular site.
 
 To subset a data frame we filter its data by querying the variable(s) of interest using operators. The variables of interest are typically factors, numerical, or boolean variables. Many variables retrieved by `get_ausplots` have a `char` class, despite conceptually falling in one of these 3 categories. Therefore, before using a variable to filter a data frame we must inspect its contents and class, and if required change its class to an adequate one. We use relational operators to filter individual variables, and logical (and occasionally arithmetic) operators to combine more than one variable in our filtering operations ([R Operators]( https://www.datamentor.io/r-programming/operator/)).
  
@@ -507,7 +510,7 @@ dim(EGCBioregs.AP.data$veg.basal)
 
 
 
-### SPECIES-LEVEL DATA: species_table function and species occurence matrices
+### SPECIES-LEVEL DATA: `species_table` function and species occurrence matrices
 
 The `species_table` function in the `ausplotsR` package is used to generate a species occurrence matrix from AusPlots raw data. The species occurence matrix can be then used in multiple applications that require species-level data. For example, it can be used to investigate patterns of presence/absence and/or abundance (note that vegetation 'cover' is used as a surrogate for vegetation 'abundance'), compute indices of species diversity, or elaborate rank-abundance plots. 
 
@@ -658,9 +661,10 @@ ggplot(AP.data.SppbySites.PcC.PFC, aes(x=longitude, y=latitude)) + geom_point(ae
 ### PROPORTIONAL VEGETATION COVER (= FRACTIONAL COVER): `fractional_cover` function
 
 The `fractional_cover` function in the `auscoverR` package calculates fractional cover from AusPlots point intercept (PI) data (as generated by `get_ausplots`). Fractional cover refers to the proportions of green vegetation, dead vegetation and bare substrate cover. Cover fractions are assigned as follows:
-.	_'Green'_ or _'photosynthetic vegetation'_: is living vascular plant cover.
-.	_'Brown'_ or _'non-photosynthetic vegetation'_: is either vascular plant cover scored as 'dead', or substrate scored as litter, coarse woody debris or cryptogam (see below) that has no other veg cover.
-.	_'Bare'_ or _'bare ground'_: is rock, outcrop, gravel or bare soil with no veg cover substrate.
+
+*	_'Green'_ or _'photosynthetic vegetation'_: is living vascular plant cover.
+*	_'Brown'_ or _'non-photosynthetic vegetation'_: is either vascular plant cover scored as 'dead', or substrate scored as litter, coarse woody debris or cryptogam (see below) that has no other veg cover.
+*	_'Bare'_ or _'bare ground'_: is rock, outcrop, gravel or bare soil with no veg cover substrate.
 
 Typically, 1010 intercept points are used to compute fractional cover in a plot. These 1010 intercept points correspond to 101 points per transect (i.e. 101 points at 1 meters intervals in each of the 100 metres long transect) x 10 transects (5 transects oriented North to South and 5 oriented East to West). Further details about the AusPlots methods can be found in TERN's DSDP [AusPlots Methods Knowledge Base](https://ternaus.atlassian.net/wiki/spaces/ESM/pages/651329908/Ecosystem+Surveillance+Monitoring+-+AusPlots+Methods) and the [AusPlots Rangelands Survey Protocol Manual](https://www.tern.org.au/AusPlots-Rangelands-Survey-Protocols-Manual-pg23944.html). The percentage scored for each fraction is computed as the number of hits assigned to each fraction times 100 divided by the total number of PIs taken (usually 1010, but this number can vary).
 
@@ -674,6 +678,7 @@ Arguments:
 Occasionally, substrate type was not collected (i.e. 'NC') or could not be assigned to one of the above categories (i.e. 'Unknwn'). In these cases, if there was no vegetation cover above those points percent cover is scored as an 'NA' fraction.
 
 The `fractional_cover` function returns a data frame. In this data frame rows denote plots, columns denote fractions (i.e. bare, brown, green, and NA), and values are cover percentages.
+
 
 Examples of the use of the `fractional_cover` funtion are presented below. In the examples, different flavours of Fractional Cover are computed by varying the argument values (see above). Fractional cover is computed for the full set of vegetation point intersect data currently available at AusPlots, so running these examples might take a little bit of time (between 1.6 and 1.9 minutes per example in my machine). The list of data frames containing information for all currently available AusPlots sites (i.e. the 'AP.data' list) was previously created using the `get_ausplots` function (see above). The resulting 'Fractional Cover' data frames can be enriched with additional information as seen above for the species_table function in the 'Manipulating AusPlots data II: Merging data frames' section`.
 
@@ -712,22 +717,30 @@ summary(AP.data.FC.RFC.Trees)
 
 
 
-### Plant Growth Form data: 'growth_form_table' function
+### Plant Growth Form data: `growth_form_table` function
 
-The `growth_form_table` function in the `ausplotR` package can be used to generate occurrence matrices for plant growth forms in the AusPlots plots. The plant growth forms considered are those in the National Vegetation Information System (NVIS). 
+The `growth_form_table` function in the `ausplotR` package can be used to generate occurrence matrices for plant growth forms in the AusPlots plots. The plant growth forms considered are those in the National Vegetation Information System (NVIS; Executive Steering Committee for Australian Vegetation Information, 2003). 
 
 The input for the `growth_form_table` function is a data frame of raw AusPlots point intercept data generated using the `get_ausplots function`. Three metrics can be selected to score species growth form:
 
-Presence/Absence: Set by the argument `m_kind = "PA"`.
-Percent Cover: Based on total frequency of hits. Set by the argument `m_kind = "percent_cover"`. This is the most useful and commonly used metric. It can be subsequently used in statistical analyses (e.g. MANOVA, Ordination, Classification, etc.) at continental scale where species turnover is too high for some methods to provide meaningful results.
-Species Richness: Set by the argument `m_kind = "richness"`. Note that when 'm_kind' is set to "richness" the rowSums of the occurrence matrix can be higher than the observed SR because in some occasions the same species is recorded with different growth forms in a plot and therefore the same species can count towards the weights for multiple growth forms.
+* _Presence/Absence_: Set by the argument `m_kind = "PA"`.
+* _Percent Cover_: Based on total frequency of hits. Set by the argument `m_kind = "percent_cover"`. This is the most useful and commonly used metric. It can be subsequently used in statistical analyses (e.g. MANOVA, Ordination, Classification, etc.) at continental scale where species turnover is too high for some methods to provide meaningful results.
+* _Species Richness_: Set by the argument `m_kind = "richness"`. Note that when 'm_kind' is set to "richness" the rowSums of the occurrence matrix can be higher than the observed SR because in some occasions the same species is recorded with different growth forms in a plot and therefore the same species can count towards the weights for multiple growth forms.
 
 When Percent Cover is used two types of cover type can be selected:
 
-Projected Foliage Cover (PFC): Hits scored as 'in canopy sky' are removed. Set by the argument `cover_type = "PFC"`.
-Opaque Canopy Cover (OCC): Hits scored as 'in canopy sky' are retained. Set by the argument `cover_type = "OCC"`.
+* _Projected Foliage Cover (PFC)_: Hits scored as 'in canopy sky' are removed. Set by the argument `cover_type = "PFC"`.
+* _Opaque Canopy Cover (OCC)_: Hits scored as 'in canopy sky' are retained. Set by the argument `cover_type = "OCC"`.
 
 The output of the `growth_form_table` function is a data frame. In this output data frame rows correspond to unique sites, columns to NVIS plant growth forms, and cell values are either Presence/Absences, Percent Cover, or Species Richness depending on the option chosen for the 'm_kind' argument.
+
+
+REFERENCES  
+**NationalVegetation Information System, Version 6.0*  
+Executive Steering Committee for Australian Vegetation Information (ESCAVI)  
+Department of the Environment and Heritage, 2003  
+ISBN 0 642 54953 2.
+
 
 Examples of the use of the 'growth_form_table' funtion are presented below. In the examples growth form ocurrences are computed using different scoring metrics (i.e. Presence/Absence, Percentage Cover, and Species Richness) by varying the argument values (see above). Growth Form occurrences are computed for the full set of vegetation point intersect data currently available at AusPlots. The list of data frames containing information for all currently available AusPlots sites (i.e. the 'AP.data' list) was previously created using the `get_ausplots` function (see above). The resulting 'Plant Growth Form' data frames can be enriched with additional information as seen above for the `species_table` function in the 'Manipulating AusPlots data II: Merging data frames' section.
 
@@ -773,7 +786,7 @@ summary(AP.data.PGF.SR)
 
 
 
-### Vegetation Cover data: 'single_cover_value' function
+### Vegetation Cover data by Growth Form and/or Height: `single_cover_value` function
 
 The `single_cover_value` function in the `auplotsR` package calculates Vegetation Cover Values for particular Growth Form Types and/or Height Thresholds per Site from Raw AusPlots Vegetation Point Intercept data. The `growth_form_table` function can also be used to calculate Cover Values for all Vegetation Growth Form Types; however, `single_cover_value` can perform these computations for:
 
@@ -794,6 +807,7 @@ Specifically `single_cover_value` takes the following inputs via its arguments:
 The `single_cover_value` function returns a data frame with two columns. The data frame rows correspond to unique sites, while the two columns correspond to the unique site and the percentage cover for the requested subset of vegetation (e.g. "Tree/Palm" higher than '5' metres).
  
 When `by.growth_form = FALSE` and `min.height = 0`, the output is nearly the same as the green cover fraction returned by the `fractional_cover` function (see above). The values can differ because 'fractional_cover' applies a 'height rule' in which the highest intercept at a given point is taken, whereas 'single_cover_value' finds any green cover. For example, when dead trees overhang green understorey the values returned by both functions can differ. For general cover purposes, using 'fractional_cover' is recommended.  'single_cover_value' is best suited to calculate cover subset by height and growth form.
+
 
 Examples of the use of the `single_cover_value` function to compute Cover Values for particular Vegetation Growth Form Types and/or Height Thresholds per Site are presented below. Examples of how to manipulate, display, and use the data generated by the `single_cover_value` function can be found in TERN's DSDP ['ECOSYSTEM SURVEILLANCE (AusPlots) TUTORIAL: UNDERSTANDING AND USING THE 'ausplotsR' PACKAGE AND AusPlots DATA']( https://github.com/ternaustralia/TERN-Data-Skills/tree/master/EcosystemSurveillance_PlotData/AusPlots_Tutorial) Tutorial. Tutorial. Cover values (for particular vegetation growth form types and/or height thersholds) are computed for the full set of vegetation point intersect data currently available at AusPlots. The list of data frames containing information for all currently available AusPlots sites (i.e. the 'AP.data' list) was previously created using the `get_ausplots` function (see above). The resulting cover values data frames can be enriched with additional information as seen above for the species_table function in the 'Manipulating AusPlots data II: Merging data frames' section. The examples presented below cover different scenarios for sub-setting the input vegetation point intercept data frame prior to the calculation of the required vegetation cover values. Specifically, we explore how compute cover values: (1) sub-setting only by Height, (2) sub-setting only by Taxonomy, and (3) sub-setting by both Height and Taxonomy. We Combine the outputs of a single type (i.e. Height or Growth Form) into a Single Data Frame.
 
@@ -876,7 +890,7 @@ summary(AP.data.VC.Trees.gt5)
 
 
 
-### Basal Area data: 'basal_area' function
+### Basal Area data: `basal_area` function
 
 The `basal_area` function in the `ausplotsR` package calculates the Basal Area or Number of Basal Wedge Hits of plots using the raw basal wedge data returned by the `get_ausplots` function also in the `ausplotsR` package. 
 
@@ -890,6 +904,7 @@ The `basal_area` function has the following arguments:
  * `TRUE`: Returns the Number of Individual Basal Wedge Hits.
 
 This function returns a data frame with two columns. In this data frame rows correspond to representing Plots (or species by plots), the first column contains the unique sites names and the second column contains the Basal Area or Hit Scores depending on the value assigned to the `by.hits` argument.
+
 
 Examples of the use of the `basal_area` function to compute the Basal Area or Mean Number of Basal Wedge Hits of individual plots from raw basal wedge data (as returned by the `get_ausplots` function) are presented below. Basal areas (or mean number of wedge hits) are computed for the full set of basal wedge data currently available at AusPlots. The list of data frames containing information for all currently available AusPlots sites (i.e. the 'AP.data' list) was previously created using the `get_ausplots` function (see above). The resulting Basal Areas or Mean Number of Wedge Hits data frames can be enriched with additional information as seen above for the species_table function in the 'Manipulating AusPlots data II: Merging data frames' section. The examples below cover all possible combinations of argument values in the `basal_area` function.  
 

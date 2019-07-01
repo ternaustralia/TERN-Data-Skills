@@ -12,7 +12,3 @@ The [ecocloud Rstudio](https://ecocloud.org.au) will provide RStudio instance an
 
 ## Running from local Computer
 All the source code can be downloaded and run from the local computer. However, all the necessary packages need to be installed for successful execution of the source code.
-
-## Feedback form for the workshop
-
-https://tinyurl.com/ybmahaqr

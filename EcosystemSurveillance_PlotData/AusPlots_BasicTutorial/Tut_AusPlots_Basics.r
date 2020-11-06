@@ -88,11 +88,8 @@
 # in the tutorial. 
 
 
-## Install directly from github using the 'devtools' package
-## Thus, 'devtools' must be previouly installed
-install.packages("devtools", repos="https://cloud.r-project.org/")
-library(devtools)
-install_github("ternaustralia/ausplotsR", build_vignettes = TRUE)
+## Install from CRAN 
+install.packages("ausplotsR")
 
 ## Load the package
 library(ausplotsR)
@@ -191,9 +188,10 @@ str(AP.data)
 # Example 2: Default data for a particular Geographic Extent
 # ==========================================================
 
-# 'site_info', 'veg.vouchers', and 'veg.PI' data retrived for Brisbane (27.4698S, 153.0251E) and its 
-# sourrounding area
-AP.data = get_ausplots(bounding_box=c(152.5, 153.5, -28, -27))
+# 'site_info', 'veg.vouchers', and 'veg.PI' data retrieved for Brisbane 
+#(27.4698S, 153.0251E) and its 
+# surrounding area
+AP.data = get_ausplots(bounding_box=c(150, 153, -28, -25))
 
 # Explore retrieved data
 #class(AP.data)   # As in Example 1 (can run uncommented if curious) 
@@ -201,12 +199,15 @@ summary(AP.data)
 #str(AP.data)   # Similar to Example 1 (can run uncommented if curious) 
 
 
-# Example 3: 'Default data' + 'basal.wedge' + 'structural_summaries' for the genus Eucalyptus
-# ===========================================================================================
+# Example 3: 'Default data' + 'basal.wedge' + 'structural_summaries' for
+#the genus Eucalyptus
+# ============================================================================
 
-# Default data frames ('site_info', 'veg.vouchers', and 'veg.PI') + 'basal.wedge' + 
+# Default data frames 
+#('site_info', 'veg.vouchers', and 'veg.PI') + 'basal.wedge' + 
 # structural_summaries data frames for the genus Eucalyptus
-AP.data = get_ausplots(basal.wedge=TRUE, structural_summaries=TRUE, species_name_search="Eucalyptus") 
+AP.data = get_ausplots(basal.wedge=TRUE, structural_summaries=TRUE, 
+                       standardised_name_search="Eucalyptus") 
 
 # Explore retrieved data
 #class(AP.data)   # As in Example 1 (can run uncommented if curious) 
@@ -214,10 +215,10 @@ summary(AP.data)
 #str(AP.data)   # Similar to Example 1 (can run uncommented if curious) 
 
 # Explore species contained in each data frame
-head(AP.data$veg.vouch) # Includes Records that match 'eucalyptus'
+head(AP.data$veg.vouch) # Includes Records that match 'Eucalyptus'
 head(AP.data$veg.PI)  # Includes Plots where 'eucalyptus' occurs
-head(AP.data$veg.basal) # Includes Records that match 'eucalyptus'
-head(AP.data$struct.summ)  # Includes Plots where 'eucalyptus' occurs
+head(AP.data$veg.basal) # Includes Records that match 'Eucalyptus'
+head(AP.data$struct.summ)  # Includes Plots where 'Eucalyptus' occurs
 
 
 # Example 4: 'site_info', 'veg.PI', and 'basal.wedge' data for all sites
@@ -361,7 +362,10 @@ summary(AP.data$veg.PI$growth_form.f)
 TreePalm.AP.data = AP.data
 dim(TreePalm.AP.data$veg.PI)
 #summary(AP.data$veg.PI$growth_form.f)
-TreePalm.AP.data$veg.PI = TreePalm.AP.data$veg.PI[TreePalm.AP.data$veg.PI$growth_form.f == "Tree/Palm",] 
+TreePalm.AP.data$veg.PI = TreePalm.AP.data$veg.PI[
+  !is.na(TreePalm.AP.data$veg.PI$growth_form.f) &
+    TreePalm.AP.data$veg.PI$growth_form.f == "Tree/Palm",] 
+
 levels(TreePalm.AP.data$veg.PI$growth_form.f)
 TreePalm.AP.data$veg.PI$growth_form.f = droplevels(TreePalm.AP.data$veg.PI$growth_form.f)
 levels(TreePalm.AP.data$veg.PI$growth_form.f)
@@ -402,12 +406,15 @@ AP.data$site.info$site_slope.n = as.numeric(AP.data$site.info$site_slope)
 summary(AP.data$site.info$site_slope.n)
 
 
-# Subset to Plos with Steep Slopes (> 20 degrees) in 'site.info' data frame
+# Subset to plots with Steep Slopes (> 20 degrees) in 'site.info' data frame
 # -------------------------------------------------------------------------
 slope.AP.data = AP.data
 dim(slope.AP.data$site.info)
 #summary(AP.data$site.info$site_slope.n)
-slope.AP.data$site.info = slope.AP.data$site.info[slope.AP.data$site.info$site_slope.n >= 20,] 
+slope.AP.data$site.info = slope.AP.data$site.info[
+  !is.na(slope.AP.data$site.info$site_slope.n) &
+  slope.AP.data$site.info$site_slope.n >= 20,
+  ] 
 dim(slope.AP.data$site.info)
 summary(slope.AP.data$site.info$site_slope.n)
 
@@ -432,7 +439,7 @@ dim(slope.AP.data$veg.basal)
 ###### Example 2: Site Aspect
 # Site Aspect
 # ===========
-Site Aspect is a `character` variable, so we need to change its class to `numeric` 
+#Site Aspect is a `character` variable, so we need to change its class to `numeric` 
 
 # Explore Variable Type and Change to Numeric
 # -------------------------------------------
@@ -446,8 +453,11 @@ summary(AP.data$site.info$site_aspect.n)
 aspect.AP.data = AP.data
 dim(aspect.AP.data$site.info)
 #summary(AP.data$site.info$site_aspect.n)
-aspect.AP.data$site.info = aspect.AP.data$site.info[(aspect.AP.data$site.info$site_aspect.n > 135 &
-aspect.AP.data$site.info$site_aspect.n <= 225),] 
+aspect.AP.data$site.info = aspect.AP.data$site.info[
+  (aspect.AP.data$site.info$site_aspect.n > 135 &
+aspect.AP.data$site.info$site_aspect.n <= 225) &
+  !is.na(aspect.AP.data$site.info$site_aspect.n)
+  ,] 
 dim(aspect.AP.data$site.info)
 summary(aspect.AP.data$site.info$site_aspect.n)
 
@@ -621,12 +631,13 @@ summary(AP.data.SppbySites.PcC.PFC[,1:3])
 
 # Cover Type: Opaque Canopy Cover (OCC)
 # -------------------------------------
-# Hits scoered as 'in canopy sky' are retained
+# Hits scored as 'in canopy sky' are retained
 AP.data.SppbySites.PcC.OCC = species_table(AP.data$veg.PI, m_kind="percent_cover", cover_type="OCC")
 #class(AP.data.SppbySites.PcC.OCC)
 #dim(AP.data.SppbySites.PcC.OCC) # Number of rows and columns in the matrix: Sites x Species
 #AP.data.SppbySites.PcC.OCC[1:5, 1:5]
 summary(AP.data.SppbySites.PcC.OCC[,1:3])
+
 
 
 # Scoring metric: Frequency
@@ -643,7 +654,7 @@ summary(AP.data.SppbySites.Freq[,1:3])
 
 # Cover Type: Projected foliage cover (PFC)
 # -----------------------------------------
-# Hits scoered as 'in canopy sky' are removed
+# Hits scored as 'in canopy sky' are removed, this is the default behaviour
 AP.data.SppbySites.IVI.PFC = species_table(AP.data$veg.PI, m_kind="IVI", cover_type="PFC")
 #class(AP.data.SppbySites.IVI.PFC)
 #dim(AP.data.SppbySites.IVI.PFC) # Number of rows and columns in the matrix: Sites x Species
@@ -652,7 +663,7 @@ summary(AP.data.SppbySites.IVI.PFC[,1:3])
 
 # Cover Type: Opaque Canopy Cover (OCC)
 # -------------------------------------
-# Hits scoered as 'in canopy sky' are retained
+# Hits scored as 'in canopy sky' are retained
 AP.data.SppbySites.IVI.OCC = species_table(AP.data$veg.PI, m_kind="IVI", cover_type="OCC")
 #class(AP.data.SppbySites.IVI.OCC)
 #dim(AP.data.SppbySites.IVI.OCC) # Number of rows and columns in the matrix: Sites x Species

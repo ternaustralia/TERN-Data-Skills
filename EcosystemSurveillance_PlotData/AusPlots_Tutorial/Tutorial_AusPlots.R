@@ -90,28 +90,24 @@
 # If you need to install any of the required packages but `ausplotsR`, which is a special
 # case (see below), uncomment the script below. 
 
-## Select the repository (i.e. CRAN mirror URL)
-#my.repos = "https://cloud.r-project.org/"
-#my.repos = "https://cran.csiro.au/"  # Example of an Australian mirror
 
 ## Install other required libraries
-#install.packages(c("vegan", "goeveg", "maps", "maptools", "mapdata", "sp", ggplot2", "gridExtra", "ggspatial", "dendextend"), repos=my.repos)
-
-
+install.packages("ausplotsR")
+install.packages("maptools")
+install.packages("maps")
+install.packages("gridExtra")
 # Now the packages can be loaded using the `library` command. 
 
 # Load packages
 library(ausplotsR)  # If not loaded above
-library(vegan)
+library(tidyverse)
+library(maptools)
+library(maps)
+library(gridExtra)
+
 library(goeveg)
 
-library(maps)
-library(maptools)
-library(mapdata)
 library(sp)
-library(ggplot2)
-library(gridExtra)
-#library(ggspatial)
 
 library(dendextend)
 
@@ -121,16 +117,6 @@ library(dendextend)
 # ACCESSING AND INSTALLING THE `ausplotsR` PACKAGE (plus its Dependencies)
 # =======================================================================================					
 
-# Currently `ausplotsR` must be installed directly from github using the 'devtools' 
-# package, which must have been previously installed. The GitHub site for `ausplotsR` 
-# contains the latest developments and information on the package; it can be found in 
-# this link https://github.com/ternaustralia/ausplotsR.
-
-## Install directly from github using the 'devtools' package
-## Thus, 'devtools' must be previouly installed
-install.packages("devtools", repos="https://cloud.r-project.org/")
-library(devtools)
-install_github("ternaustralia/ausplotsR", build_vignettes = TRUE)
 
 ## Load the package
 library(ausplotsR)
@@ -244,7 +230,8 @@ summary(AP.data)
 #----------------------------------------------------------------------------------------
 # Default data frames ('site_info', 'veg.vouchers', and 'veg.PI') + 'basal.wedge' + 
 # structural_summaries data frames for the genus Eucalyptus
-AP.data = get_ausplots(basal.wedge=TRUE, structural_summaries=TRUE, species_name_search="Eucalyptus") 
+AP.data = get_ausplots(basal.wedge=TRUE, structural_summaries=TRUE, 
+                       standardised_name_search ="Eucalyptus") 
 
 # Explore retrieved data
 #class(AP.data)   # As in Example 1 (can run uncommented if curious) 
@@ -262,7 +249,7 @@ head(AP.data$struct.summ)  # Includes Plots where 'eucalyptus' occurs
 # Example 4: 'site_info', 'veg.PI', and 'basal.wedge' data for all sites
 #----------------------------------------------------------------------------------------
 
-# Retreive data
+# Retrieve data
 start.time = Sys.time()
 AP.data = get_ausplots(veg.vouchers=FALSE, basal.wedge=TRUE) 
 end.time = Sys.time()
@@ -387,7 +374,7 @@ dim(AP.BioregTop5.l$veg.basal)
 #----------------------------------------------------------------------------------------
 
 # Maps in the package 'maps' are projected in longlat by default
-aus = map("worldHires", "Australia", fill=TRUE, xlim=c(110,160),ylim=c(-45,-5), mar=c(0,0,0,0), plot=FALSE)
+aus = maps::map("world", "Australia", fill=TRUE, xlim=c(110,160),ylim=c(-45,-5), mar=c(0,0,0,0), plot=FALSE)
 
 # Convert map data to SpatialPolygons
 #aus.sp = map2SpatialPolygons(aus, IDs=aus$names, proj4string=CRS("+proj=longlat"))
@@ -951,12 +938,12 @@ points(pred.df$latitude, pred.df$pred, type="l", lwd=2, col="darkblue")
 AP.200Locs.FC.locs = sub("\\-.*", "", AP.200Locs.FC$site_unique)
 length(AP.200Locs.FC.locs)
 # Calculate the Sample Frequency of each Site
-AP.200Locs.FC.locs.cnt = count(AP.200Locs.FC.locs)
+AP.200Locs.FC.locs.cnt = as.data.frame(table(AP.200Locs.FC.locs))
 dim(AP.200Locs.FC.locs.cnt)
 # Find Sites with > 1 Samples (in veg.IP)
-AP.200Locs.FC.Resampled.locs.cnt = AP.200Locs.FC.locs.cnt[AP.200Locs.FC.locs.cnt$freq > 1,]
+AP.200Locs.FC.Resampled.locs.cnt = AP.200Locs.FC.locs.cnt[AP.200Locs.FC.locs.cnt$Freq > 1,]
 dim(AP.200Locs.FC.Resampled.locs.cnt)
-AP.200Locs.FC.Resampled.locs.cnt = AP.200Locs.FC.Resampled.locs.cnt$x
+AP.200Locs.FC.Resampled.locs.cnt = AP.200Locs.FC.Resampled.locs.cnt$AP.200Locs.FC.locs
 length(AP.200Locs.FC.Resampled.locs.cnt)
 
 # Subset the Resampled Sites (i.e. with 'freq' > 1)
@@ -1189,11 +1176,11 @@ plot(AP.BRTop5.GFBYSites.dend,
 # height and growth form.
 
 
-# Next, several examples of how to compute, manipulate, and visualise 'Single' Vegetation Cover Fraction
+# Next, several examples of how to compute, manipulate, and visualize 'Single' Vegetation Cover Fraction
 #  (VCF) data are presented. The examples cover different scenarios for subsetting the input vegetation 
 # point intercept data frame prior to the calculation of the corresponding VCF. These include:
 # * Subsetting only by Height
-# * Subsetting only by Taxonomoy
+# * Subsetting only by Taxonomy
 # * Subsetting by Height and Taxonomy
 
 
@@ -1209,7 +1196,7 @@ veg.cover.gt0 = single_cover_value(AP.BioregTop5.l$veg.PI, by.growth_form=FALSE,
 veg.cover.gt2 = single_cover_value(AP.BioregTop5.l$veg.PI, by.growth_form=FALSE, min.height=2)
 
 
-# Combine all Tables into a Sigle Data Frame
+# Combine all Tables into a Single Data Frame
 # ==========================================
 # Create a data frame containing all the Vegetation Cover Fractions
 AP.BioregTop5.VCF.df = data.frame(site_unique=veg.cover.gt0$site_unique, 

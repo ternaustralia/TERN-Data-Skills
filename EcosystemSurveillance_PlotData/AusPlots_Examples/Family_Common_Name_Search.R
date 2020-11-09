@@ -3,6 +3,7 @@
 ############Family & Common Name Search of TERN Database Species######## 
 #########################################################
 #Authors:Samantha Munroe
+#Updated: 30/11/2020
 
 #TERN does not record the family or common name of any species in our database
 #TERN records species data to the lowest possible taxonimic level (often genus-species, but can also include subsp.) 
@@ -12,21 +13,14 @@
 #More details on ALA4R can be found at https://atlasoflivingaustralia.github.io/ALA4R/articles/ALA4R.html
 
 #open most recent version of ausplotsR
-library(devtools)
-install_github("ternaustralia/ausplotsR", build_vignettes = FALSE)
+install.packages(c("ausplotsR","ALA4R","rgbif"))
+
 library(ausplotsR)
 
 #Open additional libraries 
 library(ALA4R)
+library(tidyverse)
 library(rgbif)
-library(data.table)
-library(vegan)
-library(plyr)
-library(car)
-library(dplyr)
-library(tidyr)
-library(reshape)
-library(stringr)
 
 #import ausplots data
 my.ausplots.data <- get_ausplots()
@@ -99,8 +93,10 @@ for(i in unique(species_names_1$herbarium_determination)){
 #ALA will sometimes assign the scientific name as the common name if the actual common name is not known/recorded in the ALA database
 #this could be confusing, so convert common names that are actually scientific names to NAs to indicate there is no known/recorded common name for that species
 #in cases where common names and species names are indentical, convert common name to NA
-species_names_1 <- species_names_1 %>% 
-  mutate(common_name = ifelse(herbarium_determination != common_name, common_name, NA))
+species_names_1 <-  mutate(species_names_1,
+            common_name = ifelse(herbarium_determination != common_name,
+                                 yes =  common_name, 
+                                no = NA))
 
 #save the output
 write.csv(species_names_1, file="species_names.csv")##

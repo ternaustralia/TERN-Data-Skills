@@ -2,6 +2,7 @@
 # Title: Tut_AusPlots_Basics.R
 # Author: Bernardo Blanco-Martin, TERN
 # Date: 30/05/2019
+# Updated: 09/11/2020
 #****************************************************************************************
 
 
@@ -17,7 +18,7 @@
 # the `ausplotsR` package. Additional examples are provided in TERN's DSDP "ausplotsR 
 # Examples and Applications" R scripts. All of these materials can be found in TERN's DSDP 
 # 'EcosystemSurveillance_PlotData' folder in GitHub [here]
-(https://github.com/ternaustralia/TERN-Data-Skills/tree/master/EcosystemSurveillance_PlotData). 
+#(https://github.com/ternaustralia/TERN-Data-Skills/tree/master/EcosystemSurveillance_PlotData). 
 
 # `ausplotsR` is an R package for live extraction and preparation of TERN AusPlots ecosystem 
 # monitoring data. Through `ausplotsR`, users can: (1) directly obtain plot-based data on 
@@ -1036,7 +1037,7 @@ summary(AP.data.VC.Height)
 # Vegetation Cover data, sub-setting only by Taxonomy
 # ===================================================
 
-# Trees (my.growth_forms=c("Tree/Palm", "Tree Mallee"), which is the default)
+# Trees => 5m (my.growth_forms=c("Tree/Palm", "Tree Mallee"), which is the default)
 # ---------------------------------------------------------------------------
 AP.data.VC.trees = single_cover_value(AP.data$veg.PI, min.height=0)
 #class(AP.data.VC.trees)
@@ -1209,8 +1210,8 @@ summary(AP.data.BWHperSpp)
 # Saving AusPlots data
 # ====================
 
-# Provide Path for Directory where data will be stored
-file.path = "C:/Users/uqbblanc/Documents/TERN/CWDir_TutBasicAusPlots"
+# Provide Path for Directory where data will be stored, using current working directory
+file.path = getwd()
 
 # Extract Date and Create a String to Represent it. To be used as Part of the File Name
 today = toString(Sys.Date())

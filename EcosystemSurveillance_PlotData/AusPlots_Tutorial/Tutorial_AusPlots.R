@@ -104,12 +104,8 @@ library(tidyverse)
 library(maptools)
 library(maps)
 library(gridExtra)
-
 library(goeveg)
 
-library(sp)
-
-library(dendextend)
 
 
 

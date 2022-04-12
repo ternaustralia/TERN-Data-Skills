@@ -1,0 +1,462 @@
+---
+title: "EcoPlots example"
+output: 
+  bookdown::html_document2: default
+bibliography: bibliography.bib
+df_print: paged
+date: '2022-03-16'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(kableExtra)
+library(fs)
+library(easystats)
+library(bookdown)
+```
+
+
+This tutorial shows how to manipulate [EcoPlots's](https://ecoplots.tern.org.au/) plot ecological data downloads using R. This document usses the following libraries: `tidyverse`, `kablExtra`, `fs`, `easystats` and `bookdown` libraries.
+
+# TL;DR
+
+* EcoPlots's ecological data model is observation- and site-centric. Typically, an  observations will belong to a site and will have a site-visit see Figure \@ref(fig:datamodel) below for a graphical representation of concepts and their association.
+  * Observations (e.g. number of flowers, plant canopu area and plant biomass in \@ref(fig:datamodel)) are done on [features of interest](https://linkeddata.tern.org.au/information-models/tern-ontology/conceptual-information-model#feature-of-interest) (real world objects you are interested in studying, measuring or observing; the plants (Eucalyptus and Cycad) in Figure \@ref(fig:datamodel)). 
+  * All entities in the data model have id's (e.g. observations, FOI's, vocabularies, methods and instruments)
+    * Unique Resource Identifiers i.e. (unique sequence of characters) are used for generating the id's 
+    * The URI's can be used to locate and get information about that entity (e.g. check out the URI for animal occurrence here [http://linked.data.gov.au/def/tern-cv/2361dea8-598c-4b6f-a641-2b98ff199e9e](http://linked.data.gov.au/def/tern-cv/2361dea8-598c-4b6f-a641-2b98ff199e9e))
+* Multiple observations can be done in a feature of interest (FOI). In figure \@ref(fig:datamodel) the Eucalyptus tree (FOI p34rdc) has observations on number of flowers and plant canopy.   
+* Data downloaded from the EcoPlots plataform comes in a longer format.
+  * `featureId` and `observationId` are unique keys for a feature and observation, respectively. These two identifiers are the work-horses for joining and transforming tables (e.g. from the longer to a wider format).
+* See the [TERN Ontology](https://linkeddata.tern.org.au/information-models/overview) for more information on our data model and [the conceptual overview of the model](https://linkeddata.tern.org.au/information-models/tern-ontology/conceptual-information-model).
+
+
+```{r datamodel, echo=FALSE, fig.align='center', out.width='150%', fig.cap="Ecological Data Representation in TERN's data model"}
+knitr::include_graphics("images/model-pic.png")
+```
+
+
+# TERN's data model
+First things first, some background:
+ 	
+* The TERN data model is observation-centric
+* Each observation belongs to a [feature of interest](https://linkeddata.tern.org.au/information-models/tern-ontology/conceptual-information-model#feature-of-interest) (FOI, i.e. the real world object you are interested on and are measuring things about)
+* This model differentiate between [parameters](https://linkeddata.tern.org.au/information-models/tern-ontology/conceptual-information-model#observations) (i.e. observations, things that are measured directly on the FOI) and [attributes](https://linkeddata.tern.org.au/information-models/tern-ontology/conceptual-information-model#non-core-attributes) (measurements related to to the FOI and other data entities).
+* TERN Ontology's main focus is to represent site-based ecological surveys. Meaning, that [site](https://linkeddata.tern.org.au/information-models/tern-ontology/conceptual-information-model#site) and [site visits](https://linkeddata.tern.org.au/information-models/tern-ontology/conceptual-information-model#site-visit) are central to the description of the observations (the model can also describe other data types, e.g. occurrence data)
+  * A [site](http://linked.data.gov.au/def/tern-cv/5bf7ae21-a454-440b-bdd7-f2fe982d8de4) is a land area selected from within a survey region where the sampling occurs (e.g. plot, transect, quadrat). 
+  * [site-visits](http://linked.data.gov.au/def/tern-cv/f5c125b1-81c2-448c-81e6-7ff6a2facd07) are a discrete time when the surveys within the site occurred.
+
+
+An FOI can have many observations. You can make observations on the height, diameter, wood density of a single tree (see Figure \@ref(fig:datamodel)). Similarly, observations and FOIs can have multiple attributes. For instance, reliability and/or accuracy of an observation are attributes, as well as notes on an observation or sample sizes. 
+
+# EcoPlots download
+To download Ecoplots data visit the portal [https://ecoplots.tern.org.au/](https://ecoplots.tern.org.au/). Once in there click on the search plot data button to explore (cirlced in red in the figure below, Figure \@ref(fig:landing))
+
+```{r landing, echo=FALSE, fig.align='center', fig.cap="EcoPlots landing page"}
+knitr::include_graphics("images/ecoplots-landing.png")
+```
+
+Below you can see a snapshot of the EcoPlots data grid (Figure \@ref(fig:grid)). Using the facets (marked in red on the left hand side of Figure \@ref(fig:grid)) you can filter to specific databases, regions, feature types,  parameters and dates (not shown). Once you have selected the data that you want to query you can trigger a download clicking the add to cart button (top left corner, marked in blue in Figure \@ref(fig:grid)). After adding items to your cart, if you have not already done so,  you will be prompted to sign in to download the data. 
+
+```{r grid, echo=FALSE, fig.align='center', fig.cap="EcoPlots facets and data grid"}
+knitr::include_graphics("images/ecoplots-grid.png")
+```
+
+In the download page you can give your download a title and description (see Figure \@ref(fig:download)).
+```{r download, echo=FALSE, fig.align='center', fig.cap="EcoPlots download"}
+knitr::include_graphics("images/ecoplots-download.png")
+```
+
+Once you received your download you can always come back to it later (up to two weeks) and if you want to you can keep a permanent copy of it to share by minting a DOI (Figure \@ref(fig:doi) under actions button circled in red)
+
+```{r doi, echo=FALSE, fig.align='center', fig.cap="EcoPlots download mint"}
+knitr::include_graphics("images/ecoplots-mint.png")
+```
+
+
+Now let's look at a EcoPlots download. IN the code chunk below we show a download example for [plant specimen data](http://linked.data.gov.au/def/tern-cv/2e122e23-881c-43fa-a921-a8745f016ceb) from the TERN Ecosystem Surveillance database [@Sparrow2022]. 
+
+An EcoPlots download comes in a `package` that contains:
+
+* `bag-info.txt` with:
+  * **citation**
+  * link to the metadata record
+  * licensing
+  * download information (e.g. link and download date)
+* data folder that contains:
+  * Citation in a `.bib` format **citation.bib**
+  * Site and site attributes file
+    * If other sampling units are used then a file for the sampling unit is included. A transect file is included when the sampling takes place inside a transect inside a site.
+  * Site visit and site visit attributes file
+  * FOI observations file
+  * FOI attributes file
+    * If the FOI is an organism then a taxon file is included
+  * Data dictionary for all columns in all files
+
+```{r, echo=FALSE, message=FALSE}
+dir_tree("data/ecoplots-example/package_9dc09342b70211ec98bc1e69ee627a0b/", recurse= TRUE)
+```
+
+
+Structure and relationships between the data types are provided using URI's. All definitions, methods, and even observations in a data download will have a URI, in the tables this URIs are identified with the `Id` suffix.
+
+## Long to wide format
+The basic columns of the longer format tables are:
+
+* `featureType` is a human readable name for the feature which observation we are interested on. A complete list of all feature types can be found [here](https://linkeddata.tern.org.au/viewer/tern/id/http://linked.data.gov.au/def/tern-cv/68af3d25-c801-4089-afff-cf701e2bd61d)
+* `featureId` column contains single unique identifier for each individual feature
+* `parametersName` column that contains the names of the columns in the wide format
+* `result` column for sourcing the values that will be used to fill in the named columns above
+
+In general, the conversion from longer to wider format should be achieved by using `featureType` and `featureId` as unique identifiers, the `parametersName` that literally contains the name of the parameters performed on the FOI (observations) and `result` that is the value for a given observation. 
+  
+In pseudo-code the transformation looks something like the steps below
+
+```
+#Reading in the data
+data = read_csv("<PACKAGE>/data/<FOI>_observations.csv", na = "N/A")
+
+#Pivoting (i.e. transforming) the data from longer format to wider format
+# using the FOI as an id, the parametersName for the column names and results as the values to fill in the rows with
+data_wide = pivot_function(id_cols =(featureId), names_column = parametersName, values_column = result)
+```
+
+The pseudo-code above should transform a longer table  where the observation names are in `parametersName`
+and the observation values in `result` to a wide table format with features as rows and columns as parameters as below (Table \@ref(tab:l2w)).
+
+```{r l2w, echo= FALSE}
+long <- tibble(featureType=c("plant occurrence","plant occurrence","plant occurrence","plant occurrence","plant occurrence","plant occurrence","plant occurrence","plant occurrence","plant occurrence","plant occurrence","plant occurrence","plant occurrence "),
+featureTypeId=c("plant-occurrence-definition","plant-occurrence-definition","plant-occurrence-definition","plant-occurrence-definition","plant-occurrence-definition","plant-occurrence-definition","plant-occurrence-definition","plant-occurrence-definition","plant-occurrence-definition","plant-occurrence-definition","plant-occurrence-definition","plant-occurrence-definition"),
+featureId = c("plant_occurr_id-54678013","plant_occurr_id-54678013","plant_occurr_id-54678013","plant_occurr_id-54678013","plant_occurr_id-54308023","plant_occurr_id-54308023","plant_occurr_id-54308023","plant_occurr_id-54308023","plant_occurr_id-54313884","plant_occurr_id-54313884","plant_occurr_id-54313884","plant_occurr_id-54313884"),
+observationId = c("plant_occur-obs-parameter-54678013","plant_occur-obs-parameter-54308023","plant_occur-obs-parameter-54311897","plant_occur-obs-parameter-54311960","plant_occur-obs-parameter-54677329","plant_occur-obs-parameter-54313983","plant_occur-obs-parameter-54313996","plant_occur-obs-parameter-54310263","plant_occur-obs-parameter-54310266","plant_occur-obs-parameter-54313884","plant_occur-obs-parameter-54310261","plant_occur-obs-parameter-54310264"),
+parameterNameId= c("plant-height-definition","wood-density-definition","dbh-definition","abovegroundbiomass-definition","plant-height-definition","wood-density-definition","dbh-definition","abovegroundbiomass-definition","plant-height-definition","wood-density-definition","dbh-definition","abovegroundbiomass-definition"),
+parametersName= c("plantHeight","woodDensity","dbh","AGB","plantHeight","woodDensity","dbh","AGB","plantHeight","woodDensity","dbh","AGB"),
+result= c(100,0.9,300,10000,20,0.5,100,1000,5,0.65,40,500))
+
+wide <- tibble( featureId=c("plant_occurr_id-54678013","plant_occurr_id-54308023","plant_occurr_id-54313884"),
+plantHeight = c(100,20,5),
+woodDensity= c(0.9,0.5,0.65),
+dbh= c(300,100,40),
+AGB= c(10000,1000,500))
+
+kbl(long, caption = "**Longer format**") %>%
+kable_paper(position = "left") %>%
+  scroll_box(width = "500px", height = "200px") %>%
+  kable_styling( position = "float_left", bootstrap_options = c("striped", "hover", "condensed"))
+
+kbl(wide,caption = "**Wider format**") %>%
+kable_paper(position = "right") %>%
+  scroll_box(width = "400px", height = "200px")%>%
+  kable_styling( position = "right", bootstrap_options = c("striped", "hover", "condensed"))
+```
+
+
+# Data manipulation examples with EcoPlots Download
+
+Below we provide examples of how to manipulate site, site-visit and FOI tables, we show how to:
+
+* Transform tables from a wider format (e.g. with a column for each type of observation)
+  * **site table does not require transformation** (i.e. each site attribute already has its own column) 
+  * site attributes tables
+  * FOI and FOI attributes tables
+* Join tables
+  * Site and site attribute tables
+  * FOI with FOI attributes tables
+  * site and FOI tables
+  * FOI's with environmental variables
+
+## Transforming tables
+
+EcoPlots download comes in a longer format. Below we show on how to transform the long format to a wider format using site data and plant occurrence data. The basic workflow is to first identifying the unique id's that link multiple observations (appended with `id`, see Figure \@ref(fig:foi-transform-pic)), then identifying the columns that contain the column names (e.g. for FOI's `parameters` and for attributes `attributeName`) and finally the columns that contain the observations/values (e.g. for FOI's `result` and for attributes `values`). In the image below we provide an example of id's linking multiple observations to a single FOI.
+
+```{r foi-transform-pic, echo=FALSE, fig.align='center', fig.cap="Unique identifier link multiple observations to their FOI"}
+
+knitr::include_graphics("images/foi-transform.png")
+
+```
+
+
+### Transform site attributes table
+
+Each site attribute has an URI, and points to a site through a `siteId` (Table \@ref(tab:site-att)). 
+```{r site-att-read, warning=FALSE, echo=FALSE, message=FALSE}
+#read in table
+site_att <- read_csv("data/ecoplots-example/package_9dc09342b70211ec98bc1e69ee627a0b/data/site_attribute_a90cdf26053fa1e844fc822c91b49286.csv", na = "N/A") 
+
+```
+
+
+```{r site-att, warning=FALSE, echo=FALSE, message=FALSE}
+# site_att %>%
+#   kbl() %>%
+#   kable_paper() %>% 
+#   scroll_box(width = "700px", height = "200px")
+
+
+kbl(site_att, caption = "**Site attribute table**") %>%
+kable_paper() %>%
+  scroll_box(width = "700px", height = "200px") 
+#transform from wide to long format
+
+```
+
+
+To transform the site attributes table (Table \@ref(tab:site-att)) to the wider format (Table \@ref(tab:site-att-to-wide-dis)) the `siteId` can be used as the unique key,  the `attributeName` for the names of the columns, and the `value` column for the values.
+
+```{r, site-att-to-wide, warning=FALSE, echo=TRUE, message=FALSE}
+#read in table
+site_att %>%
+  pivot_wider(id_cols=c(siteId),names_from = attributeName,values_from= value)-> site_att_wide
+```
+
+```{r, site-att-to-wide-dis, warning=FALSE, echo=FALSE, message=FALSE}
+
+kbl(site_att_wide, caption = "**Site attribute wider table**") %>%
+kable_paper() %>%
+  scroll_box(width = "700px", height = "200px") 
+
+```
+
+### Transform FOI observations and attributes tables
+
+We first load the plant specimen data (Table \@ref(tab:plant-table)).
+
+```{r, plantLong, echo=TRUE, message=FALSE}
+
+plant_specimen_long <- read_csv("data/ecoplots-example/package_9dc09342b70211ec98bc1e69ee627a0b/data/plant-specimen_observations_a90cdf26053fa1e844fc822c91b49286.csv", na = "N/A")
+```
+
+
+```{r plant-table, echo = FALSE}
+out <- slice_sample(plant_specimen_long,n = 50)
+
+kbl(out, caption = "**Plant specimen longer table**") %>%
+kable_paper() %>%
+  scroll_box(width = "700px", height = "200px") 
+
+
+```
+
+ Then we transform the table into wide format using as keys `siteName, siteId, siteVisitName,transectName, featureId`. Notice how after transformation each parameter exist in its own column (Table \@ref(tab:psw)). 
+
+```{r psw-pivot}
+plant_specimen_long %>%
+  pivot_wider(id_cols=c(featureId,siteId,siteVisitId),names_from = parameter,values_from= result) -> plant_specimen_wide
+```
+
+
+```{r psw, echo = FALSE}
+kbl(plant_specimen_wide, caption = "**Plant specimen wider table**") %>%
+kable_paper() %>%
+  scroll_box(width = "700px", height = "200px") 
+
+
+```
+
+
+The same transformation can be done with the FOI attributes tables. Once we read in the data we can use the `featureId` as unique identifier for the features. The column names are stored in  `attributeName` and their values in `value` column. The end result is a table with a row for each feature (i.e. each plant specimen) and each of their attributes as columns (Table \@ref(tab:foi-att-wide)). 
+
+```{r, foi-att, message=FALSE}
+plant_specimen_att_long <- read_csv(file = "data/ecoplots-example/package_9dc09342b70211ec98bc1e69ee627a0b/data/plant-specimen_feature_attribute_a90cdf26053fa1e844fc822c91b49286.csv", na = "N/A")
+
+#transform from longer to wider format
+plant_specimen_att_long %>%
+pivot_wider(id_cols=c(featureId),names_from = attributeName,values_from= value)-> plant_specimen_att_wide
+```
+
+ 
+
+
+
+```{r,foi-att-wide, echo = FALSE}
+
+kbl(plant_specimen_att_wide, caption = "**Plant specimen attributes wider table**") %>%
+kable_paper() %>%
+  scroll_box(width = "700px", height = "200px") 
+
+```
+
+### Join tables
+Below we show how to join tables. For joing tables the only thing we need is to identify the unique id's that link multiple observations to a feature. For sites and their attributes this is the `siteId`, for FOI's and their attributes this is the `featureId`. For joining different  FOI's the common `id` would be the `siteId`. 
+
+
+### Join site, site-visit
+Sites and their attributes can be joined using their common id's (i.e.`siteId` column). Here we load the site table and use the site attribute wider table from above (Table \@ref(tab:site-all)).
+
+
+```{r, site-read, warning=FALSE, echo=TRUE, message=FALSE}
+
+## site attribute load 
+<<site-att-read>>
+
+#site attr transform
+<<site-att-to-wide>>
+
+# site table load
+site <- read_csv("data/ecoplots-example/package_9dc09342b70211ec98bc1e69ee627a0b/data/site_a90cdf26053fa1e844fc822c91b49286.csv", na = "N/A") 
+
+#join tables
+site_all <- left_join(site, site_att_wide, by = c("siteId"))
+
+```
+
+
+```{r site-all, message=FALSE}
+
+kbl(site_all, caption = "**Site table with attributes**") %>%
+kable_paper() %>%
+  scroll_box(width = "1000px", height = "200px") 
+
+```
+
+
+
+### FOI tables with FOI attributes tables
+
+The FOI's id (i.e. `featureId`) can be used to join attributes to their observations
+
+```{r, join-foi-obs-att, message=FALSE}
+#we load the plant specimen data
+<<plantLong>>
+#and transform it from longer to wider format
+<<psw-pivot>>
+
+#We do the same for its attributes
+<<foi-att>>
+
+#finalyy we join the data using the commond key, inthis case the featureId
+plant_observations_joined <- left_join(plant_specimen_wide, plant_specimen_att_wide, by = "featureId")
+```
+
+### FOI with sites
+
+The common key between an FOI and a site table is the `siteId`, to join an FOI with site data we use this key. 
+
+```{r, join-site-foi}
+
+plants_site <- left_join(site_all, plant_observations_joined, by = "siteId")
+
+```
+
+```{r,plant-site-tbl, message=FALSE}
+#show join
+
+plants_site %>%
+  slice_sample(n = 50)%>%
+  kbl() %>%
+  kable_paper() %>% 
+  scroll_box(width = "800px", height = "200px")
+```
+
+```{r,foi-site-tbl, message=FALSE, echo = FALSE}
+#show join
+
+plants_site %>%
+  slice_sample(n = 50)%>%
+  kbl() %>%
+  kable_paper() %>% 
+  scroll_box(width = "800px", height = "200px")
+```
+
+
+
+### Join two FOI's
+
+Information between FOI's can be join using the `siteId` key. In the example below we show how to join data on precipitation to plant species richness to explore their relationship. Macroecological studies have show species richness increases along gradients in precipitation [e.g. @currie1991energy; @harrison2020climate]. To analyse this relationship at a continental scale we use TERN Ecosystem Surveillance database [@Sparrow2022].
+
+After obtaining the [plant specimen](http://linked.data.gov.au/def/tern-cv/2e122e23-881c-43fa-a921-a8745f016ceb) and [climate](http://linked.data.gov.au/def/tern-cv/6d40d71e-58cd-4f75-8304-40c01fe5f74c) data from EcoPlots, we:
+
+1. Load the tables for both FOI's (i.e. climate and plant specimen)
+
+```{r, load-fois,message=FALSE}
+#load climate
+climate <- read_csv("data/ecoplots-example/package_470a7deeb93411ec9ad65ac04d8860c6/data/climate_observations_4ea343b4c06ff7e7ae998e498263761c.csv", na = "N/A")
+
+
+plant_specimen <- read_csv("data/ecoplots-example/package_470a7deeb93411ec9ad65ac04d8860c6/data/plant-specimen_observations_4ea343b4c06ff7e7ae998e498263761c.csv", na = "N/A")
+
+```
+
+2. Transform the tables from their long format to a wider format.
+  * In the case of the climate data we can filter the only variable that we need (precipitation), this can be done directly in EcoPlots' facet or filtering the parameter in R (e.g. `filter(parameter == "precipitation annual mean")`). 
+
+```{r, rain-trans,message=FALSE}
+
+climate %>%
+  filter(parameter == "precipitation annual mean") %>% #notice that we select only precipitation, this can be done in EcoPlots
+  pivot_wider(id_cols=c(featureId,siteId,siteVisitId),names_from = parameter,values_from= result)-> climate_wide
+
+
+```
+
+  * Plant specimens data is transform to wide format using the same keys as the climate data.
+
+```{r, rich-trans,message=FALSE}
+
+plant_specimen %>%
+pivot_wider(id_cols=c(featureId,siteId,siteVisitId),names_from = parameter,values_from= result) -> plant_specimen_wide
+
+
+
+```
+
+3. Generate species richness and precipitation tables at the site level. Precipitation is a long term average see [here](http://linked.data.gov.au/def/tern-cv/cb2a4d5a-090c-431a-88fe-72afe197c35d). 
+  * So one record can be selected at the site level, independent of the number of site visits. 
+
+```{r, message=FALSE}
+climate_wide %>% #long term climate is 
+  group_by(siteId) %>% 
+  slice_sample(n = 1) %>% 
+  select(-siteVisitId)-> climate_wide
+```
+  
+  * For calculating plant species richness we can use the the number of rows (i.e. unique number of scientific names) at the site-level. 
+  
+```{r, message=FALSE}
+plant_specimen_wide %>%
+  group_by(siteId, siteVisitId) %>%
+  count(name = 'richness') %>%
+  ungroup()%>%
+  group_by(siteId) %>%
+  summarise(mean_richness =round(mean(richness, na.rm =TRUE), digits = 0))->plant_richness
+```
+
+4. Join the tables. Finally we can join the precipitation and richness tables using their common key (i.e. `siteId`). For making data manipulation easy we transform the spaces in the column names to underscores. 
+```{r}
+
+plant_env <- left_join(plant_richness, climate_wide, by = c("siteId")) %>%
+  select(-featureId) %>% # we do not need the featureId anymore%>%
+  rename_with(.fn = ~ gsub(pattern = " ", replacement = "_", x = .x)) %>%
+  mutate(mean_richness = as.integer(mean_richness), precipitation_annual_mean= as.numeric(precipitation_annual_mean)) %>%
+  filter(precipitation_annual_mean> 0)# we make sure that our variables are numeric
+
+
+plant_env %>%
+  slice_sample(n = 50)%>%
+  kbl() %>%
+  kable_paper() %>% 
+  scroll_box(width = "800px", height = "200px")
+
+```
+
+
+5. Visualize and analyse the data. 
+
+```{r, message=FALSE, warning=FALSE}
+ggplot(plant_env, aes(y = mean_richness, x = precipitation_annual_mean))+
+  geom_point()+
+  geom_smooth(method = "glm", se = F, 
+              method.args = list(family = "poisson"), linetype = "dashed")+
+  theme_bw()
+
+mod <- glm(mean_richness~precipitation_annual_mean, family = poisson, data = plant_env)
+model_parameters(mod)
+
+```
+
+
+
+### References
+
+

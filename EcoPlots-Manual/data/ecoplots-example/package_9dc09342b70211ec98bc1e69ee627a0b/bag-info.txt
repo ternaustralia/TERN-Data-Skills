@@ -1,0 +1,24 @@
+Source-Organization: TERN
+Organization-Address: The University of Queensland, Long Pocket Precinct, Level 5, Foxtail Building #1019, 80 Meiers Road, Indooroopilly QLD 4068 Australia
+Contact-Name: TERN Support
+Contact-Phone: +61 7-3365-9097
+Contact-Email: esupport@tern.org.au
+External-Description: A extraction of ecological variables offered by the TERN network (EcoPlots), Plant specimens - Plant specimens FOI example
+External-Identifier: 9dc09342b70211ec98bc1e69ee627a0b
+Bagging-Date: 2022-04-08
+Bag-Size: 4.3 MB
+Payload-Oxum: 4517977.9
+Internal-Sender-Identifier: 9dc09342b70211ec98bc1e69ee627a0b
+Internal-Sender-Description: Plant specimens FOI example
+Package-Title: Plant specimens
+Package-Citation: Sparrow, B., Tokmakoff, A., Leitch, E., Guerin, G., O'Neill, S., McDonald, C., Lowe, A., Flitton, R., Saleeba, T., Coish, C. and TERN Surveillance (2021). TERN Surveillance monitoring program: Ecological Plot Survey Data and Samples collected from Field Sites across Australia. Terrestrial Ecosystem Research Network (TERN). (2022). Plant specimens. TERN. Dataset. https://ecoplots.tern.org.au/packageinfo/view/9dc09342b70211ec98bc1e69ee627a0b.
+Citation-By-Data-Collection-TERN-Surveillance-Monitoring: Sparrow, B. , Tokmakoff, A. , Leitch, E. , Guerin, G. , O'Neill, S. , McDonald, C. , Lowe, A. , Flitton, R. , Saleeba, T. , Coish, C. and TERN Surveillance (2021). TERN Surveillance monitoring program: Ecological Plot Survey Data and Samples collected from Field Sites across Australia. Terrestrial Ecosystem Research Network (TERN).
+Download-Link: https://ecoplots.tern.org.au/api/v1.0/packages/9dc09342b70211ec98bc1e69ee627a0b/download
+Request-Date: 2022-04-08
+Date-From: 2012-05-29
+Date-To: 2020-10-20
+Licence: Creative Commons Attribution 4.0 International Licence
+Licence-Url: http://creativecommons.org/licenses/by/4.0
+Bag-Software-Agent: src/packager/bagit.py 0.0.0.dev0 <https://bitbucket.org/terndatateam/ecoplots-packager>
+Metadata-Url-TERN-Surveillance-Monitoring: https://geonetwork.tern.org.au/geonetwork/srv/eng/catalog.search#/metadata/9210c331-ba96-4e0c-9554-f029d61534be
+File-Format: csv

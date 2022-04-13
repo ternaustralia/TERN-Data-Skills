@@ -60,9 +60,9 @@ Then the `devtools` library is loaded and the `ausplotsR` library installed from
 
 ## Install directly from github using the 'devtools' package
 ## Thus, 'devtools' must be previouly installed
-install.packages("devtools", repos="https://cloud.r-project.org/")
-library(devtools)
-install_github("ternaustralia/ausplotsR", build_vignettes = TRUE)
+#install.packages("devtools", repos="https://cloud.r-project.org/")
+#library(devtools)
+#install_github("ternaustralia/ausplotsR", build_vignettes = TRUE)
 
 ## Load the package
 library(ausplotsR)
@@ -150,7 +150,7 @@ summary(AP.data)
 # ===========================================================================================
 
 # Default data frames ('site_info', 'veg.vouchers', and 'veg.PI') + 'basal.wedge' + structural_summaries data frames for the genus Eucalyptus
-AP.data = get_ausplots(basal.wedge=TRUE, structural_summaries=TRUE, species_name_search="Eucalyptus") 
+AP.data = get_ausplots(basal.wedge=TRUE, structural_summaries=TRUE, standardised_name_search="Eucalyptus") 
 
 # Explore retrieved data
 #class(AP.data)   # As in Example 1 (can run uncommented if curious) 
@@ -766,7 +766,7 @@ AP.data.PGF.PC.PFC = growth_form_table(AP.data$veg.PI, m_kind="percent_cover", c
 head(AP.data.PGF.PC.PFC)
 summary(AP.data.PGF.PC.PFC)
 
-# NVIS Plant Growth Forms Occurrence Matrix, 'Percentage Cover' scoring metric with 'Opaque Canopy Cover' option
+# NVIS Plant Growth Forms Occurrence Matrix, 'Percentage Cover' scoring metric with 'Opaque Canopy Cover' option
 # ==============================================================================================================
 AP.data.PGF.PC = growth_form_table(AP.data$veg.PI, m_kind="percent_cover", cover_type="OCC")
 #class(AP.data.PGF.PC)
@@ -978,7 +978,8 @@ Examples of how to save AusPlots data into files are presented below. Examples i
 # ====================
 
 # Provide Path for Directory where data will be stored
-file.path = "C:/Users/uqbblanc/Documents/TERN/CWDir_TutBasicAusPlots"
+dir.create("data")
+file.path = "data"
 
 # Extract Date and Create a String to Represent it. To be used as Part of the File Name
 today = toString(Sys.Date())

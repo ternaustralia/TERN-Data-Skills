@@ -1,7 +1,12 @@
 ---
-title: "EcoPlots example"
+title: "EcoPlots Tutorial"
 output: 
-  bookdown::html_document2: default
+  #bookdown::html_document2: default
+  bookdown::gitbook:
+    split_by: section
+    config:
+    toolbar:
+      position: static
 bibliography: bibliography.bib
 df_print: paged
 date: '2022-03-16'
@@ -14,12 +19,10 @@ library(kableExtra)
 library(fs)
 library(easystats)
 library(bookdown)
+library(httr)
 ```
 
-
-This tutorial shows how to manipulate [EcoPlots's](https://ecoplots.tern.org.au/) plot ecological data downloads using R. This document uses the following libraries: `tidyverse`, `kablExtra`, `fs`, `easystats` and `bookdown` libraries.
-
-# TL;DR
+# TL;DR {-}
 
 * EcoPlots's ecological data model is observation- and site-centric. Typically, an  observation will belong to a site and will have a site-visit see Figure \@ref(fig:datamodel) below for a graphical representation of concepts and their association.
   * Observations (e.g. number of flowers, plant canopy area and plant biomass in \@ref(fig:datamodel)) are done on [features of interest](https://linkeddata.tern.org.au/information-models/tern-ontology/conceptual-information-model#feature-of-interest) (real world objects you are interested in studying, measuring or observing; the plants (Eucalyptus and Cycad) in Figure \@ref(fig:datamodel)). 
@@ -35,6 +38,11 @@ This tutorial shows how to manipulate [EcoPlots's](https://ecoplots.tern.org.au/
 ```{r datamodel, echo=FALSE, fig.align='center', out.width='150%', fig.cap="Ecological Data Representation in TERN's data model"}
 knitr::include_graphics("images/model-pic.png")
 ```
+
+
+# Introduction
+
+This tutorial shows how to manipulate [EcoPlots's](https://ecoplots.tern.org.au/) plot ecological data downloads, as well as through an API and manipulate the data using R. This document uses the following libraries: `tidyverse`, `kablExtra`, `fs`, `easystats` and `bookdown`, `easystats` and `httr`.
 
 
 # TERN's data model
@@ -101,8 +109,9 @@ dir_tree("data/ecoplots-example/package_9dc09342b70211ec98bc1e69ee627a0b/", recu
 
 Structure and relationships between the data types are provided using URI's. All definitions, methods, and even observations in a data download will have a URI, in the tables this URIs are identified with the `Id` suffix.
 
-## Long to wide format
-The basic columns of the longer format tables are:
+## Longer format and tranformation to wider format
+
+EcoPlots downloads come in a longer format. That is the tables by desing increase the number of rows and decreasing the number of columns.The basic columns of the EcoPlots longer format tables are:
 
 * `featureType` is a human readable name for the feature which observation we are interested in. A complete list of all feature types can be found [here](https://linkeddata.tern.org.au/viewer/tern/id/http://linked.data.gov.au/def/tern-cv/68af3d25-c801-4089-afff-cf701e2bd61d)
 * `featureId` column contains single unique identifier for each individual feature
@@ -156,7 +165,7 @@ kable_paper(position = "right") %>%
 
 Below we provide examples of how to manipulate site, site-visit and FOI tables, we show how to:
 
-* Transform tables from a wider format (e.g. with a column for each type of observation)
+* Transform tables from the longer format to a wider format (e.g. with a column for each type of observation)
   * **site table does not require transformation** (i.e. each site attribute already has its own column) 
   * site attributes tables
   * FOI and FOI attributes tables
@@ -279,7 +288,7 @@ kable_paper() %>%
 
 ```
 
-### Join tables
+## Joining tables
 Below we show how to join tables. For joing tables the only thing we need is to identify the unique id's that link multiple observations to a feature. For sites and their attributes this is the `siteId`, for FOI's and their attributes this is the `featureId`. For joining different  FOI's the common `id` would be the `siteId`. 
 
 
@@ -459,6 +468,156 @@ model_parameters(mod)
 
 
 
-### References
+## Working with ground cover data
+[Ground cover](http://linked.data.gov.au/def/tern-cv/7dc7ae5c-f074-4536-9032-f59eba3f9270) data is a key ecological indicator use to calibrate remotely sensed data, characterise ecological communities and understand ecosystem process. Ground cover data can be found under the [land surface](http://linked.data.gov.au/def/tern-cv/8282fb22-4135-415c-8ca2-317860d102fb) FOI.
+
+Below we show a workflow on how to manipulate ground cover data. 
+
+First we load the data downloaded from EcoPlots. The ground cover data is divided into the following fractions:
+
+- green
+- cryptogam
+- cwd
+- litter
+- rock
+- gravel
+- outcrop
+- bare
+- unknown
+- not collected
+
+Within a site the fractions add to ~ 100%.
+
+First we load the data, and to make it more convenient to work with, drop the `ground cover - ` from the parameters names to make it easier to manipulate
+
+```{r, ground-cover-long,message=FALSE}
+
+ground_cover_long <- read.csv("data/ecoplots-example/package_a044c5dcd57511ecbeb61e69ee627a0b/data/land-surface_observations_690b2971b1e067b2e2516af1fc8343b8.csv") %>%
+  mutate(parameter = str_remove(string = parameter,pattern = 'ground cover - '))
+
+```
+
+Then convert the data to wide format
+
+```{r, ground-cover-wide,message=FALSE}
+
+ground_cover_long %>%
+  pivot_wider(id_cols=c(featureId,siteId,siteVisitId),
+              names_from = parameter,values_from= result)-> ground_cover_wide
+
+
+```
+
+And add site data and site attributes
+
+```{r, ground-cover-site,message=FALSE}
+
+site_ground <- read_csv("data/ecoplots-example/package_a044c5dcd57511ecbeb61e69ee627a0b/data/site_690b2971b1e067b2e2516af1fc8343b8.csv")
+
+# site_ground_att <- read_csv("data/ecoplots-example/package_a044c5dcd57511ecbeb61e69ee627a0b/data/site_attribute_690b2971b1e067b2e2516af1fc8343b8.csv")
+
+```
+
+
+Then join the site and ground cover data together using the common key `siteId`
+
+```{r, join-ground-cover,message=FALSE}
+ground_all <- left_join(site_ground, ground_cover_wide,by = "siteId")
+```
+
+# Access EcoPlots data programatically (using an API)
+It is possible to access EcoPlots data programatically using an API call. 
+
+For instruction on how to create an API key see [here](https://ternaus.atlassian.net/wiki/spaces/TERNSup/pages/2353496065/Create+and+Use+API+Key+to+Access+TERN+Data+Services#How-to-get-a-TERN-API-Key). **Notice that you are only able to see the API key when you create it, so store it somewhere save**, if you loose it you can always generate a new one.
+
+## Generate the API query
+
+Go to [EcoPlots](https://ecoplots.tern.org.au/) and start your ecological data search
+
+
+```{r}
+<<landing>>
+```
+
+Select the data that you would like to download using the faceted search on your left (black circle), and then click the API button (circled in red, Figure \@ref(fig:api-button)
+
+```{r api-button, echo=FALSE, fig.align='center', fig.cap="EcoPlots landing page"}
+knitr::include_graphics("images/ecoplots-api-search.png")
+```
+
+The API button will display a window with an API generator where you can choose:
+
+- the language for the API call (e.g, C, python, R)
+- the end point for the call(analogous to table, e.g. the observation endpoint is the observations table)
+- the output format (csv or json)
+
+Once that you are happy with your API call you can copy the code snippet using the copy snippet button on the bottom left
+
+```{r api-call, echo=FALSE, fig.align='center', fig.cap="EcoPlots landing page"}
+knitr::include_graphics("images/ecoplots-api-pop.png")
+```
+
+## Run the API query
+
+Below we show an example on how to run an API query to download climate variables in the TERN Surveillance Monitoring database [@Sparrow2022]. 
+
+1. Use the faceted search to select the data (circled in black in Figure \@ref(fig:api-button)
+2. Click the API button select the language, variant, endpoint and format and copy the snippet. In this case we will be using:
+  - R as a language, which has the variant httr
+  - As endpoint we will use observations (the actual climate values)
+  - csv as the output format
+3. **Remember to enter your API key** in the call where it says `your-api-key`
+
+```{r run-api, echo=TRUE, eval=FALSE}
+
+url = 'https://ecoplots.tern.org.au/api/v1.0/observations?dformat=csv'
+
+payload = '{"query":{"dataset":["http://linked.data.gov.au/dataset/ausplots"],"feature_type":["http://linked.data.gov.au/def/tern-cv/6d40d71e-58cd-4f75-8304-40c01fe5f74c"],"observed_property":["http://linked.data.gov.au/def/tern-cv/cb2a4d5a-090c-431a-88fe-72afe197c35d","http://linked.data.gov.au/def/tern-cv/eaa90e7f-7e44-47b1-af26-e5606b9e3cea"]},"page_number":1,"page_size":50}'
+
+response <- POST(
+ url = url,
+ body = payload,
+ add_headers(
+  'Content-Type' = 'application/json',
+  'X-Api-Key' = 'your-api-key'
+ )
+)
+
+content <- content(response, as = "text", encoding = 'UTF-8')
+```
+
+
+Read the response 
+```{r, eval=FALSE, echo=TRUE}
+climate_long <- read_csv(content)
+```
+
+```{r read-response, echo=FALSE, message=FALSE}
+climate_long <- read_csv(file = "data/ecoplots-example/climate_api_download")
+```
+and reformat the data
+```{r climate-wide,echo=TRUE}
+
+climate_long %>%
+  pivot_wider(id_cols=c(featureId,siteId,siteVisitId),
+              names_from = parameter,values_from= result)-> climate_wide
+```
+
+
+```{r climate-table,echo=FALSE}
+climate_wide %>%
+  kbl() %>%
+  kable_paper() %>% 
+  scroll_box(width = "800px", height = "200px")
+
+
+```
+
+
+
+
+
+
+# References
 
 

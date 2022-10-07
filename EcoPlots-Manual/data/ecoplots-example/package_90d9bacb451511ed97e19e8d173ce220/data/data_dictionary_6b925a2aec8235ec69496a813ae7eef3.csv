@@ -1,0 +1,91 @@
+Filename,FieldName,DataType,Description
+dataset,dataset,Text,Name/label of the dataset (Label)
+dataset,datasetUri,Text,Unique identifier of the dataset (URI)
+dataset,parentDataset,Text,Name/label of the parent dataset (Label)
+dataset,parentDatasetUri,Text,Unique identifier of the parent dataset (URI)
+dataset,description,Text,Description of the dataset
+dataset,version,Text,Version of the dataset
+dataset,created,Text,Date of dataset's creation
+dataset,creator,Text,Creator of the dataset (Label)
+dataset,creatorId,Text,Creator of the dataset (URI)
+dataset,publisher,Text,Publisher of the dataset (Label)
+dataset,publisherId,Text,Publisher of the dataset (URI)
+dataset,citation,Text,Statement to use in dataset citation
+*_observation,dataset,Text,Name/label of the dataset (Label)
+*_observation,datasetId,Text,Unique identifier of the dataset (URI)
+*_observation,project,Text,Name/label of the project (Label)
+*_observation,projectId,Text,Unique identifier of the project (URI)
+*_observation,latitude,Number,Latitude
+*_observation,longitude,Number,Longitude
+*_observation,altitude,Number,Altitude
+*_observation,siteName,Text,"Name/label of the site (Label), if apply"
+*_observation,siteId,Text,"Unique identifier of the site (URI), if apply"
+*_observation,topParentSiteName,Text,"Name/label of the top parent site (Label), if apply"
+*_observation,topParentSiteId,Text,"Unique identifier of the top parent site (URI), if apply"
+*_observation,transectName,Text,"Name/label of the transect (Label), if apply"
+*_observation,transectId,Text,"Unique identifier of the transect (URI), if apply"
+*_observation,siteVisitName,Text,"Name/label of the site visit (Label), if apply"
+*_observation,siteVisitId,Text,"Unique identifier of the site visit (URI), if apply"
+*_observation,observationId,Text,Unique identifier of the observation (URI)
+*_observation,featureId,Text,Unique identifier of the feature of interest (URI)
+*_observation,featureType,Text,"Type of feature of interest (plant specimen, landform, etc.) (Label)"
+*_observation,featureTypeId,Text,"Type of feature of interest (plant specimen, landform, etc.) (URI)"
+*_observation,parentFeatureType,Text,"Type of parent feature of interest (plant specimen, landform, etc.) (Label)"
+*_observation,parentFeatureTypeId,Text,"Type of parent feature of interest (plant specimen, landform, etc.) (URI)"
+*_observation,materialSampleID,Text,"Unique identifier of the material sample (URI), if apply"
+*_observation,parameter,Text,Observable property (Label)
+*_observation,parameterId,Text,Observable property (URI)
+*_observation,result,Text,Observation measured result
+*_observation,resultId,Any,Observation measured result: Categorical value (URI)
+*_observation,resultUnit,Text,Unit of measure of the result (Label)
+*_observation,resultUnitId,Text,Unit of measure of the result (URI)
+*_observation,method,Text,Procedure used for measuring the observation (Label)
+*_observation,methodId,Text,Procedure used for measuring the observation (URI)
+*_observation,resultTime,Date,Time of measurement
+*_observation,systemId,Text,Unique identifier of the used system (URI)
+*_observation,systemType,Text,Specific system used for measure (Label)
+*_observation,systemTypeId,Text,Specific system used for measure (URI)
+*_feature_attribute,featureId,Text,Unique identifier of the feature of interest  instance(URI)
+*_feature_attribute,attributeName,Text,Attribute (URI)
+*_feature_attribute,attributeConceptId,Text,Attribute (URI)
+*_feature_attribute,value,Text,Value
+*_feature_attribute,valueId,Any,"Unique identifier of the categorical value, if apply (URI)"
+*_feature_attribute,valueUnit,Text,Unit of measure of the value (Label)
+*_feature_attribute,valueUnitId,Text,Unit of measure of the value (URI)
+site,dataset,Text,Name/label of the dataset (Label)
+site,datasetId,Text,Unique identifier of the dataset (URI)
+site,project,Text,Name/label of the project (Label)
+site,projectId,Text,Unique identifier of the project (URI)
+site,siteName,Text,Name/label of the site (Label)
+site,siteId,Text,Unique identifier of the site (URI)
+site,siteType,Text,"Type of site (site, plot, transect, quadract, etc.) (Label)"
+site,siteTypeId,Text,"Type of site (site, plot, transect, quadract, etc.) (URI)"
+site,dateCommissioned,Date,Date of establishment of the site
+site,description,Text,Description of the site
+site,polygonWkt,Text,Site polygon geometry in WKT representation
+site,pointWkt,Text,Site point geometry in WKT representation
+site,latitude,Number,Latitude
+site,longitude,Number,Longitude
+site,altitude,Number,Altitude
+site,pointPositionWithinPlot,Text,"Position of the point within plot (south west, centroid, etc.) (Label)"
+site,pointPositionWithinPlotId,Text,"Position of the point within plot (south west, centroid, etc.) (URI)"
+sitevisit,dataset,Text,Name/label of the dataset (Label)
+sitevisit,datasetId,Text,Unique identifier of the dataset (URI)
+sitevisit,project,Text,Name/label of the project (Label)
+sitevisit,projectId,Text,Unique identifier of the project (URI)
+sitevisit,siteName,Text,Name/label of the site (Label)
+sitevisit,siteId,Text,Unique identifier of the site (URI)
+sitevisit,siteVisitName,Text,Name/label of the site visit (Label)
+sitevisit,siteVisitId,Text,Unique identifier of the site visit (URI)
+sitevisit,siteVisitStartDate,Date,Start date of the visit to the site
+sitevisit,siteVisitEndDate,Date,End date of the visit to the site
+sitevisit,description,Text,Description of the site visit
+sitevisit_attribute,attributeId,Text,Unique identifier of the attribute (URI)
+sitevisit_attribute,siteVisitName,Text,Site visit name (Label)
+sitevisit_attribute,siteVisitId,Text,Unique identifier of the site visit (URI)
+sitevisit_attribute,attributeName,Text,Attribute (Label)
+sitevisit_attribute,attributeConceptId,Text,Attribute (URI)
+sitevisit_attribute,value,Text,Value
+sitevisit_attribute,valueId,Any,"Unique identifier of the categorical value, if apply (URI)"
+sitevisit_attribute,valueUnit,Text,Unit of measure of the value (Label)
+sitevisit_attribute,valueUnitId,Text,Unit of measure of the value (URI)

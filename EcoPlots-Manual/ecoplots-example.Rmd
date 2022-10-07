@@ -455,7 +455,13 @@ model_parameters(mod)
 
 ```
 
+## Biomass data across Ecosystems
 
+We assume that the biomass data has been downloaded following the instructions in section 3.
+
+Once the data is downloaded: 
+
+1. Load the tables    
 
 ### References
 

@@ -461,7 +461,82 @@ We assume that the biomass data has been downloaded following the instructions i
 
 Once the data is downloaded: 
 
-1. Load the tables    
+1. Load the plant individual observation table    
+
+```{r,warning=FALSE}
+#load plant individual observations
+plant_ind <- read_csv("data/ecoplots-example/package_90d9bacb451511ed97e19e8d173ce220/data/plant-individual_observations_6b925a2aec8235ec69496a813ae7eef3.csv", na = "N/A")
+```
+
+2. Transform the table from their long format to a wider format.
+  * In the case of the plant individual observation data we can separate the parameter values into the groups that we need (above-ground biomass and scientific name). 
+
+```{r}
+#separate parameters into wide format.  For this example we will retain the site name, longitude, latitude, date of sampling (siteVisitName) and the featureId 
+plant_ind %>%
+pivot_wider(id_cols=c(siteName,latitude,longitude,siteVisitName,featureId),names_from = parameter,values_from= result) -> plant_ind_wide
+
+#amend above-ground biomass, scientific names and siteVisitName (year) column names
+colnames(plant_ind_wide)[4]<-"year"
+colnames(plant_ind_wide)[6]<-"scientific_name"
+colnames(plant_ind_wide)[7]<-"above_ground_biomass"
+
+##obtain the year of sampling only
+plant_ind_wide$year<- substr(plant_ind_wide$year,1,4)
+```
+
+3. We will aggregate above-ground biomass by site and sampling year and visualise the result
+
+```{r}
+#before aggregating data, convert above_ground_biomass to a numeric value
+plant_ind_wide$above_ground_biomass<-as.numeric(plant_ind_wide$above_ground_biomass)
+
+#aggregate by site and sampling year
+plant_ind_wide%>%
+	group_by(siteName,year)%>%
+	summarize(site_level_biomass_kgs=sum(above_ground_biomass,na.rm=TRUE))->summed_site_level_biomass
+
+#plot sites where biomass was sampled in 2015
+
+site_biomass_for_plotting<-subset(summed_site_level_biomass,year=="2015")
+
+## convert kgs to tonnes/ha
+
+site_biomass_for_plotting$above_ground_biomass_tonnes_per_ha<-site_biomass_for_plotting$site_level_biomass_kgs/1000
+
+## load ggplot
+library(ggplot2)
+
+plot1<-ggplot(site_biomass_for_plotting, aes(x = siteName, y = above_ground_biomass_tonnes_per_ha))+geom_bar(stat="identity",fill="grey65")+labs(x="Site",y="Above ground biomass (tonnes/ha)")
+
+plot1+theme_bw() +theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
+
+4. Now we will aggregate the above-ground biomass by species within sites, by sampling year.
+
+```{r}
+#aggregate above-ground biomass by site, date and species name
+plant_ind_wide%>%
+	group_by(siteName,year,scientific_name)%>%
+	summarize(species_level_biomass_kgs=sum(above_ground_biomass,na.rm=TRUE))->summed_species_level_biomass
+```
+
+5. Create figure that show the change in species above-ground biomass in a site over different time periods.
+
+```{r}
+#using the Alice Mulga site as an example, graph the change in above-ground biomass for each species over time
+
+#subset data for the Alice Mulga site
+Alice_mulga<-subset(summed_species_level_biomass,siteName=="Alice Mulga, core1ha")
+
+#plot species biomass by year
+plot2<-ggplot(Alice_mulga, aes(x = scientific_name, y = species_level_biomass_kgs,fill=year))+geom_col(position="dodge")+labs(x="Species",y="Above ground biomass (kg)")
+
+plot2+theme_bw() +theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
 
 ### References
 

@@ -1,0 +1,15 @@
+"0","plant_ind <- read_csv(""data/ecoplots-example/package_90d9bacb451511ed97e19e8d173ce220/data/plant-individual_observations_6b925a2aec8235ec69496a813ae7eef3.csv"", na = ""N/A"")
+"
+"1","[1mRows: [22m[34m75029[39m [1mColumns: [22m[34m28[39m
+"
+"1","[36m──[39m [1mColumn specification[22m [36m──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────[39m
+[1mDelimiter:[22m "",""
+[31mchr[39m  (18): dataset, datasetId, siteName, siteId, topParentSiteName, topParentSiteId, siteVisitId, observationId, featureId, featureType, featu...
+[32mdbl[39m   (3): latitude, longitude, siteVisitName
+[33mlgl[39m   (6): altitude, parentFeatureId, resultId, systemId, systemType, systemTypeId
+[34mdttm[39m  (1): resultTime
+"
+"1","
+[36mℹ[39m Use `spec()` to retrieve the full column specification for this data.
+[36mℹ[39m Specify the column types or set `show_col_types = FALSE` to quiet this message.
+"

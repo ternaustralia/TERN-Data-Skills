@@ -1,0 +1,25 @@
+"0","plant_ind_wide$above_ground_biomass<-as.numeric(plant_ind_wide$above_ground_biomass)
+
+#aggregate by site and sampling year
+plant_ind_wide%>%
+	group_by(siteName,year)%>%
+	summarize(site_level_biomass_kgs=sum(above_ground_biomass,na.rm=TRUE))->summed_site_level_biomass
+"
+"1","[38;5;232m`summarise()` has grouped output by 'siteName'. You can override using the `.groups` argument.[39m
+"
+"0",""
+"0","#plot sites where biomass was sampled in 2015"
+"0",""
+"0","site_biomass_for_plotting<-subset(summed_site_level_biomass,year==""2015"")"
+"0",""
+"0","## convert kgs to tonnes/ha"
+"0",""
+"0","site_biomass_for_plotting$above_ground_biomass_tonnes_per_ha<-site_biomass_for_plotting$site_level_biomass_kgs/1000"
+"0",""
+"0","## load ggplot"
+"0","library(ggplot2)"
+"0",""
+"0","plot1<-ggplot(site_biomass_for_plotting, aes(x = siteName, y = above_ground_biomass_tonnes_per_ha))+geom_bar(stat=""identity"",fill=""grey65"")+labs(x=""Site"",y=""Above ground biomass (tonnes/ha)"")"
+"0",""
+"0","plot1+theme_bw() +theme(axis.text.x = element_text(angle = 45, hjust = 1))"
+"0",""

@@ -1,0 +1,80 @@
+---
+title: "Untitled"
+output: powerpoint_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(kableExtra)
+library(fs)
+library(easystats)
+library(bookdown)
+```
+
+
+This tutorial shows how to manipulate [EcoPlots's](https://ecoplots.tern.org.au/) plot ecological data downloads using R. This document usses the following libraries: `tidyverse`, `kablExtra`, `fs`, `easystats` and `bookdown` libraries.
+
+# TL;DR
+
+* EcoPlots's ecological data model is observation- and site-centric. Typically, an  observations will belong to a site and will have a site-visit see Figure \@ref(fig:datamodel) below for a graphical representation of concepts and their association.
+  * Observations (e.g. number of flowers, plant canopu area and plant biomass in \@ref(fig:datamodel)) are done on [features of interest](https://linkeddata.tern.org.au/information-models/tern-ontology/conceptual-information-model#feature-of-interest) (real world objects you are interested in studying, measuring or observing; the plants (Eucalyptus and Cycad) in Figure \@ref(fig:datamodel)). 
+  * All entities in the data model have id's (e.g. observations, FOI's, vocabularies, methods and instruments)
+    * Unique Resource Identifiers i.e. (unique sequence of characters) are used for generating the id's 
+    * The URI's can be used to locate and get information about that entity (e.g. check out the URI for animal occurrence here [http://linked.data.gov.au/def/tern-cv/2361dea8-598c-4b6f-a641-2b98ff199e9e](http://linked.data.gov.au/def/tern-cv/2361dea8-598c-4b6f-a641-2b98ff199e9e))
+* Multiple observations can be done in a feature of interest (FOI). In figure \@ref(fig:datamodel) the Eucalyptus tree (FOI p34rdc) has observations on number of flowers and plant canopy.   
+* Data downloaded from the EcoPlots plataform comes in a longer format.
+  * `featureId` and `observationId` are unique keys for a feature and observation, respectively. These two identifiers are the work-horses for joining and transforming tables (e.g. from the longer to a wider format).
+* See the [TERN Ontology](https://linkeddata.tern.org.au/information-models/overview) for more information on our data model and [the conceptual overview of the model](https://linkeddata.tern.org.au/information-models/tern-ontology/conceptual-information-model).
+
+
+```{r datamodel, echo=FALSE, fig.align='center', out.width='150%', fig.cap="Ecological Data Representation in TERN's data model"}
+knitr::include_graphics("images/model-pic.png")
+```
+
+
+# TERN's data model
+First things first, some background:
+ 	
+* The TERN data model is observation-centric
+* Each observation belongs to a [feature of interest](https://linkeddata.tern.org.au/information-models/tern-ontology/conceptual-information-model#feature-of-interest) (FOI, i.e. the real world object you are interested on and are measuring things about)
+* This model differentiate between [parameters](https://linkeddata.tern.org.au/information-models/tern-ontology/conceptual-information-model#observations) (i.e. observations, things that are measured directly on the FOI) and [attributes](https://linkeddata.tern.org.au/information-models/tern-ontology/conceptual-information-model#non-core-attributes) (measurements related to to the FOI and other data entities).
+* TERN Ontology's main focus is to represent site-based ecological surveys. Meaning, that [site](https://linkeddata.tern.org.au/information-models/tern-ontology/conceptual-information-model#site) and [site visits](https://linkeddata.tern.org.au/information-models/tern-ontology/conceptual-information-model#site-visit) are central to the description of the observations (the model can also describe other data types, e.g. occurrence data)
+  * A [site](http://linked.data.gov.au/def/tern-cv/5bf7ae21-a454-440b-bdd7-f2fe982d8de4) is a land area selected from within a survey region where the sampling occurs (e.g. plot, transect, quadrat). 
+  * [site-visits](http://linked.data.gov.au/def/tern-cv/f5c125b1-81c2-448c-81e6-7ff6a2facd07) are a discrete time when the surveys within the site occurred.
+
+
+An FOI can have many observations. You can make observations on the height, diameter, wood density of a single tree (see Figure \@ref(fig:datamodel)). Similarly, observations and FOIs can have multiple attributes. For instance, reliability and/or accuracy of an observation are attributes, as well as notes on an observation or sample sizes. 
+
+# EcoPlots download
+To download Ecoplots data visit the portal [https://ecoplots.tern.org.au/](https://ecoplots.tern.org.au/). Once in there click on the search plot data button to explore (cirlced in red in the figure below, Figure \@ref(fig:landing))
+
+```{r landing, echo=FALSE, fig.align='center', fig.cap="EcoPlots landing page"}
+knitr::include_graphics("images/ecoplots-landing.png")
+```
+
+Below you can see a snapshot of the EcoPlots data grid (Figure \@ref(fig:grid)). Using the facets (marked in red on the left hand side of Figure \@ref(fig:grid)) you can filter to specific databases, regions, feature types,  parameters and dates (not shown). Once you have selected the data that you want to query you can trigger a download clicking the add to cart button (top left corner, marked in blue in Figure \@ref(fig:grid)). After adding items to your cart, if you have not already done so,  you will be prompted to sign in to download the data. 
+
+```{r grid, echo=FALSE, fig.align='center', fig.cap="EcoPlots facets and data grid"}
+knitr::include_graphics("images/ecoplots-grid.png")
+```
+
+In the download page you can give your download a title and description (see Figure \@ref(fig:download)).
+```{r download, echo=FALSE, fig.align='center', fig.cap="EcoPlots download"}
+knitr::include_graphics("images/ecoplots-download.png")
+```
+
+
+## Biomass data across Ecosystems
+
+We assume that the biomass data has been downloaded following the instructions in section 3.
+
+Once the data is downloaded: 
+
+1. Load the plant individual observation table    
+
+```{r,warning=FALSE}
+#load plant individual observations
+plant_ind <- read_csv("data/ecoplots-example/package_90d9bacb451511ed97e19e8d173ce220/data/plant-individual_observations_6b925a2aec8235ec69496a813ae7eef3.csv", na = "N/A")
+```
+

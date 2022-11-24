@@ -3,7 +3,7 @@
     "path": "~/TERN-Data-Skills/EcoPlots-Manual/ecoplots-example.Rmd",
     "project_path": "ecoplots-example.Rmd",
     "type": "r_markdown",
-    "hash": "268221611",
+    "hash": "0",
     "contents": "",
     "dirty": false,
     "created": 1665114362128.0,
@@ -12,8 +12,8 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "467,0",
-        "scrollLine": "456",
+        "cursorPosition": "468,3",
+        "scrollLine": "462",
         "last_setup_crc32": "F49BBD381cc252ac"
     },
     "folds": "",
@@ -21,7 +21,7 @@
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1669266709338,
+    "last_content_update": 1669267905661,
     "read_only": false,
     "read_only_alternatives": []
 }

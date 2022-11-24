@@ -132,16 +132,16 @@ Currently `ausplotsR` must be installed directly from github using the 'devtools
 
 ## Install directly from github using the 'devtools' package
 ## Thus, 'devtools' must be previouly installed
-install.packages("devtools", repos="https://cloud.r-project.org/")
-library(devtools)
-install_github("ternaustralia/ausplotsR", build_vignettes = TRUE)
+# install.packages("devtools", repos="https://cloud.r-project.org/")
+# library(devtools)
+# install_github("ternaustralia/ausplotsR", build_vignettes = TRUE)
 
 ## Load the package
 library(ausplotsR)
 
 ## Obtaining Help and Initial Steps
-help(ausplotsR)
-browseVignettes(package="ausplotsR")
+#help(ausplotsR)
+#browseVignettes(package="ausplotsR")
 ```
 
 
@@ -216,7 +216,7 @@ summary(AP.data)
 # ===========================================================================================
 
 # Default data frames ('site_info', 'veg.vouchers', and 'veg.PI') + 'basal.wedge' + structural_summaries data frames for the genus Eucalyptus
-AP.data = get_ausplots(basal.wedge=TRUE, structural_summaries=TRUE, species_name_search="Eucalyptus") 
+AP.data = get_ausplots(basal.wedge=TRUE, structural_summaries=TRUE, standardised_name_search="Eucalyptus") 
 
 # Explore retrieved data
 #class(AP.data)   # As in Example 1 (can run uncommented if curious) 
@@ -841,14 +841,14 @@ In the second section on Fractional Cover, we first Identify Sites that have bee
  
 
 ```{r, message=FALSE, warning=FALSE, error=FALSE, fig.height = 8, fig.width = 11.5}
-
+library(plyr)
 # Find Sites Sampled > 1 time
 # ---------------------------
 # Extract Sites Names
 AP.200Locs.FC.locs = sub("\\-.*", "", AP.200Locs.FC$site_unique)
 length(AP.200Locs.FC.locs)
 # Calculate the Sample Frequency of each Site
-AP.200Locs.FC.locs.cnt = count(AP.200Locs.FC.locs)
+AP.200Locs.FC.locs.cnt = plyr::count(AP.200Locs.FC.locs)
 dim(AP.200Locs.FC.locs.cnt)
 # Find Sites with > 1 Samples (in veg.IP)
 AP.200Locs.FC.Resampled.locs.cnt = AP.200Locs.FC.locs.cnt[AP.200Locs.FC.locs.cnt$freq > 1,]
@@ -936,7 +936,6 @@ In this section we will:
 
 
 ```{r, message=FALSE, warning=FALSE, error=FALSE, fig.height = 8, fig.width = 11.5}
-
 # Generate the Growth Form by Site-Visit Matrix
 # =============================================
 AP.BRTop5.GrowthFormBYSites = growth_form_table(AP.BioregTop5.l$veg.PI,                                                        m_kind="percent_cover", cover_type="PFC")  # % Cover
@@ -1011,8 +1010,8 @@ dend.colors = dend.colors[order.dendrogram(AP.BRTop5.GFBYSites.dend)]
 labels_colors(AP.BRTop5.GFBYSites.dend) = dend.colors
 # Plot Dendrogram
 par(mfrow=c(1,1))
-plot(AP.BRTop5.GFBYSites.dend, 
-     main="Dendogram of the Sites-Visits Clustered by Growth Forms, with leaves coloured by Bioregion")
+dend2 <- color_unique_labels(AP.BRTop5.GFBYSites.dend)
+plot(dend2,main="Dendogram of the Sites-Visits Clustered by Growth Forms, with leaves coloured by Bioregion")
 
 ```
 

@@ -1,0 +1,34 @@
+Source-Organization: TERN
+Organization-Address: The University of Queensland, Long Pocket Precinct, Level 5, Foxtail Building #1019, 80 Meiers Road, Indooroopilly QLD 4068 Australia
+Contact-Name: TERN Support
+Contact-Phone: +61 7-3365-9097
+Contact-Email: esupport@tern.org.au
+External-Description: A extraction of ecological variables offered by the TERN network (EcoPlots), ESA_Biomass_example
+External-Identifier: f336cb2c6bac11eda3aaa641ce476b8a
+Bagging-Date: 2022-11-24
+Bag-Size: 117.2 MB
+Payload-Oxum: 122920067.9
+Internal-Sender-Identifier: f336cb2c6bac11eda3aaa641ce476b8a
+Internal-Sender-Description: 
+Package-Title: ESA_Biomass_example
+Package-Citation: Meyer, W. (2022): Calperum Mallee Stem Diameter, Height and Aboveground Woody Biomass Data. Version 1.0. Terrestrial Ecosystem Research Network. (Dataset). https://portal.tern.org.au/calperum-mallee-stem-biomass-data/23822; Cleverly, J. (2022): Alice Mulga Stem Diameter, Height and Aboveground Woody Biomass Data. Version 1.0. Terrestrial Ecosystem Research Network. (Dataset). https://portal.tern.org.au/alice-mulga-stem-biomass-data/23499; Boer, M., Pendall, E. (2022): Cumberland Plain Stem Diameter, Height and Aboveground Woody Biomass Data. Version 1.0. Terrestrial Ecosystem Research Network. (Dataset). https://portal.tern.org.au/cumberland-plain-stem-biomass-data/23504; Keith, H., Stol, J., Woodgate, W. (2022): Tumbarumba Wet Eucalypt Stem Diameter, Height and Aboveground Woody Biomass Data. Version 1.0. Terrestrial Ecosystem Research Network. (Dataset). https://portal.tern.org.au/tumbarumba-wet-eucalypt-biomass-data/23510; Lollback, G., Hero, J. (2022): Karawatha Peri-urban Diameter, Height and Aboveground Woody Biomass Data. Version 1.0. Terrestrial Ecosystem Research Network. (Dataset). https://doi.org/10.25901/f68a-aq94; Bradford, M., McKeown, A., Ford, A., Liddell, M. (2022): Robson Creek Rainforest Diameter, Height and Aboveground Woody Biomass Data. Version 1.0. Terrestrial Ecosystem Research Network. (Dataset). https://portal.tern.org.au/robson-creek-rainforest-biomass-data/23823 (2022). ESA_Biomass_example. TERN. Dataset. https://ecoplots.tern.org.au/packageinfo/view/f336cb2c6bac11eda3aaa641ce476b8a.
+Citation-By-Data-Collection-Biomass-cumberland-plain: Boer, M., Pendall, E. (2022): Cumberland Plain Stem Diameter, Height and Aboveground Woody Biomass Data. Version 1.0. Terrestrial Ecosystem Research Network. (Dataset). https://portal.tern.org.au/cumberland-plain-stem-biomass-data/23504
+Citation-By-Data-Collection-Biomass-robson-creek-rainforest: Bradford, M., McKeown, A., Ford, A., Liddell, M. (2022): Robson Creek Rainforest Diameter, Height and Aboveground Woody Biomass Data. Version 1.0. Terrestrial Ecosystem Research Network. (Dataset). https://portal.tern.org.au/robson-creek-rainforest-biomass-data/23823
+Citation-By-Data-Collection-Biomass-calperum-mallee: Meyer, W. (2022): Calperum Mallee Stem Diameter, Height and Aboveground Woody Biomass Data. Version 1.0. Terrestrial Ecosystem Research Network. (Dataset). https://portal.tern.org.au/calperum-mallee-stem-biomass-data/23822
+Citation-By-Data-Collection-Biomass-alice-mulga: Cleverly, J. (2022): Alice Mulga Stem Diameter, Height and Aboveground Woody Biomass Data. Version 1.0. Terrestrial Ecosystem Research Network. (Dataset). https://portal.tern.org.au/alice-mulga-stem-biomass-data/23499
+Citation-By-Data-Collection-Biomass-karawatha-peri-urban: Lollback, G., Hero, J. (2022): Karawatha Peri-urban Diameter, Height and Aboveground Woody Biomass Data. Version 1.0. Terrestrial Ecosystem Research Network. (Dataset). https://doi.org/10.25901/f68a-aq94
+Citation-By-Data-Collection-Biomass-tumbarumba-wet-eucalypt: Keith, H., Stol, J., Woodgate, W. (2022): Tumbarumba Wet Eucalypt Stem Diameter, Height and Aboveground Woody Biomass Data. Version 1.0. Terrestrial Ecosystem Research Network. (Dataset). https://portal.tern.org.au/tumbarumba-wet-eucalypt-biomass-data/23510
+Download-Link: https://ecoplots.tern.org.au/api/v1.0/packages/f336cb2c6bac11eda3aaa641ce476b8a/download
+Request-Date: 2022-11-24
+Date-From: 2010-09-24
+Date-To: 2020-06-26
+Licence: Creative Commons Attribution 4.0 International Licence
+Licence-Url: http://creativecommons.org/licenses/by/4.0
+Bag-Software-Agent: src/packager/bagit.py 0.0.0.dev0 <https://bitbucket.org/terndatateam/ecoplots-packager>
+Metadata-Url-Biomass-cumberland-plain: https://geonetwork.tern.org.au/geonetwork/srv/eng/catalog.search#/metadata/35bdcb46-17f6-455d-9a98-b540b98e9aea
+Metadata-Url-Biomass-robson-creek-rainforest: https://geonetwork.tern.org.au/geonetwork/srv/eng/catalog.search#/metadata/5a864ec1-f780-4104-a242-7ff00e1f4962
+Metadata-Url-Biomass-calperum-mallee: https://geonetwork.tern.org.au/geonetwork/srv/eng/catalog.search#/metadata/c8d054b2-9dfc-4328-8251-f0fd9276083d
+Metadata-Url-Biomass-alice-mulga: https://geonetwork.tern.org.au/geonetwork/srv/eng/catalog.search#/metadata/c2968de2-1e8b-4a05-919f-46744b3171ed
+Metadata-Url-Biomass-karawatha-peri-urban: https://geonetwork.tern.org.au/geonetwork/srv/eng/catalog.search#/metadata/a85ba3a5-0c7f-43b5-ab31-72c7930c4047
+Metadata-Url-Biomass-tumbarumba-wet-eucalypt: https://geonetwork.tern.org.au/geonetwork/srv/eng/catalog.search#/metadata/d6f199ed-aea6-4c18-90e6-89b1c6d4dc81
+File-Format: csv

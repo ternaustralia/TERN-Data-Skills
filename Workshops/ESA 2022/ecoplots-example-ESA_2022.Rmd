@@ -1,5 +1,5 @@
 ---
-title: "EcoPlots example ESA 2022"
+title: "EcoPlots example ESA 2022 - hello"
 output: 
   bookdown::html_document2: default
 bibliography: bibliography.bib

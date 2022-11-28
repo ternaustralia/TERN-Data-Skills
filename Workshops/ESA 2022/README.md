@@ -30,7 +30,7 @@ In the github repository, click the green "Code" button and clone the repository
 ### Clone the repository
 
 ```
-YOUR Directory Ecoplot_ESA_2022 %git clone https://github.com/ternaustralia/TERN-Data-Skills.git
+git clone https://github.com/ternaustralia/TERN-Data-Skills.git
 ```
 
 

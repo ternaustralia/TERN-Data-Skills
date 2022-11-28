@@ -7,7 +7,7 @@ The workshop is divided into two parts:
 1) The first part of the workshop includes a hands-on tutorial and presentation on making terrestrial ecosystem data Findable, Accessible, Interoperable and Reusable (FAIR). The participants will learn about FAIR data principle and use of TERN SHaRED (https://shared.tern.org.au) to publish FAIR research data;
 
 2) The second part of the workshop will showcase the use of EcoPlots (https://ecoplots.tern.org.au) to search and access structured analysis-ready survey data (standardised parameters with descriptive information including units, definitions, and protocols) collected at TERN observatory sites and other data sources. The EcoPlots harmonise ecology survey data from different sources to enable integrated search and access to data based across different jurisdictions, data sources, feature types (e.g., plant populations, animal individuals, downed dead wood), parameters, and temporal extent.
-Participants are requested to bring their laptop with internet and updated RStudio to access SHaRED and run analysis code for data accessed from EcoPlots
+Participants are requested to bring their laptop with internet and updated RStudio to access SHaRED and run analysis code for data accessed from EcoPlots.
 
 ## Accessing the data
 
@@ -27,11 +27,12 @@ cd Ecoplot_ESA_2022
 
 In the github repository, click the green "Code" button and clone the repository by copying the HTTPS address (https://github.com/ternaustralia/TERN-Data-Skills.git) 
 
-### Clone
+### Clone the repository
 
 ```
 YOUR Directory Ecoplot_ESA_2022 %git clone https://github.com/ternaustralia/TERN-Data-Skills.git
 ```
+
 
 Option 2: Obtain the files from the instructor via a USB drive
 

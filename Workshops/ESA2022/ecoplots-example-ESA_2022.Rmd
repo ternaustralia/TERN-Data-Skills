@@ -22,13 +22,13 @@ This workshop will demonstrate how to manipulate TERN's [EcoPlots's](https://eco
 
 # What is EcoPlots?
 
-Ecoplots is a database that harmonises plot based ecology data from different sources to enable integrated search and access to data based on different jurisdiction, data sources, feature types, parameters and temporal extent.
+Ecoplots is a data integration platform that harmonises plot based ecology survey data from different sources to enable integrated search and access to data based on different jurisdiction, data sources, feature types, parameters and temporal extent.
 
-EcoPlots's ecological data model is observation- and site-centric. Typically, an observations will belong to a site and will have a site-visit (see Figure below for a graphical representation of concepts and their association).
+EcoPlot map datasets from different sources into the TERN Ontology, a conceptual information model to represent plot-based ecology survey. The TERN Ontology defines concepts to describe sites, site visits, features of interest, observations, samplings, and samples. Survey collection protocols generally differ between different programs and organisations. To cater for existing and future survey collection protocols, the TERN Ontology ensures data harmonisation is possible at the core conceptual level while also capturing the intricacies of each survey collection protocol using an extensible framework with SKOS controlled vocabularies.
 
 Observations (e.g. number of flowers, plant canopy area and plant biomass in \@ref(fig:datamodel)) are done on [features of interest](https://linkeddata.tern.org.au/information-models/tern-ontology/conceptual-information-model#feature-of-interest) (real world objects you are interested in studying, measuring or observing; the plants (Eucalyptus and Cycad) in Figure \@ref(fig:datamodel)).
 
-All entities in the data model have:
+All entities in the information model have:
 
 -   id's (e.g. observations, FOI's, vocabularies, methods and instruments)
 
@@ -42,8 +42,7 @@ All entities in the data model have:
 
 -   `featureId` and `observationId` are unique keys for a feature and observation, respectively. These two identifiers are the work-horses for joining and transforming tables (e.g. from the longer to a wider format).
 
--   See the [TERN Ontology](https://linkeddata.tern.org.au/information-models/overview) for more information on our data model and [the conceptual overview of the model](https://linkeddata.tern.org.au/information-models/tern-ontology/conceptual-information-model).
-
+-   See the [TERN Ontology](https://linkeddata.tern.org.au/information-models/overview) for more information and [the conceptual overview of the model](https://linkeddata.tern.org.au/information-models/tern-ontology/conceptual-information-model).
 
 
 ```{r datamodel, echo=FALSE, fig.align='center', out.width='150%', fig.cap="Ecological Data Representation in TERN's data model"}
@@ -51,11 +50,9 @@ knitr::include_graphics("images/model-pic.png")
 ```
 
 
-# TERN's data model
+# TERN Ontology
 
-First things first, some background:
-
--   The TERN data model is observation-centric
+Some background:
 
 -   Each observation belongs to a [feature of interest](https://linkeddata.tern.org.au/information-models/tern-ontology/conceptual-information-model#feature-of-interest) (FOI, i.e. the real world object you are interested on and are measuring things about)
 
@@ -112,7 +109,7 @@ An EcoPlots download comes in a `package` that contains:
 
     -   Site and site attributes file
 
-        -   If other sampling units are used then a file for the sampling unit is included. A transect file is included when the sampling takes place inside a transect inside a site.
+        -   If other sampling units are used then a file for the sampling unit is included. A transect file is included when the sampling takes place in a transect which may be part of a site.
 
     -   Site visit and site visit attributes file
 
@@ -140,18 +137,18 @@ Once you have clicked on this tab, you can select which programing language, end
 knitr::include_graphics("images/API_code.png")
 ```
 
-Note: you will need to have an API "key" to use this function. Further information regarding using the API and how to obtain an API key can be found here[TERN API](https://ecoimages.tern.org.au/api/v1.0/ui).
+Note: you will need to have an API "key" to use this function. Further information regarding using the API and how to obtain an API key can be found here[TERN API](https://ecoimages.tern.org.au/api/v1.0/ui). Alternatively, you can visit [TERN Account](https://account.tern.org.au) to generate your API key. 
 
 # Data formatting - Long to wide format
 
 The basic columns of the longer format tables are:
 
--   `featureType` is a human readable name for the feature which observation we are interested on. A complete list of all feature types can be found [here](https://linkeddata.tern.org.au/viewer/tern/id/http://linked.data.gov.au/def/tern-cv/68af3d25-c801-4089-afff-cf701e2bd61d)
+-   `featureType` is a human readable name for the feature of interest on which observation was made. A complete list of all feature types can be found [here](https://linkeddata.tern.org.au/viewer/tern/id/http://linked.data.gov.au/def/tern-cv/68af3d25-c801-4089-afff-cf701e2bd61d)
 -   `featureId` column contains single unique identifier for each individual feature
 -   `parametersName` column that contains the names of the columns in the wide format
 -   `result` column for sourcing the values that will be used to fill in the named columns above
 
-In general, the conversion from longer to wider format should be achieved by using `featureType` and `featureId` as unique identifiers, the `parametersName` that literally contains the name of the parameters performed on the FOI (observations) and `result` that is the value for a given observation. We will now work though a basic example of formatting and visualising biomass data downloaded from EcoPlots
+In general, the conversion from longer to wider format should be achieved by using `featureType` and `featureId` as unique identifiers, the `parametersName` are the name of parameters (observable property) that are observed and are part of the FOI and `result` is the outcome for a given observable property. We will now work though a basic example of formatting and visualising biomass data downloaded from EcoPlots
 
 ## Biomass data across Ecosystems
 

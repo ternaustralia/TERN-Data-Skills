@@ -1,0 +1,38 @@
+# rioxarray depends on numpy, xarray, pandas, pyproj
+rioxarray
+# dask ... adds fsspec
+dask
+geopandas
+
+# COPC
+laspy[laszip,lasrs]
+
+# ODC tools
+# adds shapely
+odc-geo
+
+# STAC
+pystac
+odc-stac
+
+# plotting
+matplotlib
+mapclassify
+hvplot
+
+# terndata
+terndata.flux
+
+
+# other interesting bits:
+#. odc.algo
+#  sklearn
+
+# dea:
+dea-tools
+#. from dea_tools.dask import create_local_dask_cluster
+#  from dea_tools.plotting import display_map
+
+
+# Notes:
+#. odc adds .odc property to xarrays

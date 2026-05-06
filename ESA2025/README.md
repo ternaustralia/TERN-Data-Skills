@@ -5,7 +5,7 @@ The folder consist of 3 Jupyter notebooks used in the TERN Workshop in ESA 2025 
 
 ## Presentation Slides
 
-The presentation slide can be viewed or downloaded from TBA
+The presentation slide can be viewed or downloaded from https://ternaus.atlassian.net/wiki/spaces/TERNSup/pages/3525640302/ESA2025
 
 ## Citation
 

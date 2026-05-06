@@ -1,11 +1,13 @@
 ## Introduction
-The folder consist of 3 Jupyter notebooks used in the TERN Workshop in ESA 2025 conference. 
-- 2 notebooks are real use cases of the EcoPlots python library, showcasing most of the library features.
-- 1 notebook showcases the TERN Flux python library and its different features.
+This folder consist of all materials related to the workshop conducted at the Ecological Society of Australia (ESA) 2025 conference in Adelaide.
+
+It includes three Jupyter notebooks used during the TERN workshop: 
+- Two notebooks demonstrate real-world use cases of the EcoPlots Python library, showcasing a wide range of features.
+- one notebook presents the TERN Flux Python library and its key functionalities.
 
 ## Presentation Slides
 
-The presentation slide can be viewed or downloaded from https://ternaus.atlassian.net/wiki/spaces/TERNSup/pages/3525640302/ESA2025
+The presentation slides are available for viewing or download at the following link: https://ternaus.atlassian.net/wiki/spaces/TERNSup/pages/3525640302/ESA2025
 
 ## Citation
 

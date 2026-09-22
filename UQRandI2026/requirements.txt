@@ -1,0 +1,7 @@
+# 01_Connect.ipynb
+pystac_client
+pandas
+tern-stac[all,odc]
+
+# 02_TimeSeries.ipynb
+folium

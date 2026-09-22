@@ -1,0 +1,3 @@
+jupyterlab
+jupyter-resource-usage
+ipywidgets
